@@ -18,26 +18,22 @@ namespace Damakonzole
         {
             board[posX, posY] = value;
         }
-
-        /// <summary>
-        /// Vykreslení desky
-        /// </summary>
-        public void Print()
-        {
-            for (int y = 7; y >= 0; y--)
-            {
-                for (int x = 0; x < 7; x++)
-                {
-                    Console.Write(" " + board[x, y] + " ");
-                }
-                Console.WriteLine("\n");
-            }
-        }
         public int Coords(int posX, int posY)
         {
             int a;
             a = board[posX, posY];
             return a;
+        }
+
+        /// <summary>
+        /// Metoda pro získaní hodnot z pole board
+        /// </summary>
+        /// <param name="posX"></param>
+        /// <param name="posY"></param>
+        /// <returns></returns>
+        public int GetValue(int posX, int posY)
+        {
+            return board[posX, posY];
         }
     }
 }

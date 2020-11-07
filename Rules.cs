@@ -23,7 +23,7 @@ namespace Damakonzole
                     }
                     else if (posY >= 6)
                     {
-                        gameDriver.SetValueOnBoard(posX, posY, 2);
+                        gameDriver.SetValueOnBoard(posX, posY, -1);
                     }
                     else
                     {
