@@ -18,13 +18,6 @@ namespace Damakonzole
         {
             board[posX, posY] = value;
         }
-        public int Coords(int posX, int posY)
-        {
-            int a;
-            a = board[posX, posY];
-            return a;
-        }
-
         /// <summary>
         /// Metoda pro získaní hodnot z pole board
         /// </summary>

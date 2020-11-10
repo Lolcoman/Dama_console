@@ -6,8 +6,11 @@ namespace Damakonzole
 {
     class Rules
     {
-       public GameDriver gameDriver = new GameDriver();
-
+        private Board board;
+        public Rules(Board bo)
+        {
+            board = bo;
+        }
         /// <summary>
         /// Metoda pro sestaví desky dle pravidel dámy
         /// </summary>
@@ -19,15 +22,15 @@ namespace Damakonzole
                 {
                     if (posY <= 1)
                     {
-                        gameDriver.SetValueOnBoard(posX, posY, 1);
+                        board.SetValue(posX, posY, 1);
                     }
                     else if (posY >= 6)
                     {
-                        gameDriver.SetValueOnBoard(posX, posY, -1);
+                        board.SetValue(posX, posY, -1);
                     }
                     else
                     {
-                        gameDriver.SetValueOnBoard(posX, posY, 0);
+                        board.SetValue(posX, posY, 0);
                     }
                 }
             }

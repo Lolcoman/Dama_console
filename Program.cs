@@ -6,9 +6,8 @@ namespace Damakonzole
     {
         static void Main(string[] args)
         {
-            UI ui = new UI();
-            ui.Start();
-            ui.Game();
+            GameDriver gameDriver = new GameDriver();
+            gameDriver.Game();
 
             Console.WriteLine("Stiskni ENTER pro ukonceni");
             Console.ReadLine();

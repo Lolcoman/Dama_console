@@ -6,7 +6,28 @@ namespace Damakonzole
 {
     class GameDriver
     {
-        public Board board = new Board();
+        private Board board = new Board();
+        private Rules rules;
+        private UI ui;
+        public GameDriver()
+        {
+            rules = new Rules(board);
+            ui = new UI(board);
+        }
+
+        public void Game()
+        {
+            rules.InitBoard();
+            ui.PrintBoard();
+
+            while (true)
+            {
+                ui.Moving();
+                Console.Clear();
+                ui.PrintBoard();
+            }
+
+        }
         /// <summary>
         /// Nastavení hodnoty políčka
         /// </summary>

@@ -6,23 +6,12 @@ namespace Damakonzole
 {
     class UI
     {
-        public Board board = new Board();
-        public GameDriver gameDriver = new GameDriver();
-        public Rules rules = new Rules();
-        public void Start()
+        private Board board;
+        public UI(Board bo)
         {
-            rules.InitBoard();
-            PrintBoard();
+            board = bo;
         }
-        public void Game()
-        {
-            while (true)
-            {
-                Moving();
-                PrintBoard();
-            }
 
-        }
         public void Moving()
         {
             Console.Write("Zadej pohyb ve formátu (A2-B3): ");
@@ -40,8 +29,8 @@ namespace Damakonzole
                 int y1 = move[1];
                 int x2 = move[2];
                 int y2 = move[3];
-                gameDriver.SetValueOnBoard(x2, y2, board.Coords(x1, y1));
-                gameDriver.SetValueOnBoard(x1, y1, 0);
+                board.SetValue(x2, y2, board.GetValue(x1, y1));
+                board.SetValue(x1, y1, 0);
 
             }
         }
