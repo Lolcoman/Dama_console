@@ -9,20 +9,23 @@ namespace Damakonzole
         public Board board = new Board();
         public GameDriver gameDriver = new GameDriver();
         public Rules rules = new Rules();
-        public void Start()
-        {
-            rules.InitBoard();
-            PrintBoard();
-        }
-        public void Game()
-        {
-            while (true)
-            {
-                Moving();
-                PrintBoard();
-            }
+        //public void Start()
+        //{
+        //    rules.InitBoard();
+        //    PrintBoard();
+        //}
+        //public void Game()
+        //{
+        //    rules.InitBoard();
+        //    PrintBoard();
 
-        }
+        //    while (true)
+        //    {
+        //        Moving();
+        //        PrintBoard();
+        //    }
+
+        //}
         public void Moving()
         {
             Console.Write("Zadej pohyb ve formátu (A2-B3): ");
