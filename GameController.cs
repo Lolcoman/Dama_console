@@ -17,11 +17,11 @@ namespace Damakonzole
         public void Game()
         {
             rules.InitBoard();
-            ui.PrintBoard();
 
             while (true)
             {
-                int[] vstup;
+                ui.PrintBoard();
+                int[] vstup = null;
                 bool platnyVstup = false;
                 while (!platnyVstup)
                 {
