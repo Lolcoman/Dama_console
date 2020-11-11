@@ -32,23 +32,5 @@ namespace Damakonzole
                 }
             }
         }
-
-        /// <summary>
-        /// Metoda která ověří zda je dané pole prázdné pro pohyb
-        /// </summary>
-        /// <param name="posX"></param>
-        /// <param name="posY"></param>
-        public bool IsCellEmpty(int posX, int posY) //A2-B3 0,1 - 1,2
-        {
-            if (board.GetValue(posX, posY) == 0)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-
-        }
     }
 }
