@@ -36,21 +36,21 @@ namespace Damakonzole
             }
         }
         /// <summary>
-        /// Metoda která ověří zda je dané pole prázdné pro pohyb
+        /// Metoda která ověřuje zda se jedná o platný tah dle pravidel
         /// </summary>
-        /// <param name="posX"></param>
-        /// <param name="posY"></param>
-        public bool IsCellEmpty(int posX, int posY) //A2-B3 0,1 - 1,2
+        /// <param name="move"></param>
+        /// <returns></returns>
+        public bool IsCheckMove(int[] move)
         {
-            if (board.GetValue(posX, posY) == 0)
-            {
-                return true;
-            }
-            else
+            if (board.GetValue(move[2], move[3]) != 0) //zda se netáhne na prázdné pole
             {
                 return false;
             }
-
+            if (board.GetValue(move[0], move[1]) == 0) //zda se táhne figurkou
+            {
+                return false;
+            }
+            return true;
         }
     }
 }

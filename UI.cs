@@ -73,7 +73,10 @@ namespace Damakonzole
             }
             Console.WriteLine("   ╚════════════════════════╝");
             Console.WriteLine("     A  B  C  D  E  F  G  H");
-
+        }
+        public void Mistake()
+        {
+            Console.WriteLine("Špatně zadáno!");
         }
     }
 }

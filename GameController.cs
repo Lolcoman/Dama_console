@@ -22,15 +22,20 @@ namespace Damakonzole
             while (true)
             {
                 int[] vstup;
-                bool platnyvstup = false;
-                while (!platnyvstup)
+                bool platnyVstup = false;
+                while (!platnyVstup)
                 {
                     vstup = ui.InputUser();
                     if (vstup[0] >= 0)
                     {
-                        platnyvstup = IsCheckMove(vstup);
+                        platnyVstup = rules.IsCheckMove(vstup);
+                        if (!platnyVstup)
+                        {
+                            ui.Mistake();
+                        }
                     }
                 }
+                board.Input(vstup);
             }
 
         }
@@ -45,17 +50,6 @@ namespace Damakonzole
             board.SetValue(posX, posY, value);
         }
 
-        public bool IsCheckMove(int[]move)
-        {
-            if (rules.IsCellEmpty(move[2], move[3]))
-            {
-                return true;
-            }
-            else
-            {
-                Console.WriteLine("Pole není volné!");
-                return false;
-            }
-        }
+        
     }
 }

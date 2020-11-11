@@ -28,5 +28,14 @@ namespace Damakonzole
         {
             return board[posX, posY];
         }
+        public void Input(int[] move)
+        {
+            int x1 = move[0];
+            int y1 = move[1];
+            int x2 = move[2];
+            int y2 = move[3];
+            SetValue(x2, y2, GetValue(x1, y1));
+            SetValue(x1, y1, 0);
+        }
     }
 }
