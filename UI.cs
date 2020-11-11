@@ -14,13 +14,13 @@ namespace Damakonzole
 
         public void Moving()
         {
-            Console.Write("Zadej pohyb ve formátu (A2-B3): ");
+            //Console.Write("Zadej pohyb ve formátu (A2-B3): ");
             int[] move = new int[] { -1 };
             while (move[0] < 0)
             {
 
                 move = InputUser(); // X1,Y1,X2,Y2
-                while (move[0] < 0 || move[0] >= 8 || move.Length > 4)
+                while (move[0] < 0 || move[0] >= 8 || move.Length > 4) //Kontrola zadaných souřadnic od uživatele   
                 {
                     Console.Write("I ty prase, zadej ty souřadnice jako člověk: ");
                     move = InputUser();
@@ -29,7 +29,7 @@ namespace Damakonzole
                 int y1 = move[1];
                 int x2 = move[2];
                 int y2 = move[3];
-                board.SetValue(x2, y2, board.GetValue(x1, y1));
+                board.SetValue(x2, y2, board.Coords(x1, y1));
                 board.SetValue(x1, y1, 0);
 
             }
@@ -52,13 +52,16 @@ namespace Damakonzole
             int X2 = (int)(x2 - 'a');
             y2 = input[4];
             int Y2 = (int)(y2 - '1');
+            //Console.WriteLine("X1={0},Y1={1} a X2={2}, Y2={3}",X1,Y1,X2,Y2);
             return new int[] { X1, Y1, X2, Y2 };
         }
+
         /// <summary>
         /// Vykreslení desky
         /// </summary>
         public void PrintBoard()
         {
+            Console.Clear();
             Console.WriteLine("     A  B  C  D  E  F  G  H");
             Console.WriteLine("   ╔════════════════════════╗");
             for (int y = 7; y >= 0; y--)
@@ -75,10 +78,10 @@ namespace Damakonzole
                             break;
                         case 1:
                             set = "o"; //bílá 
-                                break;
+                            break;
                         case -1:
                             set = "x"; //černá
-                                break;
+                            break;
                         case -2:
                             set = "X"; //černá dáma
                             break;
@@ -86,7 +89,7 @@ namespace Damakonzole
                             set = " ";
                             break;
                     }
-                    Console.Write(" {0} ",set);
+                    Console.Write(" {0} ", set);
                 }
                 Console.Write("║ {0}\n", y + 1); //výpis souřadnic vpravo
             }
