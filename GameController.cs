@@ -14,9 +14,6 @@ namespace Damakonzole
             rules = new Rules(board);
             ui = new UI(board);
         }
-
-        public int[] vstup;
-        bool any = true;
         public void Game()
         {
             rules.InitBoard();
@@ -24,17 +21,16 @@ namespace Damakonzole
 
             while (true)
             {
-                vstup = ui.InputUser();
-                any = CheckMove();
-                if (any)
-                {
-                    ui.Moving();
-                }
-                else
+                int[] vstup;
+                bool platnyvstup = false;
+                while (!platnyvstup)
                 {
                     vstup = ui.InputUser();
+                    if (vstup[0] >= 0)
+                    {
+                        platnyvstup = IsCheckMove(vstup);
+                    }
                 }
-                ui.PrintBoard();
             }
 
         }
@@ -49,13 +45,9 @@ namespace Damakonzole
             board.SetValue(posX, posY, value);
         }
 
-        public bool CheckMove()
+        public bool IsCheckMove(int[]move)
         {
-            //Console.WriteLine(vstup[0]);
-            //Console.WriteLine(vstup[1]);
-            //Console.WriteLine(vstup[2]);
-            //Console.WriteLine(vstup[3]);
-            if (rules.IsCellEmpty(vstup[2], vstup[3]))
+            if (rules.IsCellEmpty(move[2], move[3]))
             {
                 return true;
             }

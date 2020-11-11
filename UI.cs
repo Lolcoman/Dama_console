@@ -11,31 +11,9 @@ namespace Damakonzole
         {
             board = bo;
         }
-
-        public void Moving()
-        {
-            //Console.Write("Zadej pohyb ve formátu (A2-B3): ");
-            int[] move = new int[] { -1 };
-            while (move[0] < 0)
-            {
-
-                move = InputUser(); // X1,Y1,X2,Y2
-                while (move[0] < 0 || move[0] >= 8 || move.Length > 4) //Kontrola zadaných souřadnic od uživatele   
-                {
-                    Console.Write("I ty prase, zadej ty souřadnice jako člověk: ");
-                    move = InputUser();
-                }
-                int x1 = move[0];
-                int y1 = move[1];
-                int x2 = move[2];
-                int y2 = move[3];
-                board.SetValue(x2, y2, board.GetValue(x1, y1));
-                board.SetValue(x1, y1, 0);
-
-            }
-        }
         public int[] InputUser()
         {
+            Console.Write("Zadej pohyb ve formátu (A2-B3): ");
             //Vstup uživatele s převedením na malá písmena
             string input = Console.ReadLine().ToLower();
             if (input.Length != 5)

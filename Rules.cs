@@ -11,7 +11,6 @@ namespace Damakonzole
         {
             board = bo;
         }
-
         /// <summary>
         /// Metoda pro sestaví desky dle pravidel dámy
         /// </summary>
