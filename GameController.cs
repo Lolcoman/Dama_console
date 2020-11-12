@@ -31,7 +31,7 @@ namespace Damakonzole
                 while (!platnyVstup)
                 {
                     vstup = ui.InputUser(); //pokud -1 tak se podmínka neprovede protože -1 >= 0, pokud 0 tak se provede 0=0 a zkontroluje se platnost tahu
-                    plnyVstup = rules.FullMove(vstup);
+                    //plnyVstup = rules.FullMove(vstup);
                     if (vstup[0] >= 0) //pokud je zadán správný pohyb tj A2-B3
                     {
                         platnyVstup = rules.IsCheckMove(vstup); //ověření zda je táhnuto dle pravidel
@@ -41,6 +41,7 @@ namespace Damakonzole
                         }
                     }
                 }
+                plnyVstup = rules.FullMove(vstup);
                 board.Move(plnyVstup); //pokud je zadáno správně, metoda nastaví pohyb na desce
             }
 
