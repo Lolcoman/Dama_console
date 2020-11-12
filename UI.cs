@@ -15,6 +15,8 @@ namespace Damakonzole
         {
             Console.Write("Zadej pohyb ve formátu (A2-B3): ");
             //Vstup uživatele s převedením na malá písmena
+            //Špatný vstup vrácena -1, Správný vstup vráceno pole {X1,Y1,X2,Y2}
+            //Ověření správnosti provádní až třída GAME CONTROLLER
             string input = Console.ReadLine().ToLower();
             if (input.Length != 5)
             {
@@ -30,7 +32,6 @@ namespace Damakonzole
             int X2 = (int)(x2 - 'a');
             y2 = input[4];
             int Y2 = (int)(y2 - '1');
-            //Console.WriteLine("X1={0},Y1={1} a X2={2}, Y2={3}",X1,Y1,X2,Y2);
             return new int[] { X1, Y1, X2, Y2 };
         }
 
@@ -39,7 +40,7 @@ namespace Damakonzole
         /// </summary>
         public void PrintBoard()
         {
-            Console.Clear();
+            //Console.Clear();
             Console.WriteLine("     A  B  C  D  E  F  G  H");
             Console.WriteLine("   ╔════════════════════════╗");
             for (int y = 7; y >= 0; y--)

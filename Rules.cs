@@ -52,5 +52,22 @@ namespace Damakonzole
             }
             return true;
         }
+        /// <summary>
+        /// Metoda která vrací celý kompletní tah
+        /// </summary>
+        /// <param name="pohyb"></param>
+        /// <returns></returns>
+        public int[] FullMove(int[] pohyb)
+        {
+            int X1 = pohyb[0];
+            int Y1 = pohyb[1];
+            int S0 = board.GetValue(pohyb[0], pohyb[1]);
+            int S1 = 0;
+            int X2 = pohyb[2];
+            int Y2 = pohyb[3];
+            int S2 = 0;
+            int S3 = board.GetValue(pohyb[0], pohyb[1]);
+            return new int[] { X1, Y1, S0, S1, X2, Y2, S2, S3 };
+        }
     }
 }

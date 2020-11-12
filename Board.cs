@@ -28,7 +28,12 @@ namespace Damakonzole
         {
             return board[posX, posY];
         }
-        public void Input(int[] move)
+
+        /// <summary>
+        /// Metoda pro nastavení hodnoty v poli
+        /// </summary>
+        /// <param name="move"></param>
+        public void SetMove(int[] move)
         {
             int x1 = move[0];
             int y1 = move[1];

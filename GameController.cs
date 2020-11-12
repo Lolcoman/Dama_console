@@ -14,6 +14,10 @@ namespace Damakonzole
             rules = new Rules(board);
             ui = new UI(board);
         }
+
+        /// <summary>
+        /// Hlavní herní smyčka
+        /// </summary>
         public void Game()
         {
             rules.InitBoard();
@@ -25,17 +29,17 @@ namespace Damakonzole
                 bool platnyVstup = false;
                 while (!platnyVstup)
                 {
-                    vstup = ui.InputUser();
-                    if (vstup[0] >= 0)
+                    vstup = ui.InputUser(); //pokud -1 tak se podmínka neprovede protože -1 >= 0, pokud 0 tak se provede 0=0 a zkontroluje se platnost tahu
+                    if (vstup[0] >= 0) //pokud je zadán správný pohyb tj A2-B3
                     {
-                        platnyVstup = rules.IsCheckMove(vstup);
-                        if (!platnyVstup)
+                        platnyVstup = rules.IsCheckMove(vstup); //ověření zda je táhnuto dle pravidel
+                        if (!platnyVstup) //pokud není vypíše uživately chybu
                         {
-                            ui.Mistake();
+                            ui.Mistake(); //chyba
                         }
                     }
                 }
-                board.Input(vstup);
+                board.SetMove(vstup); //pokud je zadáno správně, metoda nastaví pohyb na desce
             }
 
         }
