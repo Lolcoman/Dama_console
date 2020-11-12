@@ -32,7 +32,7 @@ namespace Damakonzole
         /// Metoda pro nastavení hodnoty v poli
         /// </summary>
         /// <param name="move"></param>
-        public void MakeMove(int[] move) //{ X1, Y1, S0, S1, X2, Y2, S2, S3 };
+        private void MakeMove(int[] move) //{ X1, Y1, S0, S1, X2, Y2, S2, S3 };
         {
             SetValue(move[0], move[1], move[3]);
         }
