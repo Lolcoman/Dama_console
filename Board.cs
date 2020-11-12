@@ -28,19 +28,24 @@ namespace Damakonzole
         {
             return board[posX, posY];
         }
-
         /// <summary>
         /// Metoda pro nastavení hodnoty v poli
         /// </summary>
         /// <param name="move"></param>
-        public void SetMove(int[] move)
+        public void MakeMove(int[] move) //{ X1, Y1, S0, S1, X2, Y2, S2, S3 };
         {
-            int x1 = move[0];
-            int y1 = move[1];
-            int x2 = move[2];
-            int y2 = move[3];
-            SetValue(x2, y2, GetValue(x1, y1));
-            SetValue(x1, y1, 0);
+            SetValue(move[0], move[1], move[3]);
+        }
+        /// <summary>
+        /// Metoda která prodeve nastavení hodnot z plného vstupu
+        /// </summary>
+        /// <param name="kompletniPohyb"></param>
+        public void Move(int[]kompletniPohyb)
+        {
+            for (int i = 0; i < kompletniPohyb.Length; i = i + 4)
+            {
+                MakeMove(new int[] { kompletniPohyb[i], kompletniPohyb[i + 1], kompletniPohyb[i + 2], kompletniPohyb[i + 3] });
+            }
         }
     }
 }
