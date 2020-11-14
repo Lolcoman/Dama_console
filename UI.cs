@@ -91,9 +91,24 @@ namespace Damakonzole
             Console.WriteLine("   ╚════════════════════════╝");
             Console.WriteLine("     A  B  C  D  E  F  G  H");
         }
+
+        //metoda jen pro tisk chyby
         public void Mistake()
         {
             Console.WriteLine("Špatně zadáno!");
+        }
+
+        //metoda pro tisk kdo je na tahu
+        public void WhoMove(int player)
+        {
+            if (player == 1)
+            {
+                Console.WriteLine("Hraje BÍLÝ o/O ");
+            }
+            else
+            {
+                Console.WriteLine("Hraje ČERNÝ x/X ");
+            }
         }
     }
 }

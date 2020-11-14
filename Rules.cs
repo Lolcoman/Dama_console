@@ -42,6 +42,14 @@ namespace Damakonzole
         /// <returns></returns>
         public bool IsCheckMove(int[] move)
         {
+            if (PlayerOnMove() < 0 && board.GetValue(move[0], move[1]) > 0) //pokud je na tahu hráč menší než 0, tj černý, tak jestli figurka není větší než 1, tj. bílá
+            {
+                return false;
+            }
+            if (PlayerOnMove() > 0 && board.GetValue(move[0], move[1]) < 0) //opak kontroly hráče, zda netáhne bílý, černou
+            {
+                return false;
+            }
             if (board.GetValue(move[2], move[3]) != 0) //zda se netáhne na prázdné pole
             {
                 return false;
@@ -68,6 +76,37 @@ namespace Damakonzole
             int S2 = 0;
             int S3 = board.GetValue(pohyb[0], pohyb[1]);
             return new int[] { X1, Y1, S0, S1, X2, Y2, S2, S3 };
+        }
+
+        //privátní proměnná hráče
+        private int player;
+
+        /// <summary>
+        /// Inicializace hráče na tahu
+        /// </summary>
+        public void InitPlayer()
+        {
+            player = 1;
+        }
+        /// <summary>
+        /// Metoda pro zjištění hráče na tahu
+        /// </summary>
+        /// <returns>hodnota</returns>
+        public int PlayerOnMove()
+        {
+            return player;
+        }
+
+        public void ChangePlayer()
+        {
+            if (player == 1)
+            {
+                player = -1;
+            }
+            else if (player == -1)
+            {
+                player = 1;
+            }
         }
     }
 }
