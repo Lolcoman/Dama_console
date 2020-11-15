@@ -31,8 +31,7 @@ namespace Damakonzole
                 bool platnyVstup = false;
                 while (!platnyVstup)
                 {
-                    ui.WhoMove(rules.PlayerOnMove()); //vypisuje kdo je na tahu
-                    vstup = ui.InputUser(); //pokud -1 tak se podmínka neprovede protože -1 >= 0, pokud 0 tak se provede 0=0 a zkontroluje se platnost tahu
+                    vstup = ui.InputUser(rules.PlayerOnMove()); //pokud -1 tak se podmínka neprovede protože -1 >= 0, pokud 0 tak se provede 0=0 a zkontroluje se platnost tahu
                     if (vstup[0] >= 0) //pokud je zadán správný pohyb tj A2-B3
                     {
                         platnyVstup = rules.IsCheckMove(vstup); //ověření zda je táhnuto dle pravidel

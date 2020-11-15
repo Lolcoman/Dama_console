@@ -101,12 +101,12 @@ namespace Damakonzole
         {
             if (player == 1)
             {
-                player = -1;
+                player = player * -1;
             }
-            else if (player == -1)
-            {
-                player = 1;
-            }
+            //else if (player == -1)
+            //{
+            //    player = 1;
+            //}
         }
     }
 }

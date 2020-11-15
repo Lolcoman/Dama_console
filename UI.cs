@@ -11,9 +11,9 @@ namespace Damakonzole
         {
             board = bo;
         }
-        public int[] InputUser()
+        public int[] InputUser(int playerOnMove) //příjmá int, který hráč je na tahu
         {
-            Console.Write("Zadej pohyb ve formátu (A2-B3): ");
+            Console.Write("Na tahu je hráč {0}. Zadej pohyb ve formátu (A2-B3): ",playerOnMove > 0 ? "BÍLÝ s o/O" : "ČERNÝ s x/X"); //použití ternárního operátoru pro informaci pro uživatele který hráč je na tahu, pokud > 0 tak hraje bílý
             //Vstup uživatele s převedením na malá písmena
             //Špatný vstup vrácena -1, Správný vstup vráceno pole {X1,Y1,X2,Y2}
             //Ověření správnosti provádní až třída GAME CONTROLLER
@@ -98,17 +98,17 @@ namespace Damakonzole
             Console.WriteLine("Špatně zadáno!");
         }
 
-        //metoda pro tisk kdo je na tahu
-        public void WhoMove(int player)
-        {
-            if (player == 1)
-            {
-                Console.WriteLine("Hraje BÍLÝ o/O ");
-            }
-            else
-            {
-                Console.WriteLine("Hraje ČERNÝ x/X ");
-            }
-        }
+        ////metoda pro tisk kdo je na tahu
+        //public void WhoMove(int player)
+        //{
+        //    if (player == 1)
+        //    {
+        //        Console.WriteLine("Hraje BÍLÝ o/O ");
+        //    }
+        //    else
+        //    {
+        //        Console.WriteLine("Hraje ČERNÝ x/X ");
+        //    }
+        //}
     }
 }
