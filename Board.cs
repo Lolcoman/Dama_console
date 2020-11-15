@@ -47,5 +47,47 @@ namespace Damakonzole
                 MakeMove(new int[] { kompletniPohyb[i], kompletniPohyb[i + 1], kompletniPohyb[i + 2], kompletniPohyb[i + 3] });
             }
         }
+        /// <summary>
+        /// Metoda pro kontrolou zda není X a Y za hranicí pole
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <returns></returns>
+        public bool IsValidCoordinates(int x, int y)
+        {
+            if (x > 7)
+            {
+                return false;
+            }
+            if (x < 0)
+            {
+                return false;
+            }
+            if (y > 7)
+            {
+                return false;
+            }
+            if (y < 0)
+            {
+                return false;
+            }
+            return true;
+        }
+        public string ToChar(int[]pohyb) //return new int[] { X1, Y1, S0, S1, X2, Y2, S2, S3 };
+        {
+
+            //public int[] FullMove(int[] pohyb)
+            //{
+            //    int X1 = pohyb[0];
+            //    int Y1 = pohyb[1];
+            //    int S0 = board.GetValue(pohyb[0], pohyb[1]);
+            //    int S1 = 0;
+            //    int X2 = pohyb[2];
+            //    int Y2 = pohyb[3];
+            //    int S2 = 0;
+            //    int S3 = board.GetValue(pohyb[0], pohyb[1]);
+            //    return new int[] { X1, Y1, S0, S1, X2, Y2, S2, S3 };
+            //}
+        }
     }
 }

@@ -16,7 +16,7 @@ namespace Damakonzole
         /// </summary>
         public void InitBoard()
         {
-            for (int posY = 0; posY < 8; posY++)
+            /*for (int posY = 0; posY < 8; posY++)
             {
                 for (int posX = 0; posX < 8; posX++)
                 {
@@ -33,7 +33,14 @@ namespace Damakonzole
                         board.SetValue(posX, posY, 0);
                     }
                 }
-            }
+            }*/
+            board.SetValue(3, 1, 1);
+
+            board.SetValue(2, 2, -1);
+            board.SetValue(2, 4, -1);
+            board.SetValue(2, 6, -1);
+
+            board.SetValue(4, 2, -1);
         }
         /// <summary>
         /// Metoda která ověřuje zda se jedná o platný tah dle pravidel
@@ -96,7 +103,9 @@ namespace Damakonzole
         {
             return player;
         }
-
+        /// <summary>
+        /// Meotda pro změnu hráče
+        /// </summary>
         public void ChangePlayer()
         {
             if (player == 1)
@@ -108,5 +117,70 @@ namespace Damakonzole
             //    player = 1;
             //}
         }
+        public List<int[]> SeznamTahu = new List<int[]>();
+
+        public void GenerujSeznamTahu(int X, int Y)
+        {
+            int stone = board.GetValue(X, Y);
+            // X = 3, Y = 1
+
+            if (board.IsValidCoordinates(X, Y + 1))
+            {
+                if (board.GetValue(X, Y + 1) == 0) //rovně 3,2
+                {
+                    SeznamTahu.Add(new int[] { X, Y, stone, 0, X, Y + 1, 0, stone });
+                }
+            }
+            if (board.IsValidCoordinates(X + 1, Y + 1))
+            {
+                if (board.GetValue(X + 1, Y + 1) == 0) //diagonálně vpravo 4,2
+                {
+                    SeznamTahu.Add(new int[] { X, Y, stone, 0, X + 1, Y + 1, 0, stone });
+                }
+            }
+            if (board.IsValidCoordinates(X + 1, Y))
+            {
+                if (board.GetValue(X + 1, Y) == 0) //vpravo 4,1
+                {
+                    SeznamTahu.Add(new int[] { X, Y, stone, 0, X + 1, Y, 0, stone });
+                }
+            }
+            if (board.IsValidCoordinates(X + 1, Y - 1))
+            {
+                if (board.GetValue(X + 1, Y - 1) == 0) //diagonálně vpravo vzad 4,0
+                {
+                    SeznamTahu.Add(new int[] { X, Y, stone, 0, X + 1, Y - 1, 0, stone });
+                }
+            }
+            if (board.IsValidCoordinates(X, Y - 1))
+            {
+                if (board.GetValue(X, Y - 1) == 0) //vzad 3,0
+                {
+                    SeznamTahu.Add(new int[] { X, Y, stone, 0, X, Y - 1, 0, stone });
+                }
+            }
+            if (board.IsValidCoordinates(X - 1, Y - 1))
+            {
+                if (board.GetValue(X - 1, Y - 1) == 0) //diagonálně vlevo vzad 2,0
+                {
+                    SeznamTahu.Add(new int[] { X, Y, stone, 0, X - 1, Y - 1, 0, stone });
+                }
+            }
+            if (board.IsValidCoordinates(X - 1, Y))
+            {
+                if (board.GetValue(X - 1, Y) == 0) // vlevo 2,1
+                {
+                    SeznamTahu.Add(new int[] { X, Y, stone, 0, X - 1, Y, 0, stone });
+                }
+            }
+            if (board.IsValidCoordinates(X - 1, Y + 1))
+            {
+                if (board.GetValue(X - 1, Y + 1) == 0) //diagonálně vlevo 2,2
+                {
+                    SeznamTahu.Add(new int[] { X, Y, stone, 0, X - 1, Y + 1, 0, stone });
+                }
+            }
+        }
+        //SeznamTahu.Add( new int[] { 3, 1, 1, 0, 3, 2, 0, 1 } );
     }
 }
