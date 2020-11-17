@@ -26,7 +26,7 @@ namespace Damakonzole
             char x1, y1, x2, y2; // X1Y1 vybrany kamen, X2Y2 kam pohnout
             x1 = input[0];
             int X1 = (int)(x1 - 'a'); //převod v tabulce ASCII
-            if (X1 > 7 || X1 < 0)
+            if (X1 > 7 || X1 < 0) //pokud X1 je větší než 7 a zároveň X1 je menší než 0 tak vrať -1
             {
                 return new int[] { -1 };
             }
@@ -34,17 +34,17 @@ namespace Damakonzole
             int Y1 = (int)(y1 - '1'); //1, protože 0 není v herní desce
             if (Y1 > 7 || Y1 < 0)
             {
-                return new int[] { -1 };
+                return new int[] { -1 }; //pokud Y1 je větší než 7 a zároveň Y1 je menší než 0 tak vrať -1
             }
             x2 = input[3];
             int X2 = (int)(x2 - 'a');
-            if (X2 > 7 || X2 < 0)
+            if (X2 > 7 || X2 < 0) //pokud X2 je větší než 7 a zároveň X2 je menší než 0 tak vrať -1
             {
                 return new int[] { -1 };
             }
             y2 = input[4];
             int Y2 = (int)(y2 - '1');
-            if (Y2 > 7 || Y2 < 0)
+            if (Y2 > 7 || Y2 < 0) //pokud Y2 je větší než 7 a zároveň Y2 je menší než 0 tak vrať -1
             {
                 return new int[] { -1 };
             }

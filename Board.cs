@@ -5,8 +5,8 @@ using System.Text;
 namespace Damakonzole
 {
     class Board
-    {   
-        static int[,] board = new int[8,8];
+    {
+        static int[,] board = new int[8, 8];
 
         /// <summary>
         /// Metoda nastaví hodnotu na zvolených souřadnicích
@@ -40,7 +40,7 @@ namespace Damakonzole
         /// Metoda která prodeve nastavení hodnot z plného vstupu
         /// </summary>
         /// <param name="kompletniPohyb"></param>
-        public void Move(int[]kompletniPohyb)
+        public void Move(int[] kompletniPohyb)
         {
             for (int i = 0; i < kompletniPohyb.Length; i = i + 4)
             {
@@ -73,21 +73,45 @@ namespace Damakonzole
             }
             return true;
         }
-        public string ToChar(int[]pohyb) //return new int[] { X1, Y1, S0, S1, X2, Y2, S2, S3 };
+        public string PohybNaString(int[] pohyb) //return new int[] { X1, Y1, S0, S1, X2, Y2, S2, S3 };
+                                                 //int[] move1 = new int[] { 0, 1, 0, 1, 1, 2, 0, 1 };
+                                                                        // { 0, 1, 2, 3, 4, 5, 6, 7 }
         {
+            //int x1, y1, x2, y2;
+            //x1 = pohyb[0];
+            //char X1 = (char)(x1 + '0');
+            //y1 = pohyb[1];
+            //char Y1 = (char)(y1 + '0');
+            //x2 = pohyb[4];
+            //char X2 = (char)(x2 + '0');
+            //y2 = pohyb[5];
+            //char Y2 = (char)(y2 + '0');
 
-            //public int[] FullMove(int[] pohyb)
-            //{
-            //    int X1 = pohyb[0];
-            //    int Y1 = pohyb[1];
-            //    int S0 = board.GetValue(pohyb[0], pohyb[1]);
-            //    int S1 = 0;
-            //    int X2 = pohyb[2];
-            //    int Y2 = pohyb[3];
-            //    int S2 = 0;
-            //    int S3 = board.GetValue(pohyb[0], pohyb[1]);
-            //    return new int[] { X1, Y1, S0, S1, X2, Y2, S2, S3 };
-            //}
+            string vystup = "|";
+
+            for (int i = 0; i < pohyb.Length; i = i + 4)
+            {   
+                //                     "| [a2] " " > o"             "|"        {1} =[0+0]= 0 + 97= 'a'  {2} =[1+0]= 1 + 1= 2        {3} =[2+0]= 0= " "   {4} =[3+0]= 1= "o"
+                //                     "| [b3] " " > o"             "|"        {1} =[0+4]= 1 + 97= 'b'  {2} =[1+4]= 2 + 1= 3        {3} =[2+4]= 0= " ",  {4} =[3+4]= 1= "o"
+                vystup = String.Format("{0} [{1}{2}] {3} > {4}", vystup, (char)(pohyb[0 + i] + 'a'), pohyb[1 + i] + 1, StoneToString(pohyb[2 + i]), StoneToString(pohyb[3 + i]));
+            }   
+            return vystup;
+        }
+        private string StoneToString(int stone)
+        {
+            switch (stone)
+            {
+                case -2:
+                    return "X";
+                case -1:
+                    return "x";
+                case 1:
+                    return "o";
+                case 2:
+                    return "O";
+                default:
+                    return " ";
+            }
         }
     }
 }

@@ -16,24 +16,24 @@ namespace Damakonzole
         /// </summary>
         public void InitBoard()
         {
-            /*for (int posY = 0; posY < 8; posY++)
-            {
-                for (int posX = 0; posX < 8; posX++)
-                {
-                    if (posY <= 1)
-                    {
-                        board.SetValue(posX, posY, 1);
-                    }
-                    else if (posY >= 6)
-                    {
-                        board.SetValue(posX, posY, -1);
-                    }
-                    else
-                    {
-                        board.SetValue(posX, posY, 0);
-                    }
-                }
-            }*/
+            //for (int posY = 0; posY < 8; posY++)
+            //{
+            //    for (int posX = 0; posX < 8; posX++)
+            //    {
+            //        if (posY <= 1)
+            //        {
+            //            board.SetValue(posX, posY, 1);
+            //        }
+            //        else if (posY >= 6)
+            //        {
+            //            board.SetValue(posX, posY, -1);
+            //        }
+            //        else
+            //        {
+            //            board.SetValue(posX, posY, 0);
+            //        }
+            //    }
+            //}
             board.SetValue(3, 1, 1);
 
             board.SetValue(2, 2, -1);
