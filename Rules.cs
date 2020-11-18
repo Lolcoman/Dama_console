@@ -112,15 +112,12 @@ namespace Damakonzole
             {
                 player = player * -1;
             }
-            //else if (player == -1)
-            //{
-            //    player = 1;
-            //}
         }
-        public List<int[]> SeznamTahu = new List<int[]>();
+        //public List<int[]> SeznamTahu = new List<int[]>();
 
-        public void GenerujSeznamTahu(int X, int Y)
+        public List<int[]> GenerujSeznamTahu(int X, int Y)
         {
+            List<int[]> SeznamTahu = new List<int[]>();
             int stone = board.GetValue(X, Y);
             // X = 3, Y = 1
 
@@ -180,7 +177,7 @@ namespace Damakonzole
                     SeznamTahu.Add(new int[] { X, Y, stone, 0, X - 1, Y + 1, 0, stone });
                 }
             }
+            return SeznamTahu;
         }
-        //SeznamTahu.Add( new int[] { 3, 1, 1, 0, 3, 2, 0, 1 } );
     }
 }

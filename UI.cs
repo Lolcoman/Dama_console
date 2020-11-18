@@ -13,11 +13,16 @@ namespace Damakonzole
         }
         public int[] InputUser(int playerOnMove) //příjmá int, který hráč je na tahu
         {
-            Console.Write("Na tahu je hráč {0}. Zadej pohyb ve formátu (A2-B3): ",playerOnMove > 0 ? "BÍLÝ s o/O" : "ČERNÝ s x/X"); //použití ternárního operátoru pro informaci pro uživatele který hráč je na tahu, pokud > 0 tak hraje bílý
+            Console.Write("{0}. Zadej pohyb ve formátu (A2-B3) nebo 1 pro nápovědu:",playerOnMove > 0 ? "BÍLÝ s o/O" : "ČERNÝ s x/X"); //použití ternárního operátoru pro informaci pro uživatele který hráč je na tahu, pokud > 0 tak hraje bílý
             //Vstup uživatele s převedením na malá písmena
             //Špatný vstup vrácena -1, Správný vstup vráceno pole {X1,Y1,X2,Y2}
             //Ověření správnosti provádní až třída GAME CONTROLLER
             string input = Console.ReadLine().ToLower();
+            if (input == "1")
+            {
+                return new int[] { -2 };
+            }
+
             if (input.Length != 5)
             {
                 return new int[] { -1 };

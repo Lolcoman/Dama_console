@@ -77,16 +77,6 @@ namespace Damakonzole
                                                  //int[] move1 = new int[] { 0, 1, 0, 1, 1, 2, 0, 1 };
                                                                         // { 0, 1, 2, 3, 4, 5, 6, 7 }
         {
-            //int x1, y1, x2, y2;
-            //x1 = pohyb[0];
-            //char X1 = (char)(x1 + '0');
-            //y1 = pohyb[1];
-            //char Y1 = (char)(y1 + '0');
-            //x2 = pohyb[4];
-            //char X2 = (char)(x2 + '0');
-            //y2 = pohyb[5];
-            //char Y2 = (char)(y2 + '0');
-
             string vystup = "|";
 
             for (int i = 0; i < pohyb.Length; i = i + 4)
