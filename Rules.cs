@@ -7,6 +7,12 @@ namespace Damakonzole
     class Rules
     {
         private Board board;
+
+        public List<int[]> SeznamTahu = new List<int[]>();
+
+        //privátní proměnná hráče
+        private int player;
+
         public Rules(Board bo)
         {
             board = bo;
@@ -85,9 +91,6 @@ namespace Damakonzole
             return new int[] { X1, Y1, S0, S1, X2, Y2, S2, S3 };
         }
 
-        //privátní proměnná hráče
-        private int player;
-
         /// <summary>
         /// Inicializace hráče na tahu
         /// </summary>
@@ -113,14 +116,11 @@ namespace Damakonzole
                 player = player * -1;
             }
         }
-        //public List<int[]> SeznamTahu = new List<int[]>();
 
-        public List<int[]> GenerujSeznamTahu(int X, int Y)
+        public void GenerujSeznamTahu(int X, int Y)
         {
-            List<int[]> SeznamTahu = new List<int[]>();
             int stone = board.GetValue(X, Y);
             // X = 3, Y = 1
-
             if (board.IsValidCoordinates(X, Y + 1))
             {
                 if (board.GetValue(X, Y + 1) == 0) //rovně 3,2
@@ -177,7 +177,6 @@ namespace Damakonzole
                     SeznamTahu.Add(new int[] { X, Y, stone, 0, X - 1, Y + 1, 0, stone });
                 }
             }
-            return SeznamTahu;
         }
     }
 }

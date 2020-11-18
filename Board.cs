@@ -83,7 +83,7 @@ namespace Damakonzole
             {   
                 //                     "| [a2] " " > o"             "|"        {1} =[0+0]= 0 + 97= 'a'  {2} =[1+0]= 1 + 1= 2        {3} =[2+0]= 0= " "   {4} =[3+0]= 1= "o"
                 //                     "| [b3] " " > o"             "|"        {1} =[0+4]= 1 + 97= 'b'  {2} =[1+4]= 2 + 1= 3        {3} =[2+4]= 0= " ",  {4} =[3+4]= 1= "o"
-                vystup = String.Format("{0} [{1}{2}] {3} > {4}", vystup, (char)(pohyb[0 + i] + 'a'), pohyb[1 + i] + 1, StoneToString(pohyb[2 + i]), StoneToString(pohyb[3 + i]));
+                vystup = String.Format("{0} [{1}{2}] {3} --> {4}", vystup, (char)(pohyb[0 + i] + 'a'), pohyb[1 + i] + 1, StoneToString(pohyb[2 + i]), StoneToString(pohyb[3 + i]));
             }   
             return vystup;
         }
