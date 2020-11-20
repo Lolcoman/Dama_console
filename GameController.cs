@@ -40,6 +40,7 @@ namespace Damakonzole
                             Console.WriteLine(board.PohybNaString(prvek)); //PŘEDĚLAT DO UI!!!!
                         }
                     }
+                    rules.SeznamTahu.Clear();
                     if (vstup[0] >= 0) //pokud je zadán správný pohyb tj A2-B3
                     {
                         platnyVstup = rules.IsCheckMove(vstup); //ověření zda je táhnuto dle pravidel
@@ -53,7 +54,6 @@ namespace Damakonzole
                 board.Move(plnyVstup); //pokud je zadáno správně, metoda nastaví pohyb na desce
                 //rules.ChangePlayer(); //změna hráče na tahu
             }
-
         }
         /// <summary>
         /// Nastavení hodnoty políčka

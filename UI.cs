@@ -27,17 +27,14 @@ namespace Damakonzole
                 {
                     return new int[] { -1 };
                 }
-                if (help[0] < 0)
-                {
-                    return new int[] { -1 };
-                }
-                if (help[0] > 7)
-                {
-                    return new int[] { -1 };
-                }
 
                 char helpX = help[0];
                 int helpX1 = (int)(helpX - 'a');
+
+                if (helpX1 > 7 || helpX1 < 0)
+                {
+                    return new int[] { -1 };
+                }
 
                 char helpY = help[1];
                 int helpY1 = (int)(helpY - '1');
