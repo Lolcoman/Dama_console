@@ -23,6 +23,19 @@ namespace Damakonzole
             {
                 Console.Write("Zadej pro jaky kamen chceš nápovědu:");
                 string help = Console.ReadLine().ToLower();
+                if (help.Length == 0)
+                {
+                    return new int[] { -1 };
+                }
+                if (help[0] < 0)
+                {
+                    return new int[] { -1 };
+                }
+                if (help[0] > 7)
+                {
+                    return new int[] { -1 };
+                }
+
                 char helpX = help[0];
                 int helpX1 = (int)(helpX - 'a');
 
@@ -30,6 +43,8 @@ namespace Damakonzole
                 int helpY1 = (int)(helpY - '1');
                 return new int[] { -2, helpX1, helpY1 };
             }
+
+
 
             if (input.Length != 5)
             {
