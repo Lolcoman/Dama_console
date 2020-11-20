@@ -41,8 +41,6 @@ namespace Damakonzole
                 return new int[] { -2, helpX1, helpY1 };
             }
 
-
-
             if (input.Length != 5)
             {
                 return new int[] { -1 };
@@ -51,29 +49,13 @@ namespace Damakonzole
             char x1, y1, x2, y2; // X1Y1 vybrany kamen, X2Y2 kam pohnout
             x1 = input[0];
             int X1 = (int)(x1 - 'a'); //převod v tabulce ASCII
-            if (X1 > 7 || X1 < 0) //pokud X1 je větší než 7 a zároveň X1 je menší než 0 tak vrať -1
-            {
-                return new int[] { -1 };
-            }
             y1 = input[1];
             int Y1 = (int)(y1 - '1'); //1, protože 0 není v herní desce
-            if (Y1 > 7 || Y1 < 0)
-            {
-                return new int[] { -1 }; //pokud Y1 je větší než 7 a zároveň Y1 je menší než 0 tak vrať -1
-            }
             x2 = input[3];
             int X2 = (int)(x2 - 'a');
-            if (X2 > 7 || X2 < 0) //pokud X2 je větší než 7 a zároveň X2 je menší než 0 tak vrať -1
-            {
-                return new int[] { -1 };
-            }
             y2 = input[4];
             int Y2 = (int)(y2 - '1');
-            if (Y2 > 7 || Y2 < 0) //pokud Y2 je větší než 7 a zároveň Y2 je menší než 0 tak vrať -1
-            {
-                return new int[] { -1 };
-            }
-            return new int[] { X1, Y1, X2, Y2 };
+            return Parsing(X1, Y1, X2, Y2);
         }
 
         /// <summary>
@@ -117,23 +99,38 @@ namespace Damakonzole
             Console.WriteLine("     A  B  C  D  E  F  G  H");
         }
 
-        //metoda jen pro tisk chyby
+        /// <summary>
+        /// Metoda pro tisk chyby
+        /// </summary>
         public void Mistake()
         {
             Console.WriteLine("Špatně zadáno!");
         }
 
-        ////metoda pro tisk kdo je na tahu
-        //public void WhoMove(int player)
-        //{
-        //    if (player == 1)
-        //    {
-        //        Console.WriteLine("Hraje BÍLÝ o/O ");
-        //    }
-        //    else
-        //    {
-        //        Console.WriteLine("Hraje ČERNÝ x/X ");
-        //    }
-        //}
+        public int[] Parsing(int X1, int Y1, int X2, int Y2)
+        {
+            if (X1 > 7 || X1 < 0) //pokud X1 je větší než 7 a zároveň X1 je menší než 0 tak vrať -1
+            {
+                return new int[] { -1 };
+            }
+            if (Y1 > 7 || Y1 < 0) //pokud Y1 je větší než 7 a zároveň Y1 je menší než 0 tak vrať -1
+            {
+                return new int[] { -1 };
+            }
+            if (X2 > 7 || X2 < 0) //pokud X2 je větší než 7 a zároveň X2 je menší než 0 tak vrať -1
+            {
+                return new int[] { -1 };
+            }
+            if (Y2 > 7 || Y2 < 0) //pokud Y2 je větší než 7 a zároveň Y2 je menší než 0 tak vrať -1
+            {
+                return new int[] { -1 };
+            }
+            return new int[] { X1, Y1, X2, Y2 };
+        }
+        public void PrintHelpMove(int[] prvek)
+        {
+            Console.WriteLine(board.PohybNaString(prvek));
+        }
+
     }
 }
