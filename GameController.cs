@@ -34,7 +34,8 @@ namespace Damakonzole
                     vstup = ui.InputUser(rules.PlayerOnMove()); //pokud -1 tak se podmínka neprovede protože -1 >= 0, pokud 0 tak se provede 0=0 a zkontroluje se platnost tahu
                     if (vstup[0] == -2)
                     {
-                        rules.GenerateMoveList(vstup[1],vstup[2]);
+                        //rules.GenerateMoveList(vstup[1],vstup[2]);
+                        rules.Dama(vstup[1], vstup[2]);
                         foreach (int[] prvek in rules.ListMove)
                         {
                             ui.PrintHelpMove(prvek);

@@ -9,6 +9,18 @@ namespace Damakonzole
         private Board board;
 
         public List<int[]> ListMove = new List<int[]>();
+        private int[,] smery =
+        {
+            //Nelze záporné hodnoty, protože  - - je +
+            {0,1}, //nahoru 0
+            {1,1}, //diag. doprava 1  
+            {1,0}, //doprava 2 
+            {1,1}, //dozadu vpravo 3
+            {0,1}, //dozadu 4
+            {1,1}, //dozadu vlevo 5
+            {1,0}, //vlevo 6 
+            {1,1}  //diag.vlevo 7 
+        };
 
         //privátní proměnná hráče
         private int player;
@@ -117,66 +129,187 @@ namespace Damakonzole
             }
         }
 
-        public void GenerateMoveList(int X, int Y)
+        public void GenerateMoveList(int X, int Y) //Generace tahu kamene v rozsahu + 1 poličko, vypis všech jeho tahu
         {
             int stone = board.GetValue(X, Y);
             // X = 3, Y = 1
-            if (board.IsValidCoordinates(X, Y + 1))
+            if (board.IsValidCoordinates(X + smery[0, 0], Y + smery[0, 1]))
             {
-                if (board.GetValue(X, Y + 1) == 0) //rovně 3,2
+                if (board.GetValue(X+smery[0,0],Y+smery[0,1])==0) //rovně 3,2
                 {
                     ListMove.Add(new int[] { X, Y, stone, 0, X, Y + 1, 0, stone });
                 }
             }
-            if (board.IsValidCoordinates(X + 1, Y + 1))
+            if (board.IsValidCoordinates(X + smery[1,0], Y + smery[1,1]))
             {
-                if (board.GetValue(X + 1, Y + 1) == 0) //diagonálně vpravo 4,2
+                if (board.GetValue(X + smery[1, 0], Y + smery[1, 1]) == 0) //diagonálně vpravo 4,2
                 {
                     ListMove.Add(new int[] { X, Y, stone, 0, X + 1, Y + 1, 0, stone });
                 }
             }
-            if (board.IsValidCoordinates(X + 1, Y))
+            if (board.IsValidCoordinates(X + smery[2,0], Y + smery[2,1]))
             {
-                if (board.GetValue(X + 1, Y) == 0) //vpravo 4,1
+                if (board.GetValue(X + smery[2, 0], Y + smery[2, 1]) == 0) //vpravo 4,1
                 {
                     ListMove.Add(new int[] { X, Y, stone, 0, X + 1, Y, 0, stone });
                 }
             }
-            if (board.IsValidCoordinates(X + 1, Y - 1))
+            if (board.IsValidCoordinates(X + smery[3,0], Y - smery[3,1]))
             {
-                if (board.GetValue(X + 1, Y - 1) == 0) //diagonálně vpravo vzad 4,0
+                if (board.GetValue(X + smery[3, 0], Y - smery[3, 1]) == 0) //diagonálně vpravo vzad 4,0
                 {
                     ListMove.Add(new int[] { X, Y, stone, 0, X + 1, Y - 1, 0, stone });
                 }
             }
-            if (board.IsValidCoordinates(X, Y - 1))
+            if (board.IsValidCoordinates(X - smery[5,0], Y - smery[5,1]))
             {
-                if (board.GetValue(X, Y - 1) == 0) //vzad 3,0
-                {
-                    ListMove.Add(new int[] { X, Y, stone, 0, X, Y - 1, 0, stone });
-                }
-            }
-            if (board.IsValidCoordinates(X - 1, Y - 1))
-            {
-                if (board.GetValue(X - 1, Y - 1) == 0) //diagonálně vlevo vzad 2,0
+                if (board.GetValue(X - smery[5, 0], Y - smery[5, 1]) == 0) //diagonálně vlevo vzad 2,0
                 {
                     ListMove.Add(new int[] { X, Y, stone, 0, X - 1, Y - 1, 0, stone });
                 }
             }
-            if (board.IsValidCoordinates(X - 1, Y))
+            if (board.IsValidCoordinates(X - smery[6,0], Y + smery[6,1]))
             {
-                if (board.GetValue(X - 1, Y) == 0) // vlevo 2,1
+                if (board.GetValue(X - smery[6, 0], Y + smery[6, 1]) == 0) // vlevo 2,1
                 {
                     ListMove.Add(new int[] { X, Y, stone, 0, X - 1, Y, 0, stone });
                 }
             }
-            if (board.IsValidCoordinates(X - 1, Y + 1))
+            if (board.IsValidCoordinates(X - smery[7,0], Y + smery[7,1]))
             {
-                if (board.GetValue(X - 1, Y + 1) == 0) //diagonálně vlevo 2,2
+                if (board.GetValue(X - smery[7, 0], Y + smery[7, 1]) == 0) //diagonálně vlevo 2,2
                 {
                     ListMove.Add(new int[] { X, Y, stone, 0, X - 1, Y + 1, 0, stone });
                 }
             }
+        }
+
+        public void Dama(int X, int Y)
+        {
+            /*{0,1},  //nahoru 0
+            {1,1},  //diag. doprava 1  
+            {1,0},  //doprava 2 
+            {1,-1}, //dozadu vpravo 3
+            {0,-1}, //dozadu 4
+            {-1,-1},//dozadu vlevo 5
+            {-1,0}, //vlevo 6 
+            {-1,1}  //diag.vlevo 7 
+            */
+            //X=3,Y=1
+            int stone = board.GetValue(X, Y);
+            int minusY = 0, minusX = 0;
+
+            while (Y != 7)
+            {
+                if (board.IsValidCoordinates(X + smery[0, 0], Y + smery[0, 1]))
+                {
+                    if (board.GetValue(X + smery[0, 0], Y + smery[0, 1]) == 0) //rovně 3,2 == {0,1}, nahoru 0
+                    {
+                        ListMove.Add(new int[] { X, Y, stone, 0, X, Y + smery[0, 1], 0, stone });
+                    }
+                }
+                minusY = Y++;
+            }
+            Y -= minusY;
+
+            while (Y != 7 && X != 7)
+            {
+                if (board.IsValidCoordinates(X + smery[1, 0], Y + smery[1, 1]))
+                {
+                    if (board.GetValue(X + smery[1, 0], Y + smery[1, 1]) == 0) //diagonálně vpravo 4,2 == {1,1},diag. doprava 1
+                    {
+                        ListMove.Add(new int[] { X, Y, stone, 0, X + 1, Y + 1, 0, stone });
+                    }
+                }
+                minusX = X++;
+                minusY = Y++;
+            }
+            Y -= minusY;
+            X -= minusX;
+
+            while (X != 7)
+            {
+                if (board.IsValidCoordinates(X + smery[2, 0], Y + smery[2, 1]))
+                {
+                    if (board.GetValue(X + smery[2, 0], Y + smery[2, 1]) == 0) //vpravo 4,1 == {1,0}, doprava 2
+                    {
+                        ListMove.Add(new int[] { X, Y, stone, 0, X + 1, Y, 0, stone });
+                    }
+                }
+                minusX = X++;
+            }
+            X -= minusX;
+
+            while (Y != -1) //D2 = [3,1]
+            {
+                if (board.IsValidCoordinates(X + smery[3, 0], Y - smery[3, 1]))
+                {
+                    if (board.GetValue(X + smery[3, 0], Y - smery[3, 1]) == 0) //diagonálně vpravo vzad 4,0 == {1,-1}, dozadu vpravo 3
+                    {
+                        ListMove.Add(new int[] { X, Y, stone, 0, X + 1, Y - 1, 0, stone });
+                    }
+                }
+                minusX = X++;
+                minusY = Y--;
+            }
+            X -= minusX;
+            Y -= minusY;
+
+            while (Y > 0) //D2 = [3,1]
+            {
+                if (board.IsValidCoordinates(X + smery[4, 0], Y - smery[4, 1]))
+                {
+                    if (board.GetValue(X + smery[4, 0], Y - smery[4, 1]) == 0) //vzad 3,0 {0,1}, //dozadu 4
+                    {
+                        ListMove.Add(new int[] { X, Y, stone, 0, X, Y - 1, 0, stone });
+                    }
+                }
+                minusY = Y--;
+            }
+            Y -= minusY;
+
+            while (X != -1)
+            {
+                if (board.IsValidCoordinates(X - smery[5, 0], Y - smery[5, 1]))
+                {
+                    if (board.GetValue(X - smery[5, 0], Y - smery[5, 1]) == 0) //diagonálně vlevo vzad 2,0 {1,1}, //dozadu vlevo 5
+                    {
+                        ListMove.Add(new int[] { X, Y, stone, 0, X - 1, Y - 1, 0, stone });
+                    }
+                }
+                minusX = X--;
+                minusY = Y--;
+            }
+            Y -= minusY;
+            X -= minusX;
+
+            while (X != -1)
+            {
+                if (board.IsValidCoordinates(X - smery[6, 0], Y + smery[6, 1]))
+                {
+                    if (board.GetValue(X - smery[6, 0], Y + smery[6, 1]) == 0) // vlevo 2,1 {1,0}, //vlevo 6 
+                    {
+                        ListMove.Add(new int[] { X, Y, stone, 0, X - 1, Y, 0, stone });
+                    }
+                }
+                minusX = X--;
+            }
+            X -= minusX;
+
+            while (X != -1)
+            {
+                if (board.IsValidCoordinates(X - smery[7, 0], Y + smery[7, 1]))
+                {
+                    if (board.GetValue(X - smery[7, 0], Y + smery[7, 1]) == 0) //diagonálně vlevo 2,2 {1,1}  //diag.vlevo 7 
+                    {
+                        ListMove.Add(new int[] { X, Y, stone, 0, X - 1, Y + 1, 0, stone });
+                    }
+                }
+                minusX = X--;
+                minusY = Y++;
+            }
+            X -= minusX;
+            Y -= minusY;
         }
     }
 }
