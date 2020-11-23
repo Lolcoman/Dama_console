@@ -196,7 +196,7 @@ namespace Damakonzole
 
         public void Dama(int fromX, int fromY)
         {
-            int hloubka = 0;
+            int hloubka = 0; //proměná hloubky vypisu tahu, kvůli kamenu
             int stone = board.GetValue(fromX, fromY); //3,1 = 1
             int toX = fromX; //fromX = 3, tj. toX = 3
             int toY = fromY; //fromY = 1, tj. toY = 1
@@ -205,7 +205,7 @@ namespace Damakonzole
             {
                 while (board.IsValidCoordinates(toX + smery[indexSmeru, 0], toY + smery[indexSmeru, 1])) //[3,2] je true
                 {
-                    hloubka++;
+                    hloubka = hloubka + 2;
 
                     //VYPIS PRO DAMU
                     if (stone == 2 || stone == -2)
@@ -226,27 +226,26 @@ namespace Damakonzole
                     }
 
                     //VYPIS PRO KAMEN
-                    else if (stone == 1 || stone == -1 && hloubka > 1)
+                    if (stone == 1 || stone == -1 && hloubka > 1)
                     {
-                        if (stone == 1 && (indexSmeru >= 0 && indexSmeru <= 2))
-                        {
-                            toX = toX + smery[indexSmeru, 0]; //3+(-1)=2
-                            toY = toY + smery[indexSmeru, 1]; //1+0=1
+                        break;
+                    }
+                    else if (stone == 1 && (indexSmeru >= 0 && indexSmeru <= 2))
+                    {
+                        toX = toX + smery[indexSmeru, 0]; //3+(-1)=2
+                        toY = toY + smery[indexSmeru, 1]; //1+0=1
 
-                            int destinationStone = board.GetValue(toX, toY); //označení pole kam dopadne kamen
-                            if (stone < 0 && destinationStone < 0) //pokud hodnota kamene je menší než 0 a pole dopadu menší než 0, tak true a ukončí se, kontrola svého kamene 
-                                break;
-                            if (stone > 0 && destinationStone > 0) //pokud hodnota kamene je větší než 0 a pole dopadu větší než 0, tak true a ukončí se, kontrola svého kamene 
-                                break;
-                            if (destinationStone == 0) //pokud poledopadu je 0 tak true a uloží se do listu tahů
-                                ListMove.Add(new int[] { fromX, fromY, stone, 0, toX, toY, 0, stone });
-                            else
-                            {
-                                //tady bude kód pokud narazí na kámen soupeře (možná skok)
-                            }
-                        }
-                        else
+                        int destinationStone = board.GetValue(toX, toY); //označení pole kam dopadne kamen
+                        if (stone < 0 && destinationStone < 0) //pokud hodnota kamene je menší než 0 a pole dopadu menší než 0, tak true a ukončí se, kontrola svého kamene 
                             break;
+                        if (stone > 0 && destinationStone > 0) //pokud hodnota kamene je větší než 0 a pole dopadu větší než 0, tak true a ukončí se, kontrola svého kamene 
+                            break;
+                        if (destinationStone == 0) //pokud poledopadu je 0 tak true a uloží se do listu tahů
+                            ListMove.Add(new int[] { fromX, fromY, stone, 0, toX, toY, 0, stone });
+                        else
+                        {
+                            //tady bude kód pokud narazí na kámen soupeře (možná skok)
+                        }
                     }
                 }
             }
