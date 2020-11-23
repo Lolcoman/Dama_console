@@ -205,7 +205,7 @@ namespace Damakonzole
             {
                 while (board.IsValidCoordinates(toX + smery[indexSmeru, 0], toY + smery[indexSmeru, 1])) //[3,2] je true
                 {
-                    hloubka = hloubka + 2;
+                    hloubka = hloubka + 1;
 
                     //VYPIS PRO DAMU
                     if (stone == 2 || stone == -2)
@@ -226,12 +226,13 @@ namespace Damakonzole
                     }
 
                     //VYPIS PRO KAMEN
-                    if (stone == 1 || stone == -1 && hloubka > 1)
+
+                    else if (stone == 1 || stone == -1 && (indexSmeru >= 0 && indexSmeru <= 2))
                     {
-                        break;
-                    }
-                    else if (stone == 1 && (indexSmeru >= 0 && indexSmeru <= 2))
-                    {
+                        if (stone == 1 || stone == -1 && hloubka > 1)
+                        {
+                            break;
+                        }
                         toX = toX + smery[indexSmeru, 0]; //3+(-1)=2
                         toY = toY + smery[indexSmeru, 1]; //1+0=1
 
