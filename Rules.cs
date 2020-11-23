@@ -195,14 +195,15 @@ namespace Damakonzole
         }
 
         public void Dama(int fromX, int fromY)
-        {
-            int hloubka = 0; //proměná hloubky vypisu tahu, kvůli kamenu
+        { 
             int stone = board.GetValue(fromX, fromY); //3,1 = 1
             int toX = fromX; //fromX = 3, tj. toX = 3
             int toY = fromY; //fromY = 1, tj. toY = 1
             //X=3,Y=1
             for (int indexSmeru = 0; indexSmeru <= 7; indexSmeru++)
             {
+                int hloubka = 0; //proměná hloubky vypisu tahu, kvůli kamenu
+
                 while (board.IsValidCoordinates(toX + smery[indexSmeru, 0], toY + smery[indexSmeru, 1])) //[3,2] je true
                 {
                     hloubka = hloubka + 1;
@@ -226,13 +227,13 @@ namespace Damakonzole
                     }
 
                     //VYPIS PRO KAMEN
-
                     else if (stone == 1 || stone == -1 && (indexSmeru >= 0 && indexSmeru <= 2))
                     {
-                        if (stone == 1 || stone == -1 && hloubka > 1)
+                        if ((stone == 1 || stone == -1) && hloubka > 2)
                         {
                             break;
                         }
+
                         toX = toX + smery[indexSmeru, 0]; //3+(-1)=2
                         toY = toY + smery[indexSmeru, 1]; //1+0=1
 
