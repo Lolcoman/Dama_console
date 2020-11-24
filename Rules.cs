@@ -11,15 +11,6 @@ namespace Damakonzole
         public List<int[]> ListMove = new List<int[]>();
         private int[,] smery =
         {
-            //{0,1}, //nahoru 0
-            //{1,1}, //diag. doprava 1  
-            //{1,0}, //doprava 2 
-            //{1,-1}, //dozadu vpravo 3
-            //{0,-1}, //dozadu 4
-            //{-1,-1}, //dozadu vlevo 5
-            //{-1,0}, //vlevo 6 
-            //{-1,1}  //diag.vlevo 7 
-
             {-1,0}, //vlevo 0
             {-1,1},  //diag.vlevo 1
             {0,1},  //nahoru 2
@@ -196,6 +187,7 @@ namespace Damakonzole
 
         public void Dama(int fromX, int fromY)
         {
+            int i = 1;
             int stone = board.GetValue(fromX, fromY); //3,1 = 1
 
             //X=3,Y=1
@@ -213,20 +205,33 @@ namespace Damakonzole
                         break;
                     }
 
-                    if (stone == -1 && indexSmeru >= 1 && indexSmeru <= 3)
+                    if (stone == -1 && indexSmeru >= 1 && indexSmeru <= 3) //pro černého
                     {
                         break;
                     }
 
-                    if (stone == 1 && indexSmeru >= 5 && indexSmeru <= 7)
+                    if (stone == 1 && indexSmeru >= 5 && indexSmeru <= 7) //otočení pro bílého
                     {
                         break;
                     }
 
                     //VYPIS
-                    toX = toX + smery[indexSmeru, 0]; //3+0=3
-                    toY = toY + smery[indexSmeru, 1]; //1+1=2
-                    int destinationStone = board.GetValue(toX, toY); //označení pole kam dopadne kamen
+                    toX = toX + smery[indexSmeru, 0]; //3+-1=2, první se začíná vlevo
+                    toY = toY + smery[indexSmeru, 1]; //1+0=1
+                    //toX = 2
+                    //toY = 1
+
+
+                    int destinationStone = board.GetValue(toX, toY); //pole kam dopadne kamen
+
+
+                    //Jen pro info kolik a kde lze přeskočit figurek a v jakem směru
+                    if (destinationStone != stone && destinationStone != 0)
+                    {
+                        Console.WriteLine("Můžeš přeskočit {0} kameny ve smeru {1}.", i,indexSmeru);
+                        i++;    
+                    }
+
                     if (stone < 0 && destinationStone < 0) //pokud hodnota kamene je menší než 0 a pole dopadu menší než 0, tak true a ukončí se, kontrola svého kamene 
                         break;
                     if (stone > 0 && destinationStone > 0) //pokud hodnota kamene je větší než 0 a pole dopadu větší než 0, tak true a ukončí se, kontrola svého kamene 
@@ -236,6 +241,11 @@ namespace Damakonzole
                     else
                     {
                         //tady bude kód pokud narazí na kámen soupeře (možná skok)
+                        if (destinationStone != stone && destinationStone != 0)
+                        {
+                            
+                        }
+
                     }
                 }
             }
