@@ -220,17 +220,7 @@ namespace Damakonzole
                     toY = toY + smery[indexSmeru, 1]; //1+0=1
                     //toX = 2
                     //toY = 1
-
-
                     int destinationStone = board.GetValue(toX, toY); //pole kam dopadne kamen
-
-
-                    //Jen pro info kolik a kde lze přeskočit figurek a v jakem směru
-                    if (destinationStone != stone && destinationStone != 0)
-                    {
-                        Console.WriteLine("Můžeš přeskočit {0} kameny ve smeru {1}.", i,indexSmeru);
-                        i++;    
-                    }
 
                     if (stone < 0 && destinationStone < 0) //pokud hodnota kamene je menší než 0 a pole dopadu menší než 0, tak true a ukončí se, kontrola svého kamene 
                         break;
@@ -243,9 +233,16 @@ namespace Damakonzole
                         //tady bude kód pokud narazí na kámen soupeře (možná skok)
                         if (destinationStone != stone && destinationStone != 0)
                         {
-                            
-                        }
+                            //Console.WriteLine("Můžeš přeskočit {0} kameny ve smeru {1}.", i, indexSmeru);
+                            //i++;
 
+                            //Console.WriteLine("|{0}| |{1}| |{2}| |{3}| --> |{4}| |{5}| |{6}| |{7}| ve smeru {8}", fromX, fromY, stone, 0, toX, toY, 0, stone, indexSmeru);
+                            if (board.GetValue(toX + smery[indexSmeru, 0], toY + smery[indexSmeru, 1]) == 0)
+                            {
+                                //Console.WriteLine("Pole je volné, skok je možný");
+                                ListMove.Add(new int[] { fromX, fromY, stone, 0, toX, toY, destinationStone, 0, toX + smery[indexSmeru, 0], toY + smery[indexSmeru, 1], 0, stone });
+                            }
+                        }
                     }
                 }
             }
