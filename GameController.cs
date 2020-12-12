@@ -29,31 +29,30 @@ namespace Damakonzole
                 int[] vstup = null;
                 int[] plnyVstup;
                 bool platnyVstup = false;
-                //rules.MovesGenerate();
+                rules.MovesGenerate();
                 while (!platnyVstup)
                 {
-                    rules.MovesGenerate();
+                    //rules.MovesGenerate();
                     vstup = ui.InputUser(rules.PlayerOnMove()); //pokud -1 tak se podmínka neprovede protože -1 >= 0, pokud 0 tak se provede 0=0 a zkontroluje se platnost tahu
 
                     if (vstup[0] == -2)
                     {
-                        if (vstup.Length > 1)
-                        {
-                            rules.ListMove.Clear();
-                            if ((board.GetValue(vstup[1], vstup[2]) < 0 && rules.PlayerOnMove() < 0) || (board.GetValue(vstup[1], vstup[2]) > 0 && rules.PlayerOnMove() > 0))
-                            {
-                                rules.Dama(vstup[1], vstup[2]);
-                            }
-                            else
-                            {
-                                ui.Mistake();
-                            }
-                        }
+                        //if (vstup.Length > 1)
+                        //{
+                        //    rules.ListMove.Clear();
+                        //    if ((board.GetValue(vstup[1], vstup[2]) < 0 && rules.PlayerOnMove() < 0) || (board.GetValue(vstup[1], vstup[2]) > 0 && rules.PlayerOnMove() > 0))
+                        //    {
+                        //        rules.Dama(vstup[1], vstup[2]);
+                        //    }
+                        //    else
+                        //    {
+                        //        ui.Mistake();
+                        //    }
+                        //}
                         foreach (int[] prvek in rules.ListMove)
                         {
-                            ui.PrintHelpMove(prvek);
+                            ui.PrintHelpMove(rules.ListMove);
                         }
-                        rules.ListMove.Clear();
 
                         //TEST-vypsání tahu jako inty, pak smazat!!
                         //foreach (int[] pohyb in rules.ListMove)

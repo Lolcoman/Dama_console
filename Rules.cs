@@ -247,6 +247,10 @@ namespace Damakonzole
                 }
             }
         }
+
+        /// <summary>
+        /// Genereuje seznam tahu 
+        /// </summary>
         public void MovesGenerate()
         {
             ListMove.Clear();
@@ -260,6 +264,26 @@ namespace Damakonzole
                     }
                 }
             }
+        }
+
+        /// <summary>
+        /// Vrátí všechny tahy
+        /// </summary>
+        /// <returns></returns>
+        public List<int[]> GetMovesList()
+        {
+            return GetMovesList(-1, -1);
+        }
+        /// <summary>
+        /// Vrátí pouze tahy vybrané figurky
+        /// </summary>
+        /// <param name="filterX"></param>
+        /// <param name="filterY"></param>
+        /// <returns></returns>
+        public List<int[]> GetMovesList(int filterX, int filterY)
+        {
+            List<int[]> NovySeznamTahu = new List<int[]>();
+            return NovySeznamTahu;
         }
     }
 }

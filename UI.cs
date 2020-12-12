@@ -132,9 +132,12 @@ namespace Damakonzole
             }
             return new int[] { X1, Y1, X2, Y2 };
         }
-        public void PrintHelpMove(int[] prvek)
+        public void PrintHelpMove(List<int[]> seznam)
         {
-            Console.WriteLine(board.PohybNaString(prvek));
+            foreach (int[] prvek in seznam)
+            {
+                Console.WriteLine(board.PohybNaString(prvek));
+            }   
         }
 
     }
