@@ -42,6 +42,7 @@ namespace Damakonzole
                 {
                     return new int[] { -2, helpX1, helpY1 };
                 }
+
                 return new int[] { -1 };
                 //return new int[] { -2, helpX1, helpY1 };
             }
@@ -134,6 +135,10 @@ namespace Damakonzole
         }
         public void PrintHelpMove(List<int[]> seznam)
         {
+            if (seznam.Count == 0)
+            {
+                Console.WriteLine("Prázdný seznam tahů!");
+            }
             foreach (int[] prvek in seznam)
             {
                 Console.WriteLine(board.PohybNaString(prvek));

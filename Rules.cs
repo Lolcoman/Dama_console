@@ -63,31 +63,6 @@ namespace Damakonzole
             board.SetValue(4, 2, -1);
         }
         /// <summary>
-        /// Metoda která ověřuje zda se jedná o platný tah dle pravidel
-        /// </summary>
-        /// <param name="move"></param>
-        /// <returns></returns>
-        public bool IsCheckMove(int[] move)
-        {
-            if (PlayerOnMove() < 0 && board.GetValue(move[0], move[1]) > 0) //pokud je na tahu hráč menší než 0, tj černý, tak jestli figurka není větší než 1, tj. bílá
-            {
-                return false;
-            }
-            if (PlayerOnMove() > 0 && board.GetValue(move[0], move[1]) < 0) //opak kontroly hráče, zda netáhne bílý, černou
-            {
-                return false;
-            }
-            if (board.GetValue(move[2], move[3]) != 0) //zda se netáhne na prázdné pole
-            {
-                return false;
-            }
-            if (board.GetValue(move[0], move[1]) == 0) //zda se táhne figurkou
-            {
-                return false;
-            }
-            return true;
-        }
-        /// <summary>
         /// Metoda která vrací celý kompletní tah
         /// </summary>
         /// <param name="pohyb"></param>
@@ -96,13 +71,31 @@ namespace Damakonzole
         {
             int X1 = pohyb[0];
             int Y1 = pohyb[1];
-            int S0 = board.GetValue(pohyb[0], pohyb[1]);
-            int S1 = 0;
             int X2 = pohyb[2];
             int Y2 = pohyb[3];
-            int S2 = 0;
-            int S3 = board.GetValue(pohyb[0], pohyb[1]);
-            return new int[] { X1, Y1, S0, S1, X2, Y2, S2, S3 };
+            foreach (int[] prvek in ListMove)
+            {
+                if (prvek.Length == 8) //Je to tah!
+                {
+                    if (X1==prvek[0] && Y1==prvek[1] && X2==prvek[4] && Y2==prvek[5])
+                    {
+                        //Console.WriteLine("{0} a {1}",X1,prvek[0]);
+                        //Console.WriteLine("{0} a {1}",Y1,prvek[1]);
+                        Console.WriteLine("Tah");
+                    }
+                }
+                if (prvek.Length > 8)
+                {
+                    if (X1 == prvek[0] && Y1 == prvek[1] && X2 == prvek[8] && Y2 == prvek[9])
+                    {
+                        //Console.WriteLine("{0} a {1}",X1,prvek[0]);
+                        //Console.WriteLine("{0} a {1}",Y1,prvek[1]);
+                        Console.WriteLine("Skok");
+                    }
+                }
+            }
+
+            return new int[] { -1 };
         }
 
         /// <summary>
@@ -131,61 +124,11 @@ namespace Damakonzole
             }
         }
 
-        public void GenerateMoveList(int X, int Y) //Generace tahu kamene v rozsahu + 1 poličko, vypis všech jeho tahu
-        {
-            int stone = board.GetValue(X, Y);
-            // X = 3, Y = 1
-            if (board.IsValidCoordinates(X + smery[0, 0], Y + smery[0, 1]))
-            {
-                if (board.GetValue(X+smery[0,0],Y+smery[0,1])==0) //rovně 3,2
-                {
-                    ListMove.Add(new int[] { X, Y, stone, 0, X, Y + 1, 0, stone });
-                }
-            }
-            if (board.IsValidCoordinates(X + smery[1,0], Y + smery[1,1]))
-            {
-                if (board.GetValue(X + smery[1, 0], Y + smery[1, 1]) == 0) //diagonálně vpravo 4,2
-                {
-                    ListMove.Add(new int[] { X, Y, stone, 0, X + 1, Y + 1, 0, stone });
-                }
-            }
-            if (board.IsValidCoordinates(X + smery[2,0], Y + smery[2,1]))
-            {
-                if (board.GetValue(X + smery[2, 0], Y + smery[2, 1]) == 0) //vpravo 4,1
-                {
-                    ListMove.Add(new int[] { X, Y, stone, 0, X + 1, Y, 0, stone });
-                }
-            }
-            if (board.IsValidCoordinates(X + smery[3,0], Y - smery[3,1]))
-            {
-                if (board.GetValue(X + smery[3, 0], Y - smery[3, 1]) == 0) //diagonálně vpravo vzad 4,0
-                {
-                    ListMove.Add(new int[] { X, Y, stone, 0, X + 1, Y - 1, 0, stone });
-                }
-            }
-            if (board.IsValidCoordinates(X - smery[5,0], Y - smery[5,1]))
-            {
-                if (board.GetValue(X - smery[5, 0], Y - smery[5, 1]) == 0) //diagonálně vlevo vzad 2,0
-                {
-                    ListMove.Add(new int[] { X, Y, stone, 0, X - 1, Y - 1, 0, stone });
-                }
-            }
-            if (board.IsValidCoordinates(X - smery[6,0], Y + smery[6,1]))
-            {
-                if (board.GetValue(X - smery[6, 0], Y + smery[6, 1]) == 0) // vlevo 2,1
-                {
-                    ListMove.Add(new int[] { X, Y, stone, 0, X - 1, Y, 0, stone });
-                }
-            }
-            if (board.IsValidCoordinates(X - smery[7,0], Y + smery[7,1]))
-            {
-                if (board.GetValue(X - smery[7, 0], Y + smery[7, 1]) == 0) //diagonálně vlevo 2,2
-                {
-                    ListMove.Add(new int[] { X, Y, stone, 0, X - 1, Y + 1, 0, stone });
-                }
-            }
-        }
-
+        /// <summary>
+        /// Vytvoření tahů
+        /// </summary>
+        /// <param name="fromX"></param>
+        /// <param name="fromY"></param>
         public void Dama(int fromX, int fromY)
         {
             int stone = board.GetValue(fromX, fromY); //3,1 = 1
@@ -283,6 +226,20 @@ namespace Damakonzole
         public List<int[]> GetMovesList(int filterX, int filterY)
         {
             List<int[]> NovySeznamTahu = new List<int[]>();
+            foreach (int[] pohyb in ListMove)
+            {
+                if (filterX == -1)
+                {
+                    NovySeznamTahu.Add((int[])pohyb.Clone());
+                }
+                else
+                {
+                    if (pohyb[0] == filterX && pohyb[1] == filterY)
+                    {
+                        NovySeznamTahu.Add((int[])pohyb.Clone());
+                    }
+                }
+            }
             return NovySeznamTahu;
         }
     }
