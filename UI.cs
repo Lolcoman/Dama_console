@@ -17,28 +17,33 @@ namespace Damakonzole
             //Vstup uživatele s převedením na malá písmena
             //Špatný vstup vrácena -1, Správný vstup vráceno pole {X1,Y1,X2,Y2}
             //Ověření správnosti provádní až třída GAME CONTROLLER  
+
             string input = Console.ReadLine().ToLower();
 
-            if (input == "help") //Pro nápovědu tahu!
+            if (input == "help") //Pro nápovědu všech možných tahů!
             {
-                Console.Write("Zadej pro jaky kamen chceš nápovědu:");
+                Console.Write("Zadej pro jaký kámen chceš nápovědu nebo 'all' pro všechny tahy:");
                 string help = Console.ReadLine().ToLower();
                 if (help.Length == 0)
                 {
                     return new int[] { -1 };
                 }
-
-                char helpX = help[0];
-                int helpX1 = (int)(helpX - 'a');
-
-                if (helpX1 > 7 || helpX1 < 0)
+                if (help == "all")
                 {
-                    return new int[] { -1 };
+                    return new int[] { -2 };
                 }
 
+                //Kontrola správného zadání
+                char helpX = help[0];
+                int helpX1 = (int)(helpX - 'a');
                 char helpY = help[1];
                 int helpY1 = (int)(helpY - '1');
-                return new int[] { -2, helpX1, helpY1 };
+                if (board.IsValidCoordinates(helpX1,helpY1))
+                {
+                    return new int[] { -2, helpX1, helpY1 };
+                }
+                return new int[] { -1 };
+                //return new int[] { -2, helpX1, helpY1 };
             }
 
             if (input.Length != 5)

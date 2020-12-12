@@ -54,6 +54,7 @@ namespace Damakonzole
             //    }
             //}
             board.SetValue(3, 1, 1);
+            board.SetValue(4, 1, 1);
 
             board.SetValue(2, 2, -1);
             board.SetValue(2, 4, -1);
@@ -187,7 +188,6 @@ namespace Damakonzole
 
         public void Dama(int fromX, int fromY)
         {
-            int i = 1;
             int stone = board.GetValue(fromX, fromY); //3,1 = 1
 
             //X=3,Y=1
@@ -226,7 +226,7 @@ namespace Damakonzole
                         break;
                     if (stone > 0 && destinationStone > 0) //pokud hodnota kamene je větší než 0 a pole dopadu větší než 0, tak true a ukončí se, kontrola svého kamene 
                         break;
-                    if (destinationStone == 0) //pokud poledopadu je 0 tak true a uloží se do listu tahů
+                    if (destinationStone == 0) //pokud pole dopadu je 0 tak true a uloží se do listu tahů
                         ListMove.Add(new int[] { fromX, fromY, stone, 0, toX, toY, 0, stone });
                     else
                     {
@@ -246,6 +246,20 @@ namespace Damakonzole
                     }
                 }
             }
-        }       
+        }
+        public void MovesGenerate()
+        {
+            ListMove.Clear();
+            for (int posY = 0; posY < 8; posY++)
+            {
+                for (int posX = 0; posX < 8; posX++)
+                {
+                    if ((board.GetValue(posX,posY) < 0 && PlayerOnMove() < 0) || (board.GetValue(posX,posY) > 0 && PlayerOnMove() > 0))
+                    {
+                        Dama(posX, posY);
+                    }
+                }
+            }
+        }
     }
 }
