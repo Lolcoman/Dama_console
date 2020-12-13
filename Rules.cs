@@ -53,8 +53,7 @@ namespace Damakonzole
             //        }
             //    }
             //}
-            board.SetValue(3, 1, 1);
-            board.SetValue(4, 1, 1);
+            board.SetValue(3, 1, 2);
 
             board.SetValue(2, 2, -1);
             board.SetValue(2, 4, -1);
@@ -124,7 +123,7 @@ namespace Damakonzole
         /// </summary>
         /// <param name="fromX"></param>
         /// <param name="fromY"></param>
-        public void Dama(int fromX, int fromY)
+        public void TryToMove(int fromX, int fromY)
         {
             int stone = board.GetValue(fromX, fromY); //3,1 = 1
 
@@ -171,19 +170,23 @@ namespace Damakonzole
                         //tady bude kód pokud narazí na kámen soupeře (možná skok)
                         if (destinationStone != stone && destinationStone != 0)
                         {
-                            //Console.WriteLine("Můžeš přeskočit {0} kameny ve smeru {1}.", i, indexSmeru);
-                            //i++;
-
                             //Console.WriteLine("|{0}| |{1}| |{2}| |{3}| --> |{4}| |{5}| |{6}| |{7}| ve smeru {8}", fromX, fromY, stone, 0, toX, toY, 0, stone, indexSmeru);
                             if (board.GetValue(toX + smery[indexSmeru, 0], toY + smery[indexSmeru, 1]) == 0)
                             {
+                                int[] move = { fromX, fromY, stone, 0, toX, toY, destinationStone, 0, toX + smery[indexSmeru, 0], toY + smery[indexSmeru, 1], 0, stone };
+                                TryToJump(move, new int[] { });
                                 //Console.WriteLine("Pole je volné, skok je možný");
-                                ListMove.Add(new int[] { fromX, fromY, stone, 0, toX, toY, destinationStone, 0, toX + smery[indexSmeru, 0], toY + smery[indexSmeru, 1], 0, stone });
+                                //ListMove.Add(new int[] { fromX, fromY, stone, 0, toX, toY, destinationStone, 0, toX + smery[indexSmeru, 0], toY + smery[indexSmeru, 1], 0, stone });
                             }
                         }
                     }
+                    break;
                 }
             }
+        }
+        public void TryToJump(int[] move, int[] oldMoves)
+        {
+            ListMove.Add(move);
         }
 
         /// <summary>
@@ -198,7 +201,7 @@ namespace Damakonzole
                 {
                     if ((board.GetValue(posX,posY) < 0 && PlayerOnMove() < 0) || (board.GetValue(posX,posY) > 0 && PlayerOnMove() > 0))
                     {
-                        Dama(posX, posY);
+                        TryToMove(posX, posY);
                     }
                 }
             }
