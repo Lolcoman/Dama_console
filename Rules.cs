@@ -63,7 +63,7 @@ namespace Damakonzole
             board.SetValue(4, 2, -1);
         }
         /// <summary>
-        /// Metoda která vrací celý kompletní tah
+        /// Metoda která vrací celý kompletní tah a porovná tah v seznamuTahu
         /// </summary>
         /// <param name="pohyb"></param>
         /// <returns></returns>
@@ -77,24 +77,19 @@ namespace Damakonzole
             {
                 if (prvek.Length == 8) //Je to tah!
                 {
-                    if (X1==prvek[0] && Y1==prvek[1] && X2==prvek[4] && Y2==prvek[5])
+                    if (X1==prvek[0] && Y1==prvek[1] && X2==prvek[4] && Y2==prvek[5]) //porovnání pokud jde jen o tah
                     {
-                        //Console.WriteLine("{0} a {1}",X1,prvek[0]);
-                        //Console.WriteLine("{0} a {1}",Y1,prvek[1]);
-                        Console.WriteLine("Tah");
+                        return prvek;
                     }
                 }
                 if (prvek.Length > 8)
                 {
-                    if (X1 == prvek[0] && Y1 == prvek[1] && X2 == prvek[8] && Y2 == prvek[9])
+                    if (X1 == prvek[0] && Y1 == prvek[1] && X2 == prvek[8] && Y2 == prvek[9]) //porovnání pokud se jedná o skok
                     {
-                        //Console.WriteLine("{0} a {1}",X1,prvek[0]);
-                        //Console.WriteLine("{0} a {1}",Y1,prvek[1]);
-                        Console.WriteLine("Skok");
+                        return prvek;
                     }
                 }
             }
-
             return new int[] { -1 };
         }
 
