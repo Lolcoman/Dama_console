@@ -112,10 +112,7 @@ namespace Damakonzole
         /// </summary>
         public void ChangePlayer()
         {
-            if (player == 1)
-            {
-                player = player * -1;
-            }
+            player = player * -1;
         }
 
         /// <summary>
@@ -188,7 +185,6 @@ namespace Damakonzole
                                 TryToJump(skok, new int[] { });
                                 break;
                             }
-
 
                             if (nextstone != 0) //pokud není prázdné tak break cyklu
                             {
