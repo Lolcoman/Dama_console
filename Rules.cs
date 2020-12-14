@@ -164,22 +164,40 @@ namespace Damakonzole
                     if (stone > 0 && destinationStone > 0) //pokud hodnota kamene je větší než 0 a pole dopadu větší než 0, tak true a ukončí se, kontrola svého kamene 
                         break;
                     if (destinationStone == 0) //pokud pole dopadu je 0 tak true a uloží se do listu tahů
-                        ListMove.Add(new int[] { fromX, fromY, stone, 0, toX, toY, 0, stone });
-                    else
                     {
-                        //tady bude kód pokud narazí na kámen soupeře (možná skok)
-                        if (destinationStone != stone && destinationStone != 0)
+                        ListMove.Add(new int[] { fromX, fromY, stone, 0, toX, toY, 0, stone });
+                    }
+
+                    while (board.IsValidCoordinates(toX + smery[indexSmeru, 0], toY + smery[indexSmeru, 1]) && destinationStone == 0)
+                    {
+                        int nextX = toX + smery[indexSmeru, 0]; //2-1=1
+                        int nextY = toY + smery[indexSmeru, 1]; //1-0=1
+                        int nextstone = board.GetValue(nextX, nextY);
+
+                        if (board.IsValidCoordinates(nextX,nextY) && nextstone == 0)
                         {
-                            //Console.WriteLine("|{0}| |{1}| |{2}| |{3}| --> |{4}| |{5}| |{6}| |{7}| ve smeru {8}", fromX, fromY, stone, 0, toX, toY, 0, stone, indexSmeru);
-                            if (board.GetValue(toX + smery[indexSmeru, 0], toY + smery[indexSmeru, 1]) == 0)
-                            {
-                                int[] move = { fromX, fromY, stone, 0, toX, toY, destinationStone, 0, toX + smery[indexSmeru, 0], toY + smery[indexSmeru, 1], 0, stone };
-                                TryToJump(move, new int[] { });
-                                //Console.WriteLine("Pole je volné, skok je možný");
-                                //ListMove.Add(new int[] { fromX, fromY, stone, 0, toX, toY, destinationStone, 0, toX + smery[indexSmeru, 0], toY + smery[indexSmeru, 1], 0, stone });
-                            }
+                            Console.WriteLine("Ano");
+                        }
+                        else
+                        {
+                            break;
                         }
                     }
+                    //else
+                    //{
+                    //    //tady bude kód pokud narazí na kámen soupeře (možná skok)
+                    //    if (destinationStone != stone && destinationStone != 0)
+                    //    {
+                    //        //Console.WriteLine("|{0}| |{1}| |{2}| |{3}| --> |{4}| |{5}| |{6}| |{7}| ve smeru {8}", fromX, fromY, stone, 0, toX, toY, 0, stone, indexSmeru);
+                    //        if (board.GetValue(toX + smery[indexSmeru, 0], toY + smery[indexSmeru, 1]) == 0)
+                    //        {
+                    //            int[] move = { fromX, fromY, stone, 0, toX, toY, destinationStone, 0, toX + smery[indexSmeru, 0], toY + smery[indexSmeru, 1], 0, stone };
+                    //            TryToJump(move, new int[] { });
+                    //            //Console.WriteLine("Pole je volné, skok je možný");
+                    //            //ListMove.Add(new int[] { fromX, fromY, stone, 0, toX, toY, destinationStone, 0, toX + smery[indexSmeru, 0], toY + smery[indexSmeru, 1], 0, stone });
+                    //        }
+                    //    }
+                    //}
                     break;
                 }
             }
