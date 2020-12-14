@@ -53,7 +53,7 @@ namespace Damakonzole
             //        }
             //    }
             //}
-            board.SetValue(3, 1, 2);
+            board.SetValue(3, 1, 1);
 
             board.SetValue(2, 2, -1);
             board.SetValue(2, 4, -1);
@@ -168,20 +168,40 @@ namespace Damakonzole
                         ListMove.Add(new int[] { fromX, fromY, stone, 0, toX, toY, 0, stone });
                     }
 
-                    while (board.IsValidCoordinates(toX + smery[indexSmeru, 0], toY + smery[indexSmeru, 1]) && destinationStone == 0)
+                    //Dáma pro dopad na libovolné pole za kamenem
+                    else
                     {
-                        int nextX = toX + smery[indexSmeru, 0]; //2-1=1
-                        int nextY = toY + smery[indexSmeru, 1]; //1-0=1
-                        int nextstone = board.GetValue(nextX, nextY);
 
-                        if (board.IsValidCoordinates(nextX,nextY) && nextstone == 0)
+                        //toX = 3, toY = 1
+                        int nextX = toX; //nové proměnné pro další souřadnice
+                        int nextY = toY;
+                        while (board.IsValidCoordinates(nextX + smery[indexSmeru, 0], nextY + smery[indexSmeru, 1])) //ověření platnosti
                         {
-                            Console.WriteLine("Ano");
+                            //souřadnice pro daný směr
+                            nextX = nextX + smery[indexSmeru, 0]; //2-1=1
+                            nextY = nextY + smery[indexSmeru, 1]; //1-0=1 
+                            int nextstone = board.GetValue(nextX, nextY); //hodnota následujícího pole 
+
+                            if (stone == -1 || stone == 1) //pokud se jedná o pěšáka tak pouze o jedno pole za něj ve směru
+                            {
+                                int[] skok = { fromX, fromY, stone, 0, toX, toY, destinationStone, 0, nextX, nextY, 0, stone };
+                                TryToJump(skok, new int[] { });
+                                break;
+                            }
+
+
+                            if (nextstone != 0) //pokud není prázdné tak break cyklu
+                            {
+                                break;
+                            }
+
+                            if (nextstone == 0) //pokud pole je prázdné tak je na něj možno skočit a tah je přidán to seznamuTahu
+                            {
+                                int[] skok = { fromX, fromY, stone, 0, toX, toY, destinationStone, 0, nextX, nextY, 0, stone };
+                                TryToJump(skok, new int[] { });
+                            }
                         }
-                        else
-                        {
-                            break;
-                        }
+                        break;
                     }
                     //else
                     //{
@@ -198,7 +218,6 @@ namespace Damakonzole
                     //        }
                     //    }
                     //}
-                    break;
                 }
             }
         }
