@@ -81,7 +81,7 @@ namespace Damakonzole
                         return prvek;
                     }
                 }
-                if (prvek.Length > 8)
+                if (prvek.Length > 8) //Je to skok
                 {
                     if (X1 == prvek[0] && Y1 == prvek[1] && X2 == prvek[8] && Y2 == prvek[9]) //porovnání pokud se jedná o skok
                     {

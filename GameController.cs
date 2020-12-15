@@ -56,7 +56,7 @@ namespace Damakonzole
                         }
                     }
                 }
-                board.Move(plnyVstup); //pokud je zadáno správně, metoda nastaví pohyb na desce
+                board.Move(plnyVstup,true,false); //pokud je zadáno správně, metoda nastaví pohyb na desce
                 rules.ChangePlayer(); //změna hráče na tahu
             }
         }
