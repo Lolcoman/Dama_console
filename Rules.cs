@@ -213,17 +213,42 @@ namespace Damakonzole
             //Console.WriteLine(stone);
             for (int indexSmeru = 0; indexSmeru <= 7; indexSmeru++)
             {
+                int hloubka = 0;
                 while (board.IsValidCoordinates(X + smery[indexSmeru, 0], Y + smery[indexSmeru, 1]))
                 {
+                    hloubka = hloubka + 1;
+                    if ((stone == -1 || stone == 1) && hloubka > 1) //pokud je tah pěšák černý, nebo bílý a hloubka je větší než 1, tak se smyčka přeruší
+                    {
+                        break;
+                    }
+
+                    if (stone == -1 && indexSmeru >= 1 && indexSmeru <= 3) //pro černého
+                    {
+                        break;
+                    }
+
+                    if (stone == 1 && indexSmeru >= 5 && indexSmeru <= 7) //otočení pro bílého
+                    {
+                        break;
+                    }
+
                     int thruX = X + smery[indexSmeru, 0];
                     int thruY = Y + smery[indexSmeru, 1];
                     int thruStone = board.GetValue(thruX, thruY);
+
                     if (stone > 0 && thruStone == -1 || thruStone == -2)
                     {
                         Console.WriteLine("Nepřítel na X:{0} a Y:{1}", thruX, thruY);
 
+                        int hloubkaSkoku = 0;
+
                         while (board.IsValidCoordinates(thruX + smery[indexSmeru, 0], thruY + smery[indexSmeru, 1]))
                         {
+                            hloubkaSkoku = hloubkaSkoku + 1;
+                            if ((stone == -1 || stone == 1) && hloubkaSkoku > 1) //pokud se jedná o pěšáka tak pouze o jedno pole za něj ve směru
+                            {
+                                break;
+                            }
                             int destX = thruX + smery[indexSmeru, 0];
                             int destY = thruY + smery[indexSmeru, 1];
                             int destinationStone = board.GetValue(destX, destY);
