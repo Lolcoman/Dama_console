@@ -55,6 +55,8 @@ namespace Damakonzole
             //}
             board.SetValue(2, 3, 1);
 
+            //board.SetValue(1, 5, -1);
+            //board.SetValue(3, 6, -1);
             board.SetValue(3, 4, -1);
             board.SetValue(3, 5, -1);
 
@@ -170,36 +172,35 @@ namespace Damakonzole
                         //toX = 3, toY = 1
                         int nextX = toX; //nové proměnné pro další souřadnice
                         int nextY = toY;
+                        int hloubkaSkoku = 0;
                         while (board.IsValidCoordinates(nextX + smery[indexSmeru, 0], nextY + smery[indexSmeru, 1])) //ověření platnosti
                         {
+                            hloubkaSkoku = hloubkaSkoku + 1;
+                            if ((stone == -1 || stone == 1) && hloubkaSkoku > 1) //pokud se jedná o pěšáka tak pouze o jedno pole za něj ve směru
+                            {
+                                break;
+                            }
+
                             //souřadnice pro daný směr
                             nextX = nextX + smery[indexSmeru, 0]; //2-1=1
                             nextY = nextY + smery[indexSmeru, 1]; //1-0=1 
                             int nextstone = board.GetValue(nextX, nextY); //hodnota následujícího pole 
-
-                            if (stone == -1 || stone == 1) //pokud se jedná o pěšáka tak pouze o jedno pole za něj ve směru
-                            {
-                                int[] skok = { fromX, fromY, stone, 0, toX, toY, destinationStone, 0, nextX, nextY, 0, stone };
-                                TryToJump(skok, new int[] { });
-                                break;
-                            }
 
                             if (nextstone != 0) //pokud není prázdné tak break cyklu
                             {
                                 break;
                             }
 
-                            if (nextstone == 0) //pokud pole je prázdné tak je na něj možno skočit a tah je přidán to seznamuTahu
-                            {
-                                int[] skok = { fromX, fromY, stone, 0, toX, toY, destinationStone, 0, nextX, nextY, 0, stone };
-                                TryToJump(skok, new int[] { });
-                            }
+                            int[] skok = { fromX, fromY, stone, 0, toX, toY, destinationStone, 0, nextX, nextY, 0, stone };
+                            TryToJump(skok, new int[] { });
                         }
                         break;
                     }
                 }
             }
         }
+
+
         //C4-D5-E6 = |2|3|1|0|-|3|4|-1|0|-|4|5|0|1|
         //E6-D6-C6 = |4|5|1|0|-|3|5|-1|0|-|2|5|0|1|
         //int[] skok = { fromX, fromY, stone, 0, toX, toY, destinationStone, 0, nextX, nextY, 0, stone };
@@ -210,7 +211,7 @@ namespace Damakonzole
 
             //int X = move[8]; //X=4
             //int Y = move[9]; //Y=5
-            ////Console.WriteLine("{0} a {1}",X,Y);
+            //Console.WriteLine("{0} a {1}",X,Y);
 
             //int stone = board.GetValue(X,Y);
             int stone = board.GetValue(move[8], move[9]);
@@ -240,10 +241,6 @@ namespace Damakonzole
                     {
                         break;
                     }
-                    if (true)
-                    {
-
-                    }
 
                     int toX = X + smery[indexSmeru, 0]; //3+-1=2, první se začíná vlevo
                     int toY = Y + smery[indexSmeru, 1]; //1+0=1
@@ -263,18 +260,30 @@ namespace Damakonzole
                     if (stone == 1 && destinationStone == -1 || stone == -1 && destinationStone == 1)
                     {
                         Console.WriteLine("skok možný");
-                        while (board.IsValidCoordinates(toX + smery[indexSmeru, 0], toY + smery[indexSmeru, 1]))
+                        int hloubkaSkoku = 0;
+                        int nextX = toX + smery[indexSmeru, 0];
+                        int nextY = toY + smery[indexSmeru, 1];
+
+                        while (board.IsValidCoordinates(nextX + smery[indexSmeru, 0], nextY + smery[indexSmeru, 1]))
                         {
-                            int nextX = toX + smery[indexSmeru, 0];
-                            int nextY = toY + smery[indexSmeru, 1];
-                            int nextStone = board.GetValue(nextX, nextY);
+                            //int nextStone = board.GetValue(nextX, nextY);
+                            nextX = nextX + smery[indexSmeru, 0]; //2-1=1
+                            nextY = nextY + smery[indexSmeru, 1]; //1-0=1 
+                            int nextStone = board.GetValue(nextX, nextY); //hodnota následujícího pole 
+
+                            hloubkaSkoku = hloubkaSkoku + 1;
+                            if ((stone == -1 || stone == 1) && hloubkaSkoku > 1) //pokud se jedná o pěšáka tak pouze o jedno pole za něj ve směru
+                            {
+                                break;
+                            }
+                            if (nextStone != 0) //pokud není prázdné tak break cyklu
+                            {
+                                break;
+                            }
                             if (nextStone == 0)
                             {
                                 ListMove.Add(new int[] { X, Y, stone, 0, toX, toY, destinationStone, 0, nextX, nextY, 0, stone });
                             }
-                            Console.WriteLine("{0} a {1}", nextX, nextY);
-                            Console.WriteLine(nextStone);
-                            break;
                         }
                         break;
                     }
