@@ -53,10 +53,10 @@ namespace Damakonzole
             //        }
             //    }
             //}
-            board.SetValue(2, 3, 1);
+            board.SetValue(2, 3, 2);
 
             //board.SetValue(1, 5, -1);
-            //board.SetValue(3, 6, -1);
+            //board.SetValue(4, 6, -1);
             board.SetValue(3, 4, -1);
             board.SetValue(3, 5, -1);
 
@@ -168,7 +168,6 @@ namespace Damakonzole
                     //Skoky
                     else
                     {
-
                         //toX = 3, toY = 1
                         int nextX = toX; //nové proměnné pro další souřadnice
                         int nextY = toY;
@@ -199,8 +198,6 @@ namespace Damakonzole
                 }
             }
         }
-
-
         //C4-D5-E6 = |2|3|1|0|-|3|4|-1|0|-|4|5|0|1|
         //E6-D6-C6 = |4|5|1|0|-|3|5|-1|0|-|2|5|0|1|
         //int[] skok = { fromX, fromY, stone, 0, toX, toY, destinationStone, 0, nextX, nextY, 0, stone };
@@ -209,86 +206,39 @@ namespace Damakonzole
         {
             board.Move(move, false, false);
 
-            //int X = move[8]; //X=4
-            //int Y = move[9]; //Y=5
-            //Console.WriteLine("{0} a {1}",X,Y);
-
-            //int stone = board.GetValue(X,Y);
             int stone = board.GetValue(move[8], move[9]);
+            int X = move[8];
+            int Y = move[9];
+            //Console.WriteLine("{0} a {1}", X, Y);
             //Console.WriteLine(stone);
-
             for (int indexSmeru = 0; indexSmeru <= 7; indexSmeru++)
             {
-                int hloubka = 0;
-                int X = move[8]; //X=4
-                int Y = move[9]; //Y=5
-
                 while (board.IsValidCoordinates(X + smery[indexSmeru, 0], Y + smery[indexSmeru, 1]))
                 {
-                    //int nextX = X + smery[indexSmeru, 0];
-                    //int nextY = Y + smery[indexSmeru, 0];
-                    hloubka = hloubka + 1;
-                    if ((stone == -1 || stone == 1) && hloubka > 1) //pokud je tah pěšák černý, nebo bílý a hloubka je větší než 1, tak se smyčka přeruší
+                    int thruX = X + smery[indexSmeru, 0];
+                    int thruY = Y + smery[indexSmeru, 1];
+                    int thruStone = board.GetValue(thruX, thruY);
+                    if (stone > 0 && thruStone == -1 || thruStone == -2)
                     {
-                        //Console.WriteLine("{0}",indexSmeru);
-                        break;
-                    }
-                    if (stone == -1 && indexSmeru >= 1 && indexSmeru <= 3) //pro černého
-                    {
-                        break;
-                    }
-                    if (stone == 1 && indexSmeru >= 5 && indexSmeru <= 7) //otočení pro bílého
-                    {
-                        break;
-                    }
+                        Console.WriteLine("Nepřítel na X:{0} a Y:{1}", thruX, thruY);
 
-                    int toX = X + smery[indexSmeru, 0]; //3+-1=2, první se začíná vlevo
-                    int toY = Y + smery[indexSmeru, 1]; //1+0=1
-                    Console.WriteLine("{0} a {1}", toX, toY);
-                    int destinationStone = board.GetValue(toX,toY);
-                    //Console.WriteLine(destinationStone);
-
-                    if (stone < 0 && destinationStone < 0)  //pokud hodnota kamene je menší než 0 a pole dopadu menší než 0, tak true a ukončí se, kontrola svého kamene 
-                    {
-                        break;
-                    }
-                    if (stone > 0 && destinationStone > 0) //pokud hodnota kamene je větší než 0 a pole dopadu větší než 0, tak true a ukončí se, kontrola svého kamene
-                    {
-                        break;
-                    }
-
-                    if (stone == 1 && destinationStone == -1 || stone == -1 && destinationStone == 1)
-                    {
-                        Console.WriteLine("skok možný");
-                        int hloubkaSkoku = 0;
-                        int nextX = toX + smery[indexSmeru, 0];
-                        int nextY = toY + smery[indexSmeru, 1];
-
-                        while (board.IsValidCoordinates(nextX + smery[indexSmeru, 0], nextY + smery[indexSmeru, 1]))
+                        while (board.IsValidCoordinates(thruX + smery[indexSmeru, 0], thruY + smery[indexSmeru, 1]))
                         {
-                            //int nextStone = board.GetValue(nextX, nextY);
-                            nextX = nextX + smery[indexSmeru, 0]; //2-1=1
-                            nextY = nextY + smery[indexSmeru, 1]; //1-0=1 
-                            int nextStone = board.GetValue(nextX, nextY); //hodnota následujícího pole 
-
-                            hloubkaSkoku = hloubkaSkoku + 1;
-                            if ((stone == -1 || stone == 1) && hloubkaSkoku > 1) //pokud se jedná o pěšáka tak pouze o jedno pole za něj ve směru
+                            int destX = thruX + smery[indexSmeru, 0];
+                            int destY = thruY + smery[indexSmeru, 1];
+                            int destinationStone = board.GetValue(destX, destY);
+                            if (destinationStone == 0)
                             {
+                                Console.WriteLine("Zde je možné skočit");
+                                Console.WriteLine("{0} a {1}",destX,destY);
                                 break;
-                            }
-                            if (nextStone != 0) //pokud není prázdné tak break cyklu
-                            {
-                                break;
-                            }
-                            if (nextStone == 0)
-                            {
-                                ListMove.Add(new int[] { X, Y, stone, 0, toX, toY, destinationStone, 0, nextX, nextY, 0, stone });
                             }
                         }
                         break;
                     }
                 }
             }
+
             ListMove.Add(move);
             board.Move(move, false, true);
         }
