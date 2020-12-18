@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Damakonzole
@@ -53,7 +54,7 @@ namespace Damakonzole
             //        }
             //    }
             //}
-            board.SetValue(2, 3, 2);
+            board.SetValue(2, 3, 1);
 
             //board.SetValue(1, 5, -1);
             //board.SetValue(4, 6, -1);
@@ -210,15 +211,18 @@ namespace Damakonzole
         {
             board.Move(move, false, false);
             int stone = board.GetValue(move[8], move[9]);
+            int fromX = move[8];
+            int fromY = move[9];
 
             for (int indexSmeru = 0; indexSmeru <= 7; indexSmeru++)
             {
                 int hloubka = 0;
-                int thruX = move[8];
-                int thruY = move[9];
-
-                while (board.IsValidCoordinates(thruX + smery[indexSmeru, 0], thruY + smery[indexSmeru, 1]))
+                int thruX = fromX;
+                int thruY = fromY;
+                while (board.IsValidCoordinates(thruX + smery[indexSmeru, 0], thruY + smery[indexSmeru, 1])) //Prohledávání polí kolem výchozího kamene
                 {
+
+                    //OMEZENÍ NA KAMENY
                     hloubka = hloubka + 1;
                     if ((stone == -1 || stone == 1) && hloubka > 1) //pokud je tah pěšák černý, nebo bílý a hloubka je větší než 1, tak se smyčka přeruší
                     {
@@ -236,21 +240,21 @@ namespace Damakonzole
                     thruX = thruX + smery[indexSmeru, 0];
                     thruY = thruY + smery[indexSmeru, 1];
                     int thruStone = board.GetValue(thruX, thruY);
-                    Console.WriteLine(thruStone);
 
-                    if ((stone < 0 && thruStone > 0) || (stone > 0 && thruStone < 0))
+                    if (thruStone == 0) //podmínka na prázdné pole, které nehledáme
                     {
                         break;
                     }
 
-                    if (thruStone != 0)
+                    if ((stone > 0 && thruStone > 0) || (stone < 0 && thruStone < 0)) //podmínka na vlastní kámen, který nemůže být přeskočen
                     {
-                        Console.WriteLine("Nepřítel na X:{0} a Y:{1}", thruX, thruY);
+                        break;
                     }
-
                     int hloubkaSkoku = 0;
+                    int destX = thruX;
+                    int destY = thruY;
 
-                    while (board.IsValidCoordinates(thruX + smery[indexSmeru, 0], thruY + smery[indexSmeru, 1]))
+                    while (board.IsValidCoordinates(destX + smery[indexSmeru, 0], destY + smery[indexSmeru, 1]))
                     {
                         hloubkaSkoku = hloubkaSkoku + 1;
                         if ((stone == -1 || stone == 1) && hloubkaSkoku > 1) //pokud se jedná o pěšáka tak pouze o jedno pole za něj ve směru
@@ -258,25 +262,32 @@ namespace Damakonzole
                             break;
                         }
 
-                        int destX = thruX + smery[indexSmeru, 0];
-                        int destY = thruY + smery[indexSmeru, 1];
+                        destX = destX + smery[indexSmeru, 0];
+                        destY = destY + smery[indexSmeru, 1];
                         int destinationStone = board.GetValue(destX, destY);
-                        if (destinationStone == 0)
-                        {
-                            Console.WriteLine("Zde je možné skočit");
-                            Console.WriteLine("{0} a {1}", destX, destY);
-                            //break;
+
+                        if (destinationStone != 0) //pokud pole není rovno 0 tak break
+                        { 
+                            break;
                         }
+
+                        //pokud vše je OK, tak se uloží do listu
+                        int[] skok = { fromX, fromY, stone, 0, thruX, thruY, thruStone, 0, destX, destY, 0, stone };
+
+                        //Do newOldMove vložíme kopii oldMove
+                        int[] newOldMove = (int[])oldMove.Clone();
+                        newOldMove = newOldMove.Concat(move).ToArray();
+
+                        TryToJump(skok, newOldMove);
                     }
                     break;
                 }
             }
-
-            ListMove.Add(move);
+            ListMove.Add(oldMove.Concat(move).ToArray());
             board.Move(move, false, true);
         }
 
-        /// <summary>
+        /// <summary>       
         /// Genereuje seznam tahu 
         /// </summary>
         public void MovesGenerate()
@@ -292,8 +303,29 @@ namespace Damakonzole
                     }
                 }
             }
-        }
+            //Pravidlo na výběr nejdelšího tahu/skoku
+            int maxDelka = 0;
+            for (int i = 0; i < ListMove.Count; i++) //Cyklus který projede celý list a najde největší prvek
+            {
+                //Console.WriteLine(ListMove[i].Length);
 
+                if (ListMove[i].Length > maxDelka) //Pokud je delká větší než maxDelka tak se přiřadí do proměnné
+                {
+                    maxDelka = ListMove[i].Length; //Přiřazení
+                }
+                for (int j = ListMove.Count - 1; j >= 0; j--) //Vnořený cyklus, který porovná všechny prvky v poli a smaže ty co jsou menší než maxDelka, ListMove.Count=6, pokaždé co se provede odstranění se musí počet prvků snížit o jeden, protože se smazal 
+                {
+                    if (ListMove[j].Length < maxDelka)
+                    {
+                        ListMove.RemoveAt(j);
+                    }
+                }
+            }
+
+            //Console.WriteLine("Největší je:{0}",maxDelka);
+            //Console.WriteLine();
+            //Console.WriteLine("Počet tahu v poli:{0}",ListMove.Count);
+        }
         /// <summary>
         /// Vrátí všechny tahy
         /// </summary>
