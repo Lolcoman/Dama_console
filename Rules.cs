@@ -54,13 +54,15 @@ namespace Damakonzole
             //        }
             //    }
             //}
-            board.SetValue(2, 3, 1);
 
-            //board.SetValue(1, 5, -1);
-            //board.SetValue(4, 6, -1);
-            board.SetValue(3, 4, -1);
-            board.SetValue(3, 5, -1);
+            board.SetValue(2, 0, 1);
+            board.SetValue(3, 0, 1);
 
+            board.SetValue(1, 1, -1);
+            board.SetValue(1, 3, -1);
+            board.SetValue(3, 1, -1);
+            board.SetValue(3, 3, -1);
+            board.SetValue(5, 2 , -1);
         }
         /// <summary>
         /// Metoda která vrací celý kompletní tah a porovná tah v seznamuTahu
@@ -312,19 +314,29 @@ namespace Damakonzole
                 if (ListMove[i].Length > maxDelka) //Pokud je delká větší než maxDelka tak se přiřadí do proměnné
                 {
                     maxDelka = ListMove[i].Length; //Přiřazení
-                }
-                for (int j = ListMove.Count - 1; j >= 0; j--) //Vnořený cyklus, který porovná všechny prvky v poli a smaže ty co jsou menší než maxDelka, ListMove.Count=6, pokaždé co se provede odstranění se musí počet prvků snížit o jeden, protože se smazal 
+                }    
+            }
+            for (int i = ListMove.Count - 1; i >= 0; i--) //Cyklus, který porovná všechny prvky v poli a smaže ty co jsou menší než maxDelka, ListMove.Count=6, pokaždé co se provede odstranění se musí počet prvků snížit o jeden, protože se smazal 
+            {
+                if (ListMove[i].Length < maxDelka)
                 {
-                    if (ListMove[j].Length < maxDelka)
-                    {
-                        ListMove.RemoveAt(j);
-                    }
+                    ListMove.RemoveAt(i);
                 }
             }
 
-            //Console.WriteLine("Největší je:{0}",maxDelka);
-            //Console.WriteLine();
-            //Console.WriteLine("Počet tahu v poli:{0}",ListMove.Count);
+            //Smyčka pro povýšení kamene na dámu, pokud dosáhne konce desky
+            foreach (int[] move in ListMove)
+            {
+                int delka = move.Length;
+                if (move[delka - 1] == 1 && move[delka - 3] == 7)
+                {
+                    move[delka - 1] = 2;
+                }
+                if (move[delka - 1] == -1 && move[delka - 3] == 0)
+                {
+                    move[delka - 1] = -2;
+                }
+            }
         }
         /// <summary>
         /// Vrátí všechny tahy
