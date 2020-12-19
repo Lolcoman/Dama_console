@@ -223,7 +223,6 @@ namespace Damakonzole
                 int thruY = fromY;
                 while (board.IsValidCoordinates(thruX + smery[indexSmeru, 0], thruY + smery[indexSmeru, 1])) //Prohledávání polí kolem výchozího kamene
                 {
-
                     //OMEZENÍ NA KAMENY
                     hloubka = hloubka + 1;
                     if ((stone == -1 || stone == 1) && hloubka > 1) //pokud je tah pěšák černý, nebo bílý a hloubka je větší než 1, tak se smyčka přeruší
@@ -299,7 +298,7 @@ namespace Damakonzole
             {
                 for (int posX = 0; posX < 8; posX++)
                 {
-                    if ((board.GetValue(posX,posY) < 0 && PlayerOnMove() < 0) || (board.GetValue(posX,posY) > 0 && PlayerOnMove() > 0))
+                    if ((board.GetValue(posX, posY) < 0 && PlayerOnMove() < 0) || (board.GetValue(posX, posY) > 0 && PlayerOnMove() > 0))
                     {
                         TryToMove(posX, posY);
                     }
@@ -309,12 +308,10 @@ namespace Damakonzole
             int maxDelka = 0;
             for (int i = 0; i < ListMove.Count; i++) //Cyklus který projede celý list a najde největší prvek
             {
-                //Console.WriteLine(ListMove[i].Length);
-
                 if (ListMove[i].Length > maxDelka) //Pokud je delká větší než maxDelka tak se přiřadí do proměnné
                 {
                     maxDelka = ListMove[i].Length; //Přiřazení
-                }    
+                }
             }
             for (int i = ListMove.Count - 1; i >= 0; i--) //Cyklus, který porovná všechny prvky v poli a smaže ty co jsou menší než maxDelka, ListMove.Count=6, pokaždé co se provede odstranění se musí počet prvků snížit o jeden, protože se smazal 
             {

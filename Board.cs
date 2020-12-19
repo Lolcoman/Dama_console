@@ -51,7 +51,7 @@ namespace Damakonzole
         {
             if (tahZpet)
             {
-                for (int i = kompletniPohyb.Length-4; i > 0 ; i = i - 4)
+                for (int i = kompletniPohyb.Length-4; i >= 0 ; i = i - 4)
                 {
                     MakeMove(new int[] { kompletniPohyb[i], kompletniPohyb[i + 1], kompletniPohyb[i + 2], kompletniPohyb[i + 3] }, tahZpet);
                 }
@@ -69,41 +69,6 @@ namespace Damakonzole
             }
 
         }
-
-        /// <summary>
-        /// Metoda tahu vpřed
-        /// </summary>
-        /// <param name="kompletniPohyb"></param>
-        /// <param name="rozliseni"></param>
-        //public void ForwardMove(int[] kompletniPohyb, int rozliseni)
-        //{
-        //    if (rozliseni == 1)
-        //    {
-        //        for (int i = 0; i < kompletniPohyb.Length; i = i + 4)
-        //        {
-        //            MakeMove(new int[] { kompletniPohyb[i], kompletniPohyb[i + 1], kompletniPohyb[i + 2], kompletniPohyb[i + 3] });
-        //        }
-        //    }
-        //    else
-        //    {
-        //        for (int i = 0; i < kompletniPohyb.Length; i = i + 4)
-        //        {
-        //            MakeMove(new int[] { kompletniPohyb[i], kompletniPohyb[i + 1], kompletniPohyb[i + 2], kompletniPohyb[i + 3] });
-        //        }
-        //    }
-        //}
-
-        ///// <summary>
-        ///// Metoda pro tah zpět
-        ///// </summary>
-        ///// <param name="kompletniPohyb"></param>
-        //public void BackMove(int[] kompletniPohyb)
-        //{
-        //    for (int i = kompletniPohyb.Length; i > 0; i = i - 4)
-        //    {
-        //        MakeMove(new int[] { kompletniPohyb[i], kompletniPohyb[i - 1], kompletniPohyb[i - 2], kompletniPohyb[i - 3] });
-        //    }   
-        //}
         /// <summary>
         /// Metoda pro kontrolou zda není X a Y za hranicí pole
         /// </summary>
