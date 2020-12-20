@@ -22,6 +22,7 @@ namespace Damakonzole
         {
             rules.InitBoard();
             rules.InitPlayer();
+            rules.MovesGenerate();
 
             while (true)
             {
@@ -29,7 +30,7 @@ namespace Damakonzole
                 int[] vstup = null;
                 int[] plnyVstup = null;
                 bool platnyVstup = false;
-                rules.MovesGenerate();
+                //rules.MovesGenerate();
                 while (!platnyVstup)
                 {
                     vstup = ui.InputUser(rules.PlayerOnMove()); //pokud -1 tak se podmínka neprovede protože -1 >= 0, pokud 0 tak se provede 0=0 a zkontroluje se platnost tahu

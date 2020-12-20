@@ -75,24 +75,42 @@ namespace Damakonzole
             int Y1 = pohyb[1];
             int X2 = pohyb[2];
             int Y2 = pohyb[3];
-            foreach (int[] prvek in ListMove)
+            int[] outMove;
+
+            foreach (int[] move in ListMove)
             {
-                if (prvek.Length == 8) //Je to tah!
+                if (move.Length == 8) //Pokud se jedná o tah
                 {
-                    if (X1==prvek[0] && Y1==prvek[1] && X2==prvek[4] && Y2==prvek[5]) //porovnání pokud jde jen o tah
+                    if (X1 == move[0] && Y1 == move[1] && X2 == move[4] && Y2 == move[5]) //porovnání pokud jde jen o tah
                     {
-                        return prvek;
+                        outMove = move;
+                        FilterListMove(null);
+                        return outMove;
                     }
                 }
-                if (prvek.Length > 8) //Je to skok
+                if (move.Length > 8) //Pokud se jedná o skok
                 {
-                    if (X1 == prvek[0] && Y1 == prvek[1] && X2 == prvek[8] && Y2 == prvek[9]) //porovnání pokud se jedná o skok
+                    if (X1 == move[0] && Y1 == move[1] && X2 == move[8] && Y2 == move[9]) 
                     {
-                        return prvek;
+                        outMove = new int[12];
+                        for (int i = 0; i < 12; i++)
+                        {
+                            outMove[i] = move[i];
+                        }
+                        FilterListMove(outMove);
+                        return outMove;
                     }
                 }
             }
             return new int[] { -1 };
+        }
+        public void FilterListMove(int[] smallMove) 
+        {
+            if (smallMove == null)
+            {
+                ListMove.Clear();
+                return;
+            }
         }
 
         /// <summary>
