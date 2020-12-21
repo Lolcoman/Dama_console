@@ -30,7 +30,6 @@ namespace Damakonzole
                 int[] vstup = null;
                 int[] plnyVstup = null;
                 bool platnyVstup = false;
-                //rules.MovesGenerate();
                 while (!platnyVstup)
                 {
                     vstup = ui.InputUser(rules.PlayerOnMove()); //pokud -1 tak se podmínka neprovede protože -1 >= 0, pokud 0 tak se provede 0=0 a zkontroluje se platnost tahu
@@ -58,7 +57,15 @@ namespace Damakonzole
                     }
                 }
                 board.Move(plnyVstup,true,false); //pokud je zadáno správně, metoda nastaví pohyb na desce
-                //rules.ChangePlayer(); //změna hráče na tahu
+                if (rules.ListMove.Count == 0) //pokud je ListMove prázdné tak se změní hráč na tahu a vygenerují se pro něj nové možné tahy
+                {
+                    rules.ChangePlayer();
+                    rules.MovesGenerate();
+                }
+                else
+                {
+                    continue;
+                }
             }
         }
         /// <summary>

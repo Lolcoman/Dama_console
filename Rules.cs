@@ -71,10 +71,12 @@ namespace Damakonzole
         /// <returns></returns>
         public int[] FullMove(int[] pohyb)
         {
-            int X1 = pohyb[0];
-            int Y1 = pohyb[1];
-            int X2 = pohyb[2];
-            int Y2 = pohyb[3];
+            //C4-D5-E6 = |2|3|1|0|-|3|4|-1|0|-|4|5|0|1| = delka 12
+            //uživatel C4-E6 = jedná se o skok
+            int X1 = pohyb[0]; //X1 = 2
+            int Y1 = pohyb[1]; //Y1 = 3 
+            int X2 = pohyb[2]; //X2 = 4
+            int Y2 = pohyb[3]; //Y2 = 5
             int[] outMove;
 
             foreach (int[] move in ListMove)
@@ -90,26 +92,68 @@ namespace Damakonzole
                 }
                 if (move.Length > 8) //Pokud se jedná o skok
                 {
-                    if (X1 == move[0] && Y1 == move[1] && X2 == move[8] && Y2 == move[9]) 
+                    if (X1 == move[0] && Y1 == move[1] && X2 == move[8] && Y2 == move[9])  //Porovnání od uživatele s tahy v ListMove, X1,Y1,X2,Y2 = 2,3,4,5
                     {
-                        outMove = new int[12];
+                        outMove = new int[12]; //vytvoření 1D pole o velikosti 12, protože single skok = 12
                         for (int i = 0; i < 12; i++)
                         {
-                            outMove[i] = move[i];
+                            outMove[i] = move[i]; //vložení pole move do outMove
                         }
-                        FilterListMove(outMove);
+                        FilterListMove(outMove); //outMove obsahuje pole move a použita metoda FilterListMove
+                        // obsah pole outMove je: C4-D5-E6 = |2|3|1|0|-|3|4|-1|0|-|4|5|0|1| = delka 12 znaků
                         return outMove;
                     }
                 }
             }
             return new int[] { -1 };
         }
-        public void FilterListMove(int[] smallMove) 
+        /// <summary>
+        /// Metoda pro filtrování ListMove
+        /// </summary>
+        /// <param name="smallMove"></param>
+        private void FilterListMove(int[] smallMove) //Metoda bere jako proměnnou pole , C4-D5-E6 = |2|3|1|0|-|3|4|-1|0|-|4|5|0|1| = delka 12
         {
-            if (smallMove == null)
+            if (smallMove == null) //pokud pole smallMove je  prázdné == null, tak se provede vymazání ListMove.Clear()
             {
                 ListMove.Clear();
                 return;
+            }
+            for (int i = 0; i < ListMove.Count(); i++) //ListMove.Count je počet všech možných tahů v listu
+            {
+                int[] move = ListMove[i]; //proměnná move, která obsahuje prvky z ListMove, po přiřazení z cyklu for, ListMove.Count()
+                bool shoda = false;
+                for (int indexShoda = 0; indexShoda < 12 ; indexShoda++) //cyklus indexShoda, dokud < 12
+                {
+                    if (move[indexShoda] == smallMove[indexShoda]) //pokud se naleznou shodné indexy v move[] a smallMove[], přiřadí se true
+                    //hledají se shody v ListMove a našem smallMove C4-D5-E6 = |2|3|1|0|-|3|4|-1|0|-|4|5|0|1| = delka 12
+                    {
+                        shoda = true;
+                    }
+                    else
+                    {
+                        shoda = false;
+                        break;
+                    }
+                }
+                if (!shoda) //Pokud není shoda, tzn. !false = true, tj. nenalezli se shodné indexy
+                {
+                    ListMove.RemoveAt(i); //Prvek se odstraní tj, pokud move[0] != smallMove[0] tak se odebere
+                    i--; //i se zmenší o 1
+                    continue;
+                }
+                //Pokud je shoda v délce
+                if (move.Length == smallMove.Length) //Shodné index, i shodná délka pole, tak se jedná o jediný poslední skok a ListMove se vymaže
+                {
+                    ListMove.Clear();
+                    return;
+                }
+                //pokud je shoda, ale smallMove nezahrnuje celý move, jsou ještě další možné skoky v ListMove
+                int[] result = new int[move.Length - 12]; //proměnná result obsahuje move.Length - 12, 12=single skok, pole již bez provedeného skoku
+                for (int indexCopy = 12; indexCopy < move.Length; indexCopy++) 
+                {
+                    result[indexCopy - 12] = move[indexCopy]; 
+                }
+                ListMove[i] = result; //zde se vrátí ListMove bez našeho skokou C4-D5-E6 = |2|3|1|0|-|3|4|-1|0|-|4|5|0|1| = delka 12
             }
         }
 
