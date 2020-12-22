@@ -9,6 +9,11 @@ namespace Damakonzole
         private Board board = new Board();
         private Rules rules;
         private UI ui;
+        private Brain Brain = new Brain();
+
+        private int player1 = 0;
+        private int player2 = 0;
+
         public GameController()
         {
             rules = new Rules(board);
@@ -21,15 +26,36 @@ namespace Damakonzole
         public void Game()
         {
             rules.InitBoard();
+            ui.SelectPlayer(out player1,out player2);
             rules.InitPlayer();
             rules.MovesGenerate();
 
             while (true)
             {
                 ui.PrintBoard();
+
+                //Tahy počítače
+                if (rules.PlayerOnMove() == 1 && player1 > 0)
+                {
+                    int[] move = Brain.GetRandomMove(rules.GetMovesList());
+                    board.Move(move, true, false);
+                    rules.ChangePlayer();
+                    rules.MovesGenerate();
+                    continue;
+                }
+                if (rules.PlayerOnMove() == -1 && player2 > 0)
+                {
+                    int[] move = Brain.GetRandomMove(rules.GetMovesList());
+                    board.Move(move, true, false);
+                    rules.ChangePlayer();
+                    rules.MovesGenerate();
+                    continue;
+                }
+
                 int[] vstup = null;
                 int[] plnyVstup = null;
                 bool platnyVstup = false;
+
                 while (!platnyVstup)
                 {
                     vstup = ui.InputUser(rules.PlayerOnMove()); //pokud -1 tak se podmínka neprovede protože -1 >= 0, pokud 0 tak se provede 0=0 a zkontroluje se platnost tahu
@@ -56,7 +82,7 @@ namespace Damakonzole
                         }
                     }
                 }
-                board.Move(plnyVstup,true,false); //pokud je zadáno správně, metoda nastaví pohyb na desce
+                board.Move(plnyVstup, true, false); //pokud je zadáno správně, metoda nastaví pohyb na desce
                 if (rules.ListMove.Count == 0) //pokud je ListMove prázdné tak se změní hráč na tahu a vygenerují se pro něj nové možné tahy
                 {
                     rules.ChangePlayer();
@@ -66,6 +92,9 @@ namespace Damakonzole
                 {
                     continue;
                 }
+
+
+                //rules.Win();
             }
         }
         /// <summary>

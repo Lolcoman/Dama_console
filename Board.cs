@@ -125,5 +125,34 @@ namespace Damakonzole
                     return " ";
             }
         }
+        public void CountStones(out int bilyPesak, out int bilaDama, out int cernyPesak, out int cernaDama)
+        {
+            cernyPesak = 0;
+            bilyPesak = 0;
+            bilaDama = 0;
+            cernaDama = 0;
+            for (int posY = 0; posY < 8; posY++)
+            {
+                for (int posX = 0; posX < 8; posX++)
+                {
+                    if (GetValue(posX, posY) == 1)
+                    {
+                        bilyPesak++;
+                    }
+                    if (GetValue(posX, posY) == -1)
+                    {
+                        cernyPesak++;
+                    }
+                    if (GetValue(posX,posY) == -2)
+                    {
+                        cernaDama++;
+                    }
+                    if (GetValue(posX,posY) == 2)
+                    {
+                        bilaDama++;
+                    }
+                }
+            }
+        }
     }
 }

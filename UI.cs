@@ -11,6 +11,52 @@ namespace Damakonzole
         {
             board = bo;
         }
+        /// <summary>
+        /// Metoda pro vybrání hráčů
+        /// </summary>
+        /// <param name="player1"></param>
+        /// <param name="player2"></param>
+        public void SelectPlayer(out int player1, out int player2)
+        {
+            bool vstupSmycky1 = true;
+            bool vstupSmycky2 = true;
+            string vstupUzivatele1;
+            string vstupUzivatele2;
+            player1 = 0;
+            player2 = 0;
+
+            Console.WriteLine("Vyberte prvního hráče pro lidského 0, pro počítač 1-4");
+
+            vstupUzivatele1 = Console.ReadLine();
+
+            while (vstupSmycky1)
+            {
+                if ((int.TryParse(vstupUzivatele1, out player1))&& player1 <= 4 && player1 >= 0)
+                {
+                    vstupSmycky1 = false;
+                }
+                else
+                {
+                    Console.WriteLine("Vyberte prvního hráče pro lidského 0, pro počítač 1-4");
+                    vstupUzivatele1 = Console.ReadLine();
+                }
+            }
+            Console.WriteLine("Vyberte druhého hráče pro lidského 0, pro počítač 1-4");
+            vstupUzivatele2 = Console.ReadLine();
+
+            while (vstupSmycky2)
+            {
+                if ((int.TryParse(vstupUzivatele2, out player2)) && player2 <= 4 && player2 >= 0)
+                {
+                    vstupSmycky2 = false;
+                }
+                else
+                {
+                    Console.WriteLine("Vyberte druhého hráče pro lidského 0, pro počítač 1-4");
+                    vstupUzivatele2 = Console.ReadLine();
+                }
+            }
+        }
         public int[] InputUser(int playerOnMove) //příjmá int, který hráč je na tahu
         {
             Console.Write("{0}. Zadej pohyb ve formátu (A2-B3) nebo 'help' pro nápovědu: ",playerOnMove > 0 ? "BÍLÝ s o/O" : "ČERNÝ s x/X"); //použití ternárního operátoru pro informaci pro uživatele který hráč je na tahu, pokud > 0 tak hraje bílý

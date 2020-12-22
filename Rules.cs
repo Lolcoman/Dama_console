@@ -36,33 +36,33 @@ namespace Damakonzole
         /// </summary>
         public void InitBoard()
         {
-            //for (int posY = 0; posY < 8; posY++)
-            //{
-            //    for (int posX = 0; posX < 8; posX++)
-            //    {
-            //        if (posY <= 1)
-            //        {
-            //            board.SetValue(posX, posY, 1);
-            //        }
-            //        else if (posY >= 6)
-            //        {
-            //            board.SetValue(posX, posY, -1);
-            //        }
-            //        else
-            //        {
-            //            board.SetValue(posX, posY, 0);
-            //        }
-            //    }
-            //}
+            for (int posY = 0; posY < 8; posY++)
+            {
+                for (int posX = 0; posX < 8; posX++)
+                {
+                    if (posY <= 1)
+                    {
+                        board.SetValue(posX, posY, 1);
+                    }
+                    else if (posY >= 6)
+                    {
+                        board.SetValue(posX, posY, -1);
+                    }
+                    else
+                    {
+                        board.SetValue(posX, posY, 0);
+                    }
+                }
+            }
 
-            board.SetValue(2, 0, 1);
-            board.SetValue(3, 0, 1);
+            //board.SetValue(2, 0, 1);
+            //board.SetValue(3, 0, 1);
 
-            board.SetValue(1, 1, -1);
-            board.SetValue(1, 3, -1);
-            board.SetValue(3, 1, -1);
-            board.SetValue(3, 3, -1);
-            board.SetValue(5, 2 , -1);
+            //board.SetValue(1, 1, -1);
+            //board.SetValue(1, 3, -1);
+            //board.SetValue(3, 1, -1);
+            //board.SetValue(3, 3, -1);
+            //board.SetValue(5, 2, -1);
         }
         /// <summary>
         /// Metoda která vrací celý kompletní tah a porovná tah v seznamuTahu
@@ -349,6 +349,21 @@ namespace Damakonzole
             ListMove.Add(oldMove.Concat(move).ToArray());
             board.Move(move, false, true);
         }
+
+        public void WhoWin(int cerny, int bily, int bilaDama, int cernaDama)
+        {
+            cerny = 0;
+            bily = 0;
+            if (cerny > bily)
+            {
+                Console.WriteLine("Vyhrál černý hráč!");
+            }
+            if (cerny < bily)
+            {
+                Console.WriteLine("Vyhrál bílý hráč!");
+            }
+        }
+
 
         /// <summary>       
         /// Genereuje seznam tahu 
