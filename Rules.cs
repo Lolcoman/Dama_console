@@ -350,20 +350,22 @@ namespace Damakonzole
             board.Move(move, false, true);
         }
 
-        public void WhoWin(int cerny, int bily, int bilaDama, int cernaDama)
+        /// <summary>
+        /// Metoda vrátí true pokud cerna = 0 nebo bila = 0, pro testování zda hra neskončila
+        /// </summary>
+        /// <returns></returns>
+        public bool IsGameFinished()
         {
-            cerny = 0;
-            bily = 0;
-            if (cerny > bily)
+            int bilyPesak, cernyPesak, bilaDama, cernaDama;
+            board.CountStones(out bilyPesak, out bilaDama, out cernyPesak, out cernaDama);
+            int cerna = cernyPesak + cernaDama;
+            int bila = bilyPesak + bilaDama;
+            if (cerna == 0 || bila == 0)
             {
-                Console.WriteLine("Vyhrál černý hráč!");
+                return true;
             }
-            if (cerny < bily)
-            {
-                Console.WriteLine("Vyhrál bílý hráč!");
-            }
+            return false;
         }
-
 
         /// <summary>       
         /// Genereuje seznam tahu 

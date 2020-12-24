@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
 
 namespace Damakonzole
 {
@@ -9,10 +10,15 @@ namespace Damakonzole
         private Board board = new Board();
         private Rules rules;
         private UI ui;
-        private Brain Brain = new Brain();
+        private Brain brain = new Brain();
 
         private int player1 = 0;
         private int player2 = 0;
+
+        //private int bilyPesak = 0;
+        //private int cernyPesak = 0;
+        //private int bilaDama = 0;
+        //private int cernaDama = 0;
 
         public GameController()
         {
@@ -30,25 +36,31 @@ namespace Damakonzole
             rules.InitPlayer();
             rules.MovesGenerate();
 
-            while (true)
+            while (!rules.IsGameFinished())
             {
+                Console.Clear();    
                 ui.PrintBoard();
 
                 //Tahy počítače
                 if (rules.PlayerOnMove() == 1 && player1 > 0)
                 {
-                    int[] move = Brain.GetRandomMove(rules.GetMovesList());
+                    //int[] move = brain.GetRandomMove(rules.GetMovesList());
+                    int[] move = brain.GetBestMove(player1);
                     board.Move(move, true, false);
                     rules.ChangePlayer();
                     rules.MovesGenerate();
+                    //Thread.Sleep(1000);
                     continue;
                 }
+                
                 if (rules.PlayerOnMove() == -1 && player2 > 0)
                 {
-                    int[] move = Brain.GetRandomMove(rules.GetMovesList());
+                    //int[] move = brain.GetRandomMove(rules.GetMovesList());
+                    int[] move = brain.GetBestMove(player2);
                     board.Move(move, true, false);
                     rules.ChangePlayer();
                     rules.MovesGenerate();
+                    //Thread.Sleep(1000);
                     continue;
                 }
 
@@ -92,10 +104,9 @@ namespace Damakonzole
                 {
                     continue;
                 }
-
-
                 //rules.Win();
             }
+            ui.PrintBoard();
         }
         /// <summary>
         /// Nastavení hodnoty políčka

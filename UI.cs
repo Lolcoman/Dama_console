@@ -190,6 +190,5 @@ namespace Damakonzole
                 Console.WriteLine(board.PohybNaString(prvek));
             }   
         }
-
     }
 }

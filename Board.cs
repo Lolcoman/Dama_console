@@ -125,6 +125,14 @@ namespace Damakonzole
                     return " ";
             }
         }
+
+        /// <summary>
+        /// Metoda pro počítání kamenů
+        /// </summary>
+        /// <param name="bilyPesak"></param>
+        /// <param name="bilaDama"></param>
+        /// <param name="cernyPesak"></param>
+        /// <param name="cernaDama"></param>
         public void CountStones(out int bilyPesak, out int bilaDama, out int cernyPesak, out int cernaDama)
         {
             cernyPesak = 0;
