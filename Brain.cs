@@ -31,7 +31,7 @@ namespace Damakonzole
             {
 
             }
-            pozice = (rules.GetMovesList(pozice[1], pozice[2])); //Vygeneruje všechny možné tahy z této pozice
+            //pozice = (rules.GetMovesList(pozice[1], pozice[2])); //Vygeneruje všechny možné tahy z této pozice
             return 0;
         }
     }

@@ -44,8 +44,8 @@ namespace Damakonzole
                 //Tahy počítače
                 if (rules.PlayerOnMove() == 1 && player1 > 0)
                 {
-                    //int[] move = brain.GetRandomMove(rules.GetMovesList());
-                    int[] move = brain.GetBestMove(player1);
+                    int[] move = brain.GetRandomMove(rules.GetMovesList());
+                    //int[] move = brain.GetBestMove(player1);
                     board.Move(move, true, false);
                     rules.ChangePlayer();
                     rules.MovesGenerate();
@@ -55,8 +55,8 @@ namespace Damakonzole
                 
                 if (rules.PlayerOnMove() == -1 && player2 > 0)
                 {
-                    //int[] move = brain.GetRandomMove(rules.GetMovesList());
-                    int[] move = brain.GetBestMove(player2);
+                    int[] move = brain.GetRandomMove(rules.GetMovesList());
+                    //int[] move = brain.GetBestMove(player2);
                     board.Move(move, true, false);
                     rules.ChangePlayer();
                     rules.MovesGenerate();
