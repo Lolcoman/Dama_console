@@ -6,7 +6,12 @@ namespace Damakonzole
 {
     class Brain
     {
+        const int MNOHO = 96;
+        const int MAX = 99;
+
         private Random random = new Random();
+        private Rules rules;
+        private Board board;
         public int[] GetRandomMove(List<int[]> moves)
         {
             int count = moves.Count; //Zjistí celkový počet tahů
@@ -27,11 +32,43 @@ namespace Damakonzole
 
         private int MiniMax(int hloubka, int[] pozice)
         {
+            return 0;
+        }
+
+        private int Ohodnot(int hloubka)
+        {
+            //Ohodnocení výhry, prohry, remízy
+            if (rules.IsGameFinished())
+            {
+                int bilyPesak, bilaDama, cernyPesak, cernaDama;
+                board.CountStones(out bilyPesak, out bilaDama, out cernyPesak, out cernaDama);
+
+                if (bilyPesak + bilaDama > cernyPesak + cernaDama) //Výhra
+                {
+                    return MAX;
+                }
+                if (bilyPesak + bilaDama < cernyPesak + cernaDama) //Prohra
+                {
+                    return -MAX;
+                }
+                if (bilyPesak + bilaDama == cernyPesak + cernaDama) //Remíza
+                {
+                    return 0;
+                }
+            }
+            //Dosažení maximální hloubky, ohodnotí se koncové pozice
             if (hloubka == 0)
             {
+                int hodnota = 0;
+                int bilyPesak, bilaDama, cernyPesak, cernaDama;
+                board.CountStones(out bilyPesak, out bilaDama, out cernyPesak, out cernaDama);
+                hodnota = bilyPesak * 2;
+                hodnota = bilaDama * 4;
+                hodnota = cernyPesak * 3;
+                hodnota = cernaDama * 6;
 
+                return hodnota;
             }
-            //pozice = (rules.GetMovesList(pozice[1], pozice[2])); //Vygeneruje všechny možné tahy z této pozice
             return 0;
         }
     }

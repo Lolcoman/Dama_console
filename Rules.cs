@@ -355,6 +355,7 @@ namespace Damakonzole
             board.CountStones(out bilyPesak, out bilaDama, out cernyPesak, out cernaDama);
             int cerna = cernyPesak + cernaDama;
             int bila = bilyPesak + bilaDama;
+
             if (cerna == 0 || bila == 0)
             {
                 return true;
