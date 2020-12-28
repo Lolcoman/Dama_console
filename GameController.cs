@@ -10,7 +10,7 @@ namespace Damakonzole
         private Board board = new Board();
         private Rules rules;
         private UI ui;
-        private Brain brain = new Brain();
+        private Brain brain;
 
         private int player1 = 0;
         private int player2 = 0;
@@ -24,6 +24,7 @@ namespace Damakonzole
         {
             rules = new Rules(board);
             ui = new UI(board);
+            brain = new Brain(board, rules);
         }
 
         /// <summary>
@@ -44,23 +45,23 @@ namespace Damakonzole
                 //Tahy počítače
                 if (rules.PlayerOnMove() == 1 && player1 > 0)
                 {
-                    int[] move = brain.GetRandomMove(rules.GetMovesList());
-                    //int[] move = brain.GetBestMove(player1);
+                    //int[] move = brain.GetRandomMove(rules.GetMovesList());
+                    int[] move = brain.GetBestMove(player1);
                     board.Move(move, true, false);
                     rules.ChangePlayer();
                     rules.MovesGenerate();
-                    //Thread.Sleep(1000);
+                    Thread.Sleep(1000);
                     continue;
                 }
                 
                 if (rules.PlayerOnMove() == -1 && player2 > 0)
                 {
-                    int[] move = brain.GetRandomMove(rules.GetMovesList());
-                    //int[] move = brain.GetBestMove(player2);
+                    //int[] move = brain.GetRandomMove(rules.GetMovesList());
+                    int[] move = brain.GetBestMove(player2);
                     board.Move(move, true, false);
                     rules.ChangePlayer();
                     rules.MovesGenerate();
-                    //Thread.Sleep(1000);
+                    Thread.Sleep(1000);
                     continue;
                 }
 
