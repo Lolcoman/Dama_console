@@ -12,6 +12,13 @@ namespace Damakonzole
         private Random random = new Random();
         private Rules rules;
         private Board board;
+
+        public Brain(Board boa, Rules rul)
+        {
+            board = boa;
+            rules = rul;
+        }
+
         public int[] GetRandomMove(List<int[]> moves)
         {
             int count = moves.Count; //Zjistí celkový počet tahů
@@ -29,47 +36,94 @@ namespace Damakonzole
         {
             return null;
         }
-
-        private int MiniMax(int hloubka, int[] pozice)
+        //    else
+        //    {
+        //        List <int[]> tahy = rules.GetMovesList(); //generování tahů
+        //        int[] bestMove = GetRandomMove(moves);
+        //        if (rules.PlayerOnMove() == 1)
+        //        {
+        //            int maxOhodnoceni = -MAX;
+        //            foreach (int[] move in moves)
+        //            {
+        //                board.Move(move,true,false);
+        //                int ohodnoceni = MiniMax(hloubka - 1);
+        //                rules.ChangePlayer();
+        //                board.Move(move, true, true);
+        //                if (ohodnoceni > maxOhodnoceni)
+        //                {
+        //                    maxOhodnoceni = ohodnoceni;
+        //                    bestMove = move;
+        //                }
+        //            }
+        //            return bestMove;
+        //        }
+        //        if (rules.PlayerOnMove() == -1)
+        //        {
+        //            int minOhodnoceni = MAX;
+        //            foreach (int[] move in moves)
+        //            {
+        //                board.Move(move, true, false);
+        //                int ohodnoceni = MiniMax(hloubka - 1);
+        //                rules.ChangePlayer();
+        //                board.Move(move, true, true);
+        //                if (ohodnoceni < minOhodnoceni)
+        //                {
+        //                    minOhodnoceni = ohodnoceni;
+        //                    bestMove = move;
+        //                }
+        //            }
+        //            return bestMove;
+        //        }
+        //    }
+        //    return 0;
+        //}
+        private int MiniMax(int hloubka)
         {
-            return 0;
-        }
-
-        private int Ohodnot(int hloubka)
-        {
-            //Ohodnocení výhry, prohry, remízy
             if (rules.IsGameFinished())
             {
-                int bilyPesak, bilaDama, cernyPesak, cernaDama;
-                board.CountStones(out bilyPesak, out bilaDama, out cernyPesak, out cernaDama);
+                int minePesak, mineDama, enemyPesak, enemyDama;
+                board.CountStones(out minePesak, out mineDama, out enemyPesak, out enemyDama);
 
-                if (bilyPesak + bilaDama > cernyPesak + cernaDama) //Výhra
+                if (minePesak + mineDama > enemyPesak + enemyDama) //Výhra
                 {
                     return MAX;
                 }
-                if (bilyPesak + bilaDama < cernyPesak + cernaDama) //Prohra
+                if (minePesak + mineDama < enemyPesak + enemyDama) //Prohra
                 {
                     return -MAX;
                 }
-                if (bilyPesak + bilaDama == cernyPesak + cernaDama) //Remíza
+                if (minePesak + mineDama == enemyPesak + enemyDama) //Remíza
                 {
                     return 0;
                 }
             }
-            //Dosažení maximální hloubky, ohodnotí se koncové pozice
-            if (hloubka == 0)
+
+            if (hloubka == 0) //Koncová pozice, ohodnocení pozic
             {
                 int hodnota = 0;
-                int bilyPesak, bilaDama, cernyPesak, cernaDama;
-                board.CountStones(out bilyPesak, out bilaDama, out cernyPesak, out cernaDama);
-                hodnota = bilyPesak * 2;
-                hodnota = bilaDama * 4;
-                hodnota = cernyPesak * 3;
-                hodnota = cernaDama * 6;
+                int minePesak, mineDama, enemyPesak, enemyDama;
+                board.CountStones(out minePesak, out mineDama, out enemyPesak, out enemyDama);
+                hodnota = hodnota + minePesak * 2; //vlastní pěšák
+                hodnota = hodnota + mineDama * 4; //vlastní dáma
+                hodnota = hodnota - enemyPesak * 3; //nepřátelský pěšák
+                hodnota = hodnota - enemyDama * 6; //nepřátelská dáma
 
                 return hodnota;
+            }
+            else
+            {
+                int ohodnoceni = -MAX;
+                List<int[]> tahy = rules.GetMovesList(); //generování tahů
+                foreach (int[] tah in tahy)
+                {
+                    board.Move(tah,true,false);
+                    ohodnoceni = Math.Max(ohodnoceni, -MiniMax(hloubka - 1));
+                    return ohodnoceni;
+                }
             }
             return 0;
         }
     }
 }
+
+
