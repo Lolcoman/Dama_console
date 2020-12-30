@@ -9,7 +9,9 @@ namespace Damakonzole
     {
         private Board board;
 
+        //kolekce ListMove pro ukládání tahů
         public List<int[]> ListMove = new List<int[]>();
+        //2D pole pro dopočítávání pohybu figurek
         private int[,] smery =
         {
             {-1,0}, //vlevo 0
@@ -23,16 +25,18 @@ namespace Damakonzole
 
         };
 
-
         //privátní proměnná hráče
         private int player;
+        
 
+        //TOHLE NEVÍM!!!
         public Rules(Board bo)
         {
             board = bo;
         }
+
         /// <summary>
-        /// Metoda pro sestaví desky dle pravidel dámy
+        /// Metoda pro postavení figurek, dle pravidel
         /// </summary>
         public void InitBoard()
         {
@@ -54,11 +58,8 @@ namespace Damakonzole
                     }
                 }
             }
-
-            //board.SetValue(3, 1, 1);
-
-            //board.SetValue(3, 3, -1);
         }
+
         /// <summary>
         /// Metoda která vrací celý kompletní tah a porovná tah v seznamuTahu
         /// </summary>
@@ -72,25 +73,28 @@ namespace Damakonzole
             int Y1 = pohyb[1]; //Y1 = 3 
             int X2 = pohyb[2]; //X2 = 4
             int Y2 = pohyb[3]; //Y2 = 5
+
             int[] outMove;
 
-            foreach (int[] move in ListMove)
+            foreach (int[] move in ListMove) //pro každý move[] v listu ListMove
             {
-                if (move.Length == 8) //Pokud se jedná o tah
+                if (move.Length == 8) //Pokud se jedná pouze o tah
                 {
-                    if (X1 == move[0] && Y1 == move[1] && X2 == move[4] && Y2 == move[5]) //porovnání pokud jde jen o tah
+                    if (X1 == move[0] && Y1 == move[1] && X2 == move[4] && Y2 == move[5]) //porovnání pokud jde jen o tah, první dvě souřadnice a poslední dvě(místo dopadu)
                     {
-                        outMove = move;
-                        FilterListMove(null);
-                        return outMove;
+                        outMove = move; //pokud najde jen tah v ListMove tak uloží v outMove
+                        FilterListMove(null); //nalezní tahu, filtrováníListMove a jeho smazaní
+                        return outMove; //vrácen ten nalezený tah v ListMove
                     }
                 }
-                if (move.Length > 8) //Pokud se jedná o skok
+
+                if (move.Length > 8) //Pokud se jedná o skok,dvoj,troj,....
                 {
-                    if (X1 == move[0] && Y1 == move[1] && X2 == move[8] && Y2 == move[9])  //Porovnání od uživatele s tahy v ListMove, X1,Y1,X2,Y2 = 2,3,4,5
+                    if (X1 == move[0] && Y1 == move[1] && X2 == move[8] && Y2 == move[9])  //Porovnání od uživatele s tahy v ListMove, X1,Y1,X2,Y2 = 2,3,4,5, zase první dvě a poslední dvě dopadové
                     {
-                        outMove = new int[12]; //vytvoření 1D pole o velikosti 12, protože single skok = 12
-                        for (int i = 0; i < 12; i++)
+                        //Hledá se počáteční souřadnice X1,Y1 a dopadová X2,Y2
+                        outMove = new int[12]; //vytvoříme si pole o velikosti 12 prvků , protože single skok = 12
+                        for (int i = 0; i < 12; i++) //vložíme náš nalezený tah do outMove
                         {
                             outMove[i] = move[i]; //vložení pole move do outMove
                         }
@@ -176,7 +180,7 @@ namespace Damakonzole
         }
 
         /// <summary>
-        /// Vytvoření tahů
+        /// Metoda pro sestavení tahů
         /// </summary>
         /// <param name="fromX"></param>
         /// <param name="fromY"></param>
@@ -266,16 +270,21 @@ namespace Damakonzole
         //E6-D6-C6 = |4|5|1|0|-|3|5|-1|0|-|2|5|0|1|
         //int[] skok = { fromX, fromY, stone, 0, toX, toY, destinationStone, 0, nextX, nextY, 0, stone };
         //C4-D5-E6 {0,1,2,3,4,5,6,7,8,9,10,11}
+        /// <summary>
+        /// Metoda pro sestavení skoků
+        /// </summary>
+        /// <param name="move"></param>
+        /// <param name="oldMove"></param>
         public void TryToJump(int[] move, int[] oldMove)
         {
-            board.Move(move, false, false);
-            int stone = board.GetValue(move[8], move[9]);
+            board.Move(move, false, false); //tah se provede 
+            int stone = board.GetValue(move[8], move[9]); //vezme se hodnota na souřanici
             int fromX = move[8];
             int fromY = move[9];
 
-            for (int indexSmeru = 0; indexSmeru <= 7; indexSmeru++)
+            for (int indexSmeru = 0; indexSmeru <= 7; indexSmeru++) //pro dámu všechny směry
             {
-                int hloubka = 0;
+                int hloubka = 0; //omezení o jedno pole pro kamen
                 int thruX = fromX;
                 int thruY = fromY;
                 while (board.IsValidCoordinates(thruX + smery[indexSmeru, 0], thruY + smery[indexSmeru, 1])) //Prohledávání polí kolem výchozího kamene
@@ -295,9 +304,9 @@ namespace Damakonzole
                         break;
                     }
 
-                    thruX = thruX + smery[indexSmeru, 0];
-                    thruY = thruY + smery[indexSmeru, 1];
-                    int thruStone = board.GetValue(thruX, thruY);
+                    thruX = thruX + smery[indexSmeru, 0]; //hodnota pole X ve směru
+                    thruY = thruY + smery[indexSmeru, 1]; //hodnota pole Y ve směru
+                    int thruStone = board.GetValue(thruX, thruY); //hodnota kamene
 
                     if (thruStone == 0) //podmínka na prázdné pole, které nehledáme
                     {
@@ -308,7 +317,8 @@ namespace Damakonzole
                     {
                         break;
                     }
-                    int hloubkaSkoku = 0;
+
+                    int hloubkaSkoku = 0; //omezení na pole dopadu pro kámen
                     int destX = thruX;
                     int destY = thruY;
 
@@ -320,9 +330,9 @@ namespace Damakonzole
                             break;
                         }
 
-                        destX = destX + smery[indexSmeru, 0];
-                        destY = destY + smery[indexSmeru, 1];
-                        int destinationStone = board.GetValue(destX, destY);
+                        destX = destX + smery[indexSmeru, 0]; //cílová hodnota ve směru X
+                        destY = destY + smery[indexSmeru, 1]; //cílová hodnota ve směru Y
+                        int destinationStone = board.GetValue(destX, destY); //cílový kámen
 
                         if (destinationStone != 0) //pokud pole není rovno 0 tak break
                         { 
@@ -333,16 +343,16 @@ namespace Damakonzole
                         int[] skok = { fromX, fromY, stone, 0, thruX, thruY, thruStone, 0, destX, destY, 0, stone };
 
                         //Do newOldMove vložíme kopii oldMove
-                        int[] newOldMove = (int[])oldMove.Clone();
-                        newOldMove = newOldMove.Concat(move).ToArray();
+                        int[] newOldMove = (int[])oldMove.Clone(); //kopie starého tahu
+                        newOldMove = newOldMove.Concat(move).ToArray(); //Concat spojí oba tahy do jednoho, tzn. starý + náš nový tah takže už dvojskok 
 
-                        TryToJump(skok, newOldMove);
+                        TryToJump(skok, newOldMove); //rekurzivní volaní zda je možné z našeho nového tahu ještě znovu někam skočit, bere náš skok + newOldMove
                     }
                     break;
                 }
             }
-            ListMove.Add(oldMove.Concat(move).ToArray());
-            board.Move(move, false, true);
+            ListMove.Add(oldMove.Concat(move).ToArray()); //přidá do ListMove náš oldMove + move 
+            board.Move(move, false, true); //tah se provede zpět 
         }
 
         /// <summary>
@@ -364,7 +374,7 @@ namespace Damakonzole
         }
 
         /// <summary>       
-        /// Genereuje seznam tahu 
+        /// Genereuje seznam tahů
         /// </summary>
         public void MovesGenerate()
         {
@@ -379,6 +389,7 @@ namespace Damakonzole
                     }
                 }
             }
+
             //Pravidlo na výběr nejdelšího tahu/skoku
             int maxDelka = 0;
             for (int i = 0; i < ListMove.Count; i++) //Cyklus který projede celý list a najde největší prvek
@@ -431,13 +442,13 @@ namespace Damakonzole
             {
                 if (filterX == -1)
                 {
-                    NovySeznamTahu.Add((int[])pohyb.Clone());
+                    NovySeznamTahu.Add((int[])pohyb.Clone()); //vytvoření kopie ListMove do NovySeznamTahu
                 }
                 else
                 {
                     if (pohyb[0] == filterX && pohyb[1] == filterY)
                     {
-                        NovySeznamTahu.Add((int[])pohyb.Clone());
+                        NovySeznamTahu.Add((int[])pohyb.Clone()); //vytvoření kopie ListMove do NovySeznamTahu ale jen pro figurky která začíná vybranou souřadnicí uživatele
                     }
                 }
             }

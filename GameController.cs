@@ -12,13 +12,11 @@ namespace Damakonzole
         private UI ui;
         private Brain brain;
 
+        //proměnné hráčů, pro uživatele 0, 1-4 obtížnost PC
         private int player1 = 0;
         private int player2 = 0;
 
-        //private int bilyPesak = 0;
-        //private int cernyPesak = 0;
-        //private int bilaDama = 0;
-        //private int cernaDama = 0;
+        int kolo = 0; //Počítadlo kol
 
         public GameController()
         {
@@ -32,63 +30,71 @@ namespace Damakonzole
         /// </summary>
         public void Game()
         {
-            rules.InitBoard();
-            ui.SelectPlayer(out player1,out player2);
-            rules.InitPlayer();
-            rules.MovesGenerate();
+            rules.InitBoard(); //inicializace desky
+            ui.SelectPlayer(out player1,out player2); //výběr hráče na tahu
+            rules.InitPlayer(); //inicializace hráče na tahu
+            rules.MovesGenerate(); //vygenerování všech tahů pro aktuálního hráče tj. 1-bílý
 
-            while (!rules.IsGameFinished())
+            while (!rules.IsGameFinished()) //cyklus dokud platí že oba hráči mají figurky, jinak konec
             {
                 Console.Clear();    
                 ui.PrintBoard();
 
                 //Tahy počítače
-                if (rules.PlayerOnMove() == 1 && player1 > 0)
+                if (rules.PlayerOnMove() == 1 && player1 > 0) //pokud hráč na tahu je 1 a player1 > 0 tak true, provede tah a continue na dalšího hráče
                 {
-                    //int[] move = brain.GetRandomMove(rules.GetMovesList());
-                    int[] move = brain.GetBestMove(player1);
-                    board.Move(move, true, false);
-                    rules.ChangePlayer();
+                    ui.PocetKol(kolo); //vypis počtu kol
+                    int[] move = brain.GetBestMove(player1); //tah se vybere pomocí GetBestMove
+                    board.Move(move, true, false); //provedení pohybu
+
+                    kolo++; //přičtení do počítadla kol
+
+                    rules.ChangePlayer(); 
                     rules.MovesGenerate();
-                    Thread.Sleep(1000);
+                    //Thread.Sleep(2000);
                     continue;
                 }
                 
-                if (rules.PlayerOnMove() == -1 && player2 > 0)
+                if (rules.PlayerOnMove() == -1 && player2 > 0) //pokud hráč na tahu je -1 a player2 > 0 tak true, provede tah a continue
                 {
-                    //int[] move = brain.GetRandomMove(rules.GetMovesList());
+                    ui.PocetKol(kolo);
+
                     int[] move = brain.GetBestMove(player2);
                     board.Move(move, true, false);
                     rules.ChangePlayer();
                     rules.MovesGenerate();
-                    Thread.Sleep(1000);
+                    //Thread.Sleep(2000);
                     continue;
                 }
 
+
+                //Tahy Hráče
                 int[] vstup = null;
                 int[] plnyVstup = null;
                 bool platnyVstup = false;
 
-                while (!platnyVstup)
+                while (!platnyVstup) //Dokud je vstup !playtnyVstup tak pokračuje
                 {
+                    ui.PocetKol(kolo);
                     vstup = ui.InputUser(rules.PlayerOnMove()); //pokud -1 tak se podmínka neprovede protože -1 >= 0, pokud 0 tak se provede 0=0 a zkontroluje se platnost tahu
-
-                    if (vstup[0] == -2)
+   
+                    if (vstup[0] == -2) //Pokud hráč do konzole zadá HELP
                     {
-                        if (vstup.Length > 1)
+                        if (vstup.Length > 1) //Pokud ještě zadá pro jakou figurku chce help
                         {
-                            ui.PrintHelpMove(rules.GetMovesList(vstup[1], vstup[2]));
+                            ui.PrintHelpMove(rules.GetMovesList(vstup[1], vstup[2])); //pro zadanou figurku
                         }
-                        else
+                        else //Vypíše všechny možné tahy hráče na tahu
                         {
-                            ui.PrintHelpMove(rules.GetMovesList());
+                            ui.PrintHelpMove(rules.GetMovesList()); //všechny možné tahy hráče
                         }
                     }
                     if (vstup[0] >= 0) //pokud je zadán správný pohyb tj A2-B3
                     {
-                        plnyVstup = rules.FullMove(vstup);
+                        plnyVstup = rules.FullMove(vstup); //převedení na kompletní pohyb který se skládá ze 4 souřadnic X,Y, stav před, stav po
 
-                        platnyVstup = plnyVstup[0] != -1; //ověření zda je táhnuto dle pravidel
+                        platnyVstup = plnyVstup[0] != -1; //ověření zda je táhnuto dle pravidel, typ bool ve while cyklu
+
                         if (!platnyVstup) //pokud není vypíše uživately chybu
                         {
                             ui.Mistake(); //chyba
@@ -96,21 +102,26 @@ namespace Damakonzole
                     }
                 }
                 board.Move(plnyVstup, true, false); //pokud je zadáno správně, metoda nastaví pohyb na desce
-                if (rules.ListMove.Count == 0) //pokud je ListMove prázdné tak se změní hráč na tahu a vygenerují se pro něj nové možné tahy
+
+                if (rules.PlayerOnMove() < 0 && player1 < 0 || player2 > 0) //Počítadlo kol, zvýší pokaždé když je na tahu černý, tj. bílý pak černý = 1 kolo!
+                {
+                    kolo++;
+                }
+
+                if (rules.ListMove.Count == 0) //pokud je ListMove prázdnej tak se změní hráč na tahu a vygenerují se pro něj nové možné tahy
                 {
                     rules.ChangePlayer();
                     rules.MovesGenerate();
                 }
-                else
+                else //pokud v listu stále je možnost, tak pokračuje hráč, vícenásobné skoky
                 {
                     continue;
                 }
-                //rules.Win();
             }
             ui.PrintBoard();
         }
         /// <summary>
-        /// Nastavení hodnoty políčka
+        /// Metoda pro nastavení hodnoty políčka
         /// </summary>
         /// <param name="posX"></param>
         /// <param name="posY"></param>

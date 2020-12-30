@@ -12,7 +12,7 @@ namespace Damakonzole
             board = bo;
         }
         /// <summary>
-        /// Metoda pro vybrání hráčů
+        /// Metoda pro vybrání hráčů, pc nebo člověk
         /// </summary>
         /// <param name="player1"></param>
         /// <param name="player2"></param>
@@ -25,7 +25,7 @@ namespace Damakonzole
             player1 = 0;
             player2 = 0;
 
-            Console.WriteLine("Vyberte prvního hráče pro lidského 0, pro počítač 1-4");
+            Console.WriteLine("Vyberte bílého hráče pro lidského 0, pro počítač 1-4");
 
             vstupUzivatele1 = Console.ReadLine();
 
@@ -37,11 +37,11 @@ namespace Damakonzole
                 }
                 else
                 {
-                    Console.WriteLine("Vyberte prvního hráče pro lidského 0, pro počítač 1-4");
+                    Console.WriteLine("Vyberte bílého hráče pro lidského 0, pro počítač 1-4");
                     vstupUzivatele1 = Console.ReadLine();
                 }
             }
-            Console.WriteLine("Vyberte druhého hráče pro lidského 0, pro počítač 1-4");
+            Console.WriteLine("Vyberte černého hráče pro lidského 0, pro počítač 1-4");
             vstupUzivatele2 = Console.ReadLine();
 
             while (vstupSmycky2)
@@ -52,7 +52,7 @@ namespace Damakonzole
                 }
                 else
                 {
-                    Console.WriteLine("Vyberte druhého hráče pro lidského 0, pro počítač 1-4");
+                    Console.WriteLine("Vyberte černého hráče pro lidského 0, pro počítač 1-4");
                     vstupUzivatele2 = Console.ReadLine();
                 }
             }
@@ -111,7 +111,7 @@ namespace Damakonzole
         }
 
         /// <summary>
-        /// Vykreslení desky
+        /// Vykreslení herní desky
         /// </summary>
         public void PrintBoard()
         {
@@ -152,13 +152,20 @@ namespace Damakonzole
         }
 
         /// <summary>
-        /// Metoda pro tisk chyby
+        /// Metoda pro výpis chyby
         /// </summary>
         public void Mistake()
         {
             Console.WriteLine("Špatně zadáno!");
         }
-
+        /// <summary>
+        /// Metoda pro kontrolu parsování souřadnic
+        /// </summary>
+        /// <param name="X1"></param>
+        /// <param name="Y1"></param>
+        /// <param name="X2"></param>
+        /// <param name="Y2"></param>
+        /// <returns></returns>
         public int[] Parsing(int X1, int Y1, int X2, int Y2)
         {
             if (X1 > 7 || X1 < 0) //pokud X1 je větší než 7 a zároveň X1 je menší než 0 tak vrať -1
@@ -179,6 +186,10 @@ namespace Damakonzole
             }
             return new int[] { X1, Y1, X2, Y2 };
         }
+        /// <summary>
+        /// Metoda vypíše pomocné tahy
+        /// </summary>
+        /// <param name="seznam"></param>
         public void PrintHelpMove(List<int[]> seznam)
         {
             if (seznam.Count == 0)
@@ -189,6 +200,15 @@ namespace Damakonzole
             {
                 Console.WriteLine(board.PohybNaString(prvek));
             }   
+        }
+
+        /// <summary>
+        /// Metoda provádí pouze výpis kol do konzole pro uživatele
+        /// </summary>
+        /// <param name="kolo"></param>
+        public void PocetKol(int kolo)
+        {
+            Console.WriteLine("Počet kol: {0}",kolo);
         }
     }
 }

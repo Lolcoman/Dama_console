@@ -6,6 +6,7 @@ namespace Damakonzole
 {
     class Board
     {
+        //inicializace proměnné board, jako 2D pole o rozmeřech 8x8
         static int[,] board = new int[8, 8];
 
         /// <summary>
@@ -34,7 +35,7 @@ namespace Damakonzole
         /// <param name="move"></param>
         private void MakeMove(int[] move, bool tahZpet) //{ X1, Y1, S0, S1, X2, Y2, S2, S3 };
         {
-            if (tahZpet)
+            if (tahZpet) //zpětný tah, true
             {
                 SetValue(move[0], move[1], move[2]);
             }
@@ -47,19 +48,24 @@ namespace Damakonzole
         /// Metoda která prodeve nastavení hodnot z plného vstupu
         /// </summary>
         /// <param name="kompletniPohyb"></param>
-        public void Move(int[] kompletniPohyb,bool ulozitDoHistorie, bool tahZpet)
+        public void Move(int[] kompletniPohyb,bool ulozitDoHistorie, bool tahZpet) //metoda rozdělí tah na části po 4 souřadnicích
         {
+            //např pohyb a2-b3= obsahuje 8 souřadnic
             if (tahZpet)
             {
-                for (int i = kompletniPohyb.Length-4; i >= 0 ; i = i - 4)
+                for (int i = kompletniPohyb.Length-4; i >= 0 ; i = i - 4) // i = 4; 4 >=0; i = 4 - 4 
                 {
+                    //4,5,6,7,8
+                    //0,1,2,3,4
                     MakeMove(new int[] { kompletniPohyb[i], kompletniPohyb[i + 1], kompletniPohyb[i + 2], kompletniPohyb[i + 3] }, tahZpet);
                 }
             }
             else
             {
-                for (int i = 0; i < kompletniPohyb.Length; i = i + 4)
+                for (int i = 0; i < kompletniPohyb.Length; i = i + 4) // i = 0; 0 < 8; i = 0 + 4
                 {
+                    //0,1,2,3,4
+                    //4,5,6,7,8
                     MakeMove(new int[] { kompletniPohyb[i], kompletniPohyb[i + 1], kompletniPohyb[i + 2], kompletniPohyb[i + 3] }, tahZpet);
                 }
             }
@@ -95,6 +101,11 @@ namespace Damakonzole
             }
             return true;
         }
+        /// <summary>
+        /// Metoda pro převod tahu na string, pro uživatele
+        /// </summary>
+        /// <param name="pohyb"></param>
+        /// <returns></returns>
         public string PohybNaString(int[] pohyb) //return new int[] { X1, Y1, S0, S1, X2, Y2, S2, S3 };
                                                  //int[] move1 = new int[] { 0, 1, 0, 1, 1, 2, 0, 1 };
                                                                         // { 0, 1, 2, 3, 4, 5, 6, 7 }
@@ -109,6 +120,11 @@ namespace Damakonzole
             }   
             return vystup;
         }
+        /// <summary>
+        /// Metoda pro pro převod hodnoty na kamen, pro uživatele
+        /// </summary>
+        /// <param name="stone"></param>
+        /// <returns></returns>
         private string StoneToString(int stone)
         {
             switch (stone)
@@ -127,7 +143,7 @@ namespace Damakonzole
         }
 
         /// <summary>
-        /// Metoda pro počítání kamenů
+        /// Metoda pro počítání kamenů na hrací desce
         /// </summary>
         /// <param name="bilyPesak"></param>
         /// <param name="bilaDama"></param>
@@ -135,11 +151,12 @@ namespace Damakonzole
         /// <param name="cernaDama"></param>
         public void CountStones(out int bilyPesak, out int bilaDama, out int cernyPesak, out int cernaDama)
         {
+            //inicializace proměnných 
             cernyPesak = 0;
             bilyPesak = 0;
             bilaDama = 0;
             cernaDama = 0;
-            for (int posY = 0; posY < 8; posY++)
+            for (int posY = 0; posY < 8; posY++) //cykly kreté projedou celé pole a spočítají figurky
             {
                 for (int posX = 0; posX < 8; posX++)
                 {
