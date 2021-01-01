@@ -115,12 +115,16 @@ namespace Damakonzole
         /// </summary>
         public void PrintBoard()
         {
-            //Console.Clear();
-            Console.WriteLine("     A  B  C  D  E  F  G  H");
-            Console.WriteLine("   ╔════════════════════════╗");
+            Console.WriteLine("     A   B   C   D   E   F   G   H");
             for (int y = 7; y >= 0; y--)
             {
-                Console.Write(" {0} ║", y + 1); //výpis souřadnic vlevo
+                if (y == 7)
+                {
+                    Console.WriteLine("   ┌───┬───┬───┬───┬───┬───┬───┬───┐");
+                }
+                else
+                Console.WriteLine("   ├───┼───┼───┼───┼───┼───┼───┼───┤");
+                Console.Write(" {0} │ ", y + 1); //výpis souřadnic vlevo
                 for (int x = 0; x < 8; x++)
                 {
                     int figure = board.GetValue(x, y);
@@ -131,7 +135,7 @@ namespace Damakonzole
                             set = "O"; //bílá dáma
                             break;
                         case 1:
-                            set = "o"; //bílá 
+                            set = "o"; //bílá
                             break;
                         case -1:
                             set = "x"; //černá
@@ -143,12 +147,12 @@ namespace Damakonzole
                             set = " ";
                             break;
                     }
-                    Console.Write(" {0} ", set);
+                    Console.Write("{0} │ ", set);
                 }
-                Console.Write("║ {0}\n", y + 1); //výpis souřadnic vpravo
+                Console.Write("{0}\n", y + 1); //výpis souřadnic vpravo
             }
-            Console.WriteLine("   ╚════════════════════════╝");
-            Console.WriteLine("     A  B  C  D  E  F  G  H");
+            Console.WriteLine("   └───┴───┴───┴───┴───┴───┴───┴───┘");
+            Console.WriteLine("     A   B   C   D   E   F   G   H");
         }
 
         /// <summary>
@@ -187,7 +191,7 @@ namespace Damakonzole
             return new int[] { X1, Y1, X2, Y2 };
         }
         /// <summary>
-        /// Metoda vypíše pomocné tahy
+        /// Metoda vypíše tahy
         /// </summary>
         /// <param name="seznam"></param>
         public void PrintHelpMove(List<int[]> seznam)
@@ -200,6 +204,14 @@ namespace Damakonzole
             {
                 Console.WriteLine(board.PohybNaString(prvek));
             }   
+        }
+        /// <summary>
+        /// Výpis historie tahů
+        /// </summary>
+        public void Historie()
+        {
+            Console.SetCursorPosition(50, 0);
+            PrintHelpMove(board.HistoryMove);
         }
 
         /// <summary>

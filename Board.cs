@@ -6,6 +6,9 @@ namespace Damakonzole
 {
     class Board
     {
+        //Historie tahů
+        public List<int[]> HistoryMove = new List<int[]>();
+
         //inicializace proměnné board, jako 2D pole o rozmeřech 8x8
         static int[,] board = new int[8, 8];
 
@@ -72,6 +75,12 @@ namespace Damakonzole
             if (ulozitDoHistorie)
             {
                 //Uložení tahu
+                for (int i = kompletniPohyb.Length - 4; i >= 0; i = i - 4) // i = 4; 4 >=0; i = 4 - 4 
+                {
+                    //4,5,6,7,8
+                    //0,1,2,3,4
+                    HistoryMove.Add(new int[] { kompletniPohyb[i], kompletniPohyb[i + 1], kompletniPohyb[i + 2], kompletniPohyb[i + 3] });
+                }
             }
 
         }

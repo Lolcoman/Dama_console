@@ -78,7 +78,7 @@ namespace Damakonzole
                 Tyto Ify
                 */
 
-                int hodnota = -MiniMax(hloubka - 1); 
+                int hodnota = -MiniMax(hloubka - 1);
 
                 if (hodnota >= hodnotaNejlepsihoTahu) //pokud hodnota vrácená hodnota z minimaxu je větší nebo rovna -99, tak true a uloží se do seznamu nejlepších tahů
                 {
@@ -96,7 +96,6 @@ namespace Damakonzole
             rules.MovesGenerate(); //vygenerují se zase tahy pro hráče na tahu
             return nejlepsiTahy; //náš nejlepšítah je vrácen
         }
-
         /// <summary>
         /// Metoda MiniMaxu
         /// </summary>
@@ -104,6 +103,7 @@ namespace Damakonzole
         /// <returns></returns>
         private int MiniMax(int hloubka)
         {
+
             if (rules.IsGameFinished()) //pokud je hra u konce tj., cerne figurku = 0 nebo bile = 0
             {
                 int minePesak, mineDama, enemyPesak, enemyDama;
