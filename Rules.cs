@@ -12,7 +12,8 @@ namespace Damakonzole
         //kolekce ListMove pro ukládání tahů
         public List<int[]> ListMove = new List<int[]>();
 
-        int kolo;
+        public int kolo = 0;
+
         //2D pole pro dopočítávání pohybu figurek
         private int[,] smery =
         {
@@ -26,6 +27,7 @@ namespace Damakonzole
             {-1,-1},//dozadu vlevo 7
 
         };
+        public int TahuBezSkoku;
 
         //privátní proměnná hráče
         private int player;
@@ -371,16 +373,10 @@ namespace Damakonzole
                 return true;
             }
 
-            //if (pocetKol / 30 == 0)
-            //{
-            //    foreach (int[] tah in board.HistoryMove)
-            //    {
-            //        if (tah.Length < 12)
-            //        {
-            //            return true;
-            //        }
-            //    }
-            //}
+            if (TahuBezSkoku >= 30)
+            {
+                return true;
+            }
             return false;
         }
 
@@ -465,14 +461,5 @@ namespace Damakonzole
             }
             return NovySeznamTahu;
         }
-
-        //public int Kola()
-        //{
-        //    if (PlayerOnMove() < 0) //Počítadlo kol, zvýší pokaždé když je na tahu černý, tj. bílý pak černý = 1 kolo!
-        //    {
-        //        kolo++;
-        //    }
-        //    return kolo;
-        //}
     }
 }

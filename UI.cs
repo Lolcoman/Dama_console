@@ -222,5 +222,9 @@ namespace Damakonzole
         {
             Console.WriteLine("Počet kol: {0}",kolo);
         }
+        public void PocetTahuBezSkoku(int bezSkoku)
+        {
+            Console.WriteLine("Počet tahu bez skoku: {0}", bezSkoku);
+        }
     }
 }

@@ -74,13 +74,7 @@ namespace Damakonzole
             }
             if (ulozitDoHistorie)
             {
-                //Uložení tahu
-                for (int i = kompletniPohyb.Length - 4; i >= 0; i = i - 4) // i = 4; 4 >=0; i = 4 - 4 
-                {
-                    //4,5,6,7,8
-                    //0,1,2,3,4
-                    HistoryMove.Add(new int[] { kompletniPohyb[i], kompletniPohyb[i + 1], kompletniPohyb[i + 2], kompletniPohyb[i + 3] });
-                }
+                HistoryMove.Add(kompletniPohyb.Clone() as int[]);
             }
 
         }
