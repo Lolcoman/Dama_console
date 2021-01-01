@@ -104,10 +104,10 @@ namespace Damakonzole
                 board.Move(plnyVstup, true, false); //pokud je zadáno správně, metoda nastaví pohyb na desce
 
                 //bílý 1 < 0, -1 < 0
-                //if (rules.PlayerOnMove() < 0) //Počítadlo kol, zvýší pokaždé když je na tahu černý, tj. bílý pak černý = 1 kolo!
-                //{
-                //    kolo++;
-                //}
+                if (rules.PlayerOnMove() < 0) //Počítadlo kol, zvýší pokaždé když je na tahu černý, tj. bílý pak černý = 1 kolo!
+                {
+                    kolo++;
+                }
 
                 if (rules.ListMove.Count == 0) //pokud je ListMove prázdnej tak se změní hráč na tahu a vygenerují se pro něj nové možné tahy
                 {
