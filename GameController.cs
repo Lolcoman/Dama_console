@@ -97,6 +97,12 @@ namespace Damakonzole
                     ui.PocetKol(kolo);
                     ui.PocetTahuBezSkoku(rules.TahuBezSkoku);
                     vstup = ui.InputUser(rules.PlayerOnMove()); //pokud -1 tak se podmínka neprovede protože -1 >= 0, pokud 0 tak se provede 0=0 a zkontroluje se platnost tahu
+
+                    //Možnost historie tahů
+                    if (vstup[0] == -3)
+                    {
+                        ui.PrintHelpMove(board.HistoryMove);
+                    }
    
                     if (vstup[0] == -2) //Pokud hráč do konzole zadá HELP
                     {
@@ -160,6 +166,11 @@ namespace Damakonzole
         public void SetValueOnBoard(int posX, int posY, int value)
         {
             board.SetValue(posX, posY, value);
+        }
+
+        public void Start()
+        {
+            ui.HlavniMenu();
         }
     }
 }

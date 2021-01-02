@@ -6,6 +6,11 @@ namespace Damakonzole
 {
     class UI
     {
+        //TEST!!
+        private int SelectedIndex;
+        private string[] Options;
+        private string Prompt;
+
         private Board board;
         public UI(Board bo)
         {
@@ -91,6 +96,13 @@ namespace Damakonzole
 
                 return new int[] { -1 };
                 //return new int[] { -2, helpX1, helpY1 };
+            }
+
+            //Zkouška výpisu historie
+            if (input == "historie")
+            {
+                Console.WriteLine("Historie všech tahů:\n");
+                return new int[] { -3 };
             }
 
             if (input.Length != 5)
@@ -206,15 +218,6 @@ namespace Damakonzole
             }   
         }
         /// <summary>
-        /// Výpis historie tahů
-        /// </summary>
-        public void Historie()
-        {
-            Console.SetCursorPosition(50, 0);
-            PrintHelpMove(board.HistoryMove);
-        }
-
-        /// <summary>
         /// Metoda provádí pouze výpis kol do konzole pro uživatele
         /// </summary>
         /// <param name="kolo"></param>
@@ -222,9 +225,165 @@ namespace Damakonzole
         {
             Console.WriteLine("Počet kol: {0}",kolo);
         }
+        /// <summary>
+        /// Metoda provádí výpis tahů bez skoku
+        /// </summary>
+        /// <param name="bezSkoku"></param>
         public void PocetTahuBezSkoku(int bezSkoku)
         {
             Console.WriteLine("Počet tahu bez skoku: {0}", bezSkoku);
+        }
+        /// <summary>
+        /// Metoda pro vykresleního hlavního menu 
+        /// </summary>
+        public void HlavniMenu()
+        {
+            string prompt = @"
+
+             ██████╗  ██████╗ ████████╗██╗ ██████╗██╗  ██╗ █████╗     ██████╗  █████╗ ███╗   ███╗ █████╗ 
+            ██╔════╝ ██╔═══██╗╚══██╔══╝██║██╔════╝██║ ██╔╝██╔══██╗    ██╔══██╗██╔══██╗████╗ ████║██╔══██╗
+            ██║  ███╗██║   ██║   ██║   ██║██║     █████╔╝ ███████║    ██║  ██║███████║██╔████╔██║███████║
+            ██║   ██║██║   ██║   ██║   ██║██║     ██╔═██╗ ██╔══██║    ██║  ██║██╔══██║██║╚██╔╝██║██╔══██║
+            ╚██████╔╝╚██████╔╝   ██║   ██║╚██████╗██║  ██╗██║  ██║    ██████╔╝██║  ██║██║ ╚═╝ ██║██║  ██║
+             ╚═════╝  ╚═════╝    ╚═╝   ╚═╝ ╚═════╝╚═╝  ╚═╝╚═╝  ╚═╝    ╚═════╝ ╚═╝  ╚═╝╚═╝     ╚═╝╚═╝  ╚═╝                                                                             
+            ";
+            string[] options = { "Hrát", "Pravidla", "Konec" };
+            Menu(prompt, options);
+            DisplayOptions();
+            int selectedIndex = Run();
+            switch (selectedIndex)
+            {
+                case 0:
+                    Hra();
+                    break;
+                case 1:
+                    Pravidla();
+                    break;
+                case 2:
+                    Konec();
+                    break;
+                default:
+                    break;
+            }
+        }
+        /// <summary>
+        /// Metoda pro spuštění hry
+        /// </summary>
+        private void Hra()
+        {
+            Console.Clear();
+        }
+        /// <summary>
+        /// Metoda pro výpis pravidel
+        /// </summary>
+        private void Pravidla()
+        {
+            Console.Clear();
+            Console.WriteLine("CÍL HRY:");
+            Console.WriteLine("■ Zajmout všechny soupeřovy kameny.\n");
+            Console.WriteLine("VÝCHOZÍ SITUACE");
+            Console.WriteLine("■ Hraje se na desce 8x8 polí.");
+            Console.WriteLine("■ Na začátku hry stojí figurky ve dvou krajníchřadách.\n");
+            Console.WriteLine("PRAVIDLA HRY:");
+            Console.WriteLine("■ Hráči se v tazích pravidelně střídají.");
+            Console.WriteLine("■ Hráč na tahu smí posunout svůj obyčejný kámen o jedno pole na sousední volné pole a to směrem vpřed, do stran nebo diagonálně vpřed. Nesmí diagonálně ani ortogonálně vzad.");
+            Console.WriteLine("■ Obyčejný kámen může také zajmout přeskočením kámen soupeře.");
+            Console.WriteLine("■ Soupeřův kámen musí ležet na sousedním poli a bezprostředně za tímto přeskakovaným kamenem musí být volné pole.");
+            Console.WriteLine("■ Kámen je při realizaci skoku přemístěn na toto volné pole a přeskočený soupeřůvkámen je odstraněn z desky.");
+            Console.WriteLine("■ Obyčejný kámen smí skákat také pouze vpřed, diagonálněvpřed a do stran.");
+            Console.WriteLine("■ Vícenásobné skoky jsou dovoleny.");
+            Console.WriteLine("■ Pokud obyčejný kámen ukončí svůj tah v poslednířadě na protější straně desky, je povýšennadámu.");
+            Console.WriteLine("■ Dáma se smí pohybovat všemi směry (i vzad) o libovolný počet volných polí.");
+            Console.WriteLine("■ Dáma může zajímat kámen soupeře přeskočením, přičemž může přeskočit libovolný počet volných polípřed kamenem, zajímaný kámen a libovolný počet volných polí za tímto kamenem (podobně jako v klasické dámě).");
+            Console.WriteLine("■ Zajímání soupeřových kamenů je povinné a hráč musí zajmout co nejvíce kamenů, pokudmá více možností jak skákat.");
+            Console.WriteLine("■ Pokud některý hráč nemůže provést žádný tah, pokračuje ve hře jeho soupeř.\n");
+            Console.WriteLine("KONEC HRY:");
+            Console.WriteLine("■ Hráč, který zajme všechny soupeřovy kameny vyhrává");
+            Console.WriteLine("■ Pokud po 30 tahů není zajat žádný kámen, vyhrává hráč, kterému zbývá více kamenů.\n");
+            Console.WriteLine("Stisknutím libovolného tlačítka se vrátíte do HLAVNÍHO MENU.");
+            Console.ReadKey(true);
+            HlavniMenu();
+        }
+        /// <summary>
+        /// Metoda ukončení z nabídáky
+        /// </summary>
+        private void Konec()
+        {
+            Console.WriteLine("Stiskni libovolné tlačítko pro konec....");
+            Console.ReadKey(true);
+            Environment.Exit(0);
+        }
+        /// <summary>
+        /// Metoda nastavení menu
+        /// </summary>
+        /// <param name="prompt"></param>
+        /// <param name="options"></param>
+        public void Menu(string prompt, string[] options)
+        {
+            Prompt = prompt;
+            Options = options;
+            SelectedIndex = 0;
+        }
+        /// <summary>
+        /// Metoda vypsání možností v menu
+        /// </summary>
+        public void DisplayOptions()
+        {
+            Console.WriteLine(Prompt);
+            for (int i = 0; i < Options.Length; i++)
+            {
+                string currentOption = Options[i];
+                string prefix;
+                if (i == SelectedIndex)
+                {
+                    prefix = "*";
+                    Console.ForegroundColor = ConsoleColor.Black;
+                    Console.BackgroundColor = ConsoleColor.White;
+                }
+                else
+                {
+                    prefix = " ";
+                    Console.ForegroundColor = ConsoleColor.White;
+                    Console.BackgroundColor = ConsoleColor.Black;
+                }
+                Console.WriteLine($"{prefix} << {currentOption} >>");
+            }
+            Console.ResetColor();
+        }
+        /// <summary>
+        /// Metoda pro spuštění
+        /// </summary>
+        /// <returns></returns>
+        public int Run()
+        {
+            ConsoleKey keyPressed;
+            do
+            {
+                Console.Clear();
+                DisplayOptions();
+
+                ConsoleKeyInfo keyInfo = Console.ReadKey(true);
+                keyPressed = keyInfo.Key;
+
+                //Když zmáčkneme šipku tak se zvětší index
+                if (keyPressed == ConsoleKey.UpArrow)
+                {
+                    SelectedIndex--;
+                    if (SelectedIndex == -1)
+                    {
+                        SelectedIndex = Options.Length - 1;
+                    }
+                }
+                else if (keyPressed == ConsoleKey.DownArrow)
+                {
+                    SelectedIndex++;
+                    if (SelectedIndex == Options.Length)
+                    {
+                        SelectedIndex = 0;
+                    }
+                }
+            } while (keyPressed != ConsoleKey.Enter);
+            return SelectedIndex;
         }
     }
 }
