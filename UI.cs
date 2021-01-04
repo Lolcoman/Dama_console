@@ -36,7 +36,7 @@ namespace Damakonzole
 
             while (vstupSmycky1)
             {
-                if ((int.TryParse(vstupUzivatele1, out player1))&& player1 <= 4 && player1 >= 0)
+                if ((int.TryParse(vstupUzivatele1, out player1)) && player1 <= 4 && player1 >= 0)
                 {
                     vstupSmycky1 = false;
                 }
@@ -68,6 +68,7 @@ namespace Damakonzole
             Console.WriteLine("'help' pro nápovědu tahů");
             Console.WriteLine("'hist' pro historii tahů");
             Console.WriteLine("'zpet' pro tah zpět");
+            Console.WriteLine("'exit' pro návrat");
             //Vstup uživatele s převedením na malá písmena
             //Špatný vstup vrácena -1, Správný vstup vráceno pole {X1,Y1,X2,Y2}
             //Ověření správnosti provádní až třída GAME CONTROLLER  
@@ -86,13 +87,12 @@ namespace Damakonzole
                 {
                     return new int[] { -2 };
                 }
-
                 //Kontrola správného zadání
                 char helpX = help[0];
                 int helpX1 = (int)(helpX - 'a');
                 char helpY = help[1];
                 int helpY1 = (int)(helpY - '1');
-                if (board.IsValidCoordinates(helpX1,helpY1))
+                if (board.IsValidCoordinates(helpX1, helpY1))
                 {
                     return new int[] { -2, helpX1, helpY1 };
                 }
@@ -100,6 +100,13 @@ namespace Damakonzole
                 return new int[] { -1 };
                 //return new int[] { -2, helpX1, helpY1 };
             }
+
+            //Pro zpět do menu
+            if (input == "exit")
+            {
+                return new int[] { -5 };
+            }
+
 
             //Zkouška výpisu historie
             if (input == "zpet")
@@ -143,7 +150,7 @@ namespace Damakonzole
                     Console.WriteLine("   ┌───┬───┬───┬───┬───┬───┬───┬───┐");
                 }
                 else
-                Console.WriteLine("   ├───┼───┼───┼───┼───┼───┼───┼───┤");
+                    Console.WriteLine("   ├───┼───┼───┼───┼───┼───┼───┼───┤");
                 Console.Write(" {0} │ ", y + 1); //výpis souřadnic vlevo
                 for (int x = 0; x < 8; x++)
                 {
@@ -223,7 +230,7 @@ namespace Damakonzole
             foreach (int[] prvek in seznam)
             {
                 Console.WriteLine(board.PohybNaString(prvek));
-            }   
+            }
         }
         /// <summary>
         /// Metoda provádí pouze výpis kol do konzole pro uživatele
@@ -231,7 +238,7 @@ namespace Damakonzole
         /// <param name="kolo"></param>
         public void PocetKol(int kolo)
         {
-            Console.WriteLine("Počet kol: {0}",kolo);
+            Console.WriteLine("Počet kol: {0}", kolo);
         }
         /// <summary>
         /// Metoda provádí výpis tahů bez skoku
@@ -392,6 +399,31 @@ Pro výběr použij šipky";
                 }
             } while (keyPressed != ConsoleKey.Enter);
             return SelectedIndex;
+        }
+        /// <summary>
+        /// Metoda pro info kdo vyhrál
+        /// </summary>
+        public void Finished()
+        {
+            int bilyPesak, cernyPesak, bilaDama, cernaDama;
+            board.CountStones(out bilyPesak, out bilaDama, out cernyPesak, out cernaDama);
+            int cerna = cernyPesak + cernaDama;
+            int bila = bilyPesak + bilaDama;
+
+            if (cerna == 0)
+            {
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.BackgroundColor = ConsoleColor.DarkRed;
+                Console.WriteLine("VÍTĚŽ JE BÍLÝ!");
+                Console.ResetColor();
+            }
+            if (bila == 0)
+            {
+                Console.ForegroundColor = ConsoleColor.Black;
+                Console.BackgroundColor = ConsoleColor.DarkRed;
+                Console.WriteLine("VÍTĚZ JE ČERNÝ!");
+                Console.ResetColor();
+            }
         }
     }
 }

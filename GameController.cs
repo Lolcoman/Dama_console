@@ -103,11 +103,23 @@ namespace Damakonzole
                     //Možnost tahu zpět
                     if (vstup[0] == -3)
                     {
-                        int posledni = board.HistoryMove.Count - 2;
-                        int[] lastmove = board.HistoryMove[posledni];
-                        board.Move(lastmove, true, true);
+                        if (rules.PlayerOnMove() == -1 && board.HistoryMove.Count == 1)
+                        {
+                            Console.Clear();
+                            ui.PocetKol(kolo);
+                            ui.PocetTahuBezSkoku(rules.TahuBezSkoku);
+                            ui.PrintBoard();
+                            ui.Mistake();
+                            continue;
+                        }
+                        int posledniHraceNaTahu = board.HistoryMove.Count - 2;
+                        int[] lastmove = board.HistoryMove[posledniHraceNaTahu];
+                        board.Move(lastmove, false, true);
                         rules.TahuBezSkoku--;
+                        rules.ChangePlayer();
                         ui.PrintBoard();
+                        rules.MovesGenerate();
+                        continue;
                     }
    
                     if (vstup[0] == -2) //Pokud hráč do konzole zadá HELP
@@ -132,6 +144,14 @@ namespace Damakonzole
                         {
                             ui.Mistake(); //chyba
                         }
+                    }
+
+                    //Zpět do menu
+                    if (vstup[0] == -5)
+                    {
+                        Console.Clear();
+                        Start();
+                        Game();
                     }
                 }
                 board.Move(plnyVstup, true, false); //pokud je zadáno správně, metoda nastaví pohyb na desce
@@ -163,6 +183,7 @@ namespace Damakonzole
                 }
             }
             ui.PrintBoard();
+            ui.Finished();
         }
         /// <summary>
         /// Metoda pro nastavení hodnoty políčka
