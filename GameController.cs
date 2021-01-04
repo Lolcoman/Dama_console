@@ -39,13 +39,13 @@ namespace Damakonzole
             while (!rules.IsGameFinished()) //cyklus dokud platí že oba hráči mají figurky, jinak konec
             {
                 Console.Clear();
+                ui.PocetKol(kolo);
+                ui.PocetTahuBezSkoku(rules.TahuBezSkoku);
                 ui.PrintBoard();
 
                 //Tahy počítače
                 if (rules.PlayerOnMove() == 1 && player1 > 0) //pokud hráč na tahu je 1 a player1 > 0 tak true, provede tah a continue na dalšího hráče
                 {
-                    ui.PocetKol(kolo); //vypis počtu kol
-                    ui.PocetTahuBezSkoku(rules.TahuBezSkoku); //vypis kolik je tahu bez skoku
                     int[] move = brain.GetBestMove(player1); //tah se vybere pomocí GetBestMove
                     board.Move(move, true, false); //provedení pohybu
 
@@ -69,8 +69,6 @@ namespace Damakonzole
                 
                 if (rules.PlayerOnMove() == -1 && player2 > 0) //pokud hráč na tahu je -1 a player2 > 0 tak true, provede tah a continue
                 {
-                    ui.PocetKol(kolo);
-                    ui.PocetTahuBezSkoku(rules.TahuBezSkoku);
                     int[] move = brain.GetBestMove(player2);
                     board.Move(move, true, false);
                     if (move.Length == 8)
@@ -94,14 +92,22 @@ namespace Damakonzole
 
                 while (!platnyVstup) //Dokud je vstup !playtnyVstup tak pokračuje
                 {
-                    ui.PocetKol(kolo);
-                    ui.PocetTahuBezSkoku(rules.TahuBezSkoku);
                     vstup = ui.InputUser(rules.PlayerOnMove()); //pokud -1 tak se podmínka neprovede protože -1 >= 0, pokud 0 tak se provede 0=0 a zkontroluje se platnost tahu
 
-                    //Možnost historie tahů
-                    if (vstup[0] == -3)
+                    //Výpis historie tahu
+                    if (vstup[0] == -4)
                     {
                         ui.PrintHelpMove(board.HistoryMove);
+                    }
+
+                    //Možnost tahu zpět
+                    if (vstup[0] == -3)
+                    {
+                        int posledni = board.HistoryMove.Count - 2;
+                        int[] lastmove = board.HistoryMove[posledni];
+                        board.Move(lastmove, true, true);
+                        rules.TahuBezSkoku--;
+                        ui.PrintBoard();
                     }
    
                     if (vstup[0] == -2) //Pokud hráč do konzole zadá HELP
@@ -130,6 +136,13 @@ namespace Damakonzole
                 }
                 board.Move(plnyVstup, true, false); //pokud je zadáno správně, metoda nastaví pohyb na desce
 
+                //počítání kol
+                if (player1 > 0)
+                {
+                    kolo = 0;
+                }
+                kolo++;
+
                 if (plnyVstup.Length == 8)
                 {
                     rules.TahuBezSkoku++;
@@ -137,12 +150,6 @@ namespace Damakonzole
                 else
                 {
                     rules.TahuBezSkoku = 0;
-                }
-
-                //bílý 1 < 0, -1 < 0
-                if (rules.PlayerOnMove() < 0 && player1 < 0 || player2 > 0) //Počítadlo kol, zvýší pokaždé když je na tahu černý, tj. bílý pak černý = 1 kolo!
-                {
-                    kolo++;
                 }
 
                 if (rules.ListMove.Count == 0) //pokud je ListMove prázdnej tak se změní hráč na tahu a vygenerují se pro něj nové možné tahy

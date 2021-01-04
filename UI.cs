@@ -64,7 +64,10 @@ namespace Damakonzole
         }
         public int[] InputUser(int playerOnMove) //příjmá int, který hráč je na tahu
         {
-            Console.Write("{0}. Zadej pohyb ve formátu (A2-B3) nebo 'help' pro nápovědu: ",playerOnMove > 0 ? "BÍLÝ s o/O" : "ČERNÝ s x/X"); //použití ternárního operátoru pro informaci pro uživatele který hráč je na tahu, pokud > 0 tak hraje bílý
+            Console.WriteLine("Hraje {0} zadej pohyb ve formátu(A2-B3):", playerOnMove > 0 ? "BÍLÝ s o/O" : "ČERNÝ s x/X"); //použití ternárního operátoru pro informaci pro uživatele který hráč je na tahu, pokud > 0 tak hraje bílý
+            Console.WriteLine("'help' pro nápovědu tahů");
+            Console.WriteLine("'hist' pro historii tahů");
+            Console.WriteLine("'zpet' pro tah zpět");
             //Vstup uživatele s převedením na malá písmena
             //Špatný vstup vrácena -1, Správný vstup vráceno pole {X1,Y1,X2,Y2}
             //Ověření správnosti provádní až třída GAME CONTROLLER  
@@ -99,10 +102,15 @@ namespace Damakonzole
             }
 
             //Zkouška výpisu historie
-            if (input == "historie")
+            if (input == "zpet")
+            {
+                Console.WriteLine("Proveden zpětný tah!");
+                return new int[] { -3 };
+            }
+            if (input == "hist")
             {
                 Console.WriteLine("Historie všech tahů:\n");
-                return new int[] { -3 };
+                return new int[] { -4 };
             }
 
             if (input.Length != 5)
@@ -240,13 +248,13 @@ namespace Damakonzole
         {
             string prompt = @"
 
-             ██████╗  ██████╗ ████████╗██╗ ██████╗██╗  ██╗ █████╗     ██████╗  █████╗ ███╗   ███╗ █████╗ 
-            ██╔════╝ ██╔═══██╗╚══██╔══╝██║██╔════╝██║ ██╔╝██╔══██╗    ██╔══██╗██╔══██╗████╗ ████║██╔══██╗
-            ██║  ███╗██║   ██║   ██║   ██║██║     █████╔╝ ███████║    ██║  ██║███████║██╔████╔██║███████║
-            ██║   ██║██║   ██║   ██║   ██║██║     ██╔═██╗ ██╔══██║    ██║  ██║██╔══██║██║╚██╔╝██║██╔══██║
-            ╚██████╔╝╚██████╔╝   ██║   ██║╚██████╗██║  ██╗██║  ██║    ██████╔╝██║  ██║██║ ╚═╝ ██║██║  ██║
-             ╚═════╝  ╚═════╝    ╚═╝   ╚═╝ ╚═════╝╚═╝  ╚═╝╚═╝  ╚═╝    ╚═════╝ ╚═╝  ╚═╝╚═╝     ╚═╝╚═╝  ╚═╝                                                                             
-            ";
+ ██████╗  ██████╗ ████████╗██╗ ██████╗██╗  ██╗ █████╗     ██████╗  █████╗ ███╗   ███╗ █████╗ 
+██╔════╝ ██╔═══██╗╚══██╔══╝██║██╔════╝██║ ██╔╝██╔══██╗    ██╔══██╗██╔══██╗████╗ ████║██╔══██╗
+██║  ███╗██║   ██║   ██║   ██║██║     █████╔╝ ███████║    ██║  ██║███████║██╔████╔██║███████║
+██║   ██║██║   ██║   ██║   ██║██║     ██╔═██╗ ██╔══██║    ██║  ██║██╔══██║██║╚██╔╝██║██╔══██║
+╚██████╔╝╚██████╔╝   ██║   ██║╚██████╗██║  ██╗██║  ██║    ██████╔╝██║  ██║██║ ╚═╝ ██║██║  ██║
+ ╚═════╝  ╚═════╝    ╚═╝   ╚═╝ ╚═════╝╚═╝  ╚═╝╚═╝  ╚═╝    ╚═════╝ ╚═╝  ╚═╝╚═╝     ╚═╝╚═╝  ╚═╝                                                                             
+Pro výběr použij šipky";
             string[] options = { "Hrát", "Pravidla", "Konec" };
             Menu(prompt, options);
             DisplayOptions();
