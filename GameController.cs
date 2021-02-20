@@ -63,7 +63,7 @@ namespace Damakonzole
 
                     rules.ChangePlayer(); 
                     rules.MovesGenerate();
-                    //Thread.Sleep(2000);
+                    Thread.Sleep(1500);
                     continue;
                 }
                 
@@ -81,7 +81,7 @@ namespace Damakonzole
                     }
                     rules.ChangePlayer();
                     rules.MovesGenerate();
-                    //Thread.Sleep(2000);
+                    Thread.Sleep(1500);
                     continue;
                 }
 
