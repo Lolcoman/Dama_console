@@ -15,8 +15,9 @@ namespace Damakonzole
         //proměnné hráčů, pro uživatele 0, 1-4 obtížnost PC
         private int player1 = 0;
         private int player2 = 0;
-
         public int kolo = 0; //Počítadlo kol
+
+        private int pcVstup = 0;
 
         public GameController()
         {
@@ -30,7 +31,6 @@ namespace Damakonzole
         /// </summary>
         public void Game()
         {
-            rules.InitBoard();
             rules.InitBoard(); //inicializace desky
             ui.SelectPlayer(out player1,out player2); //výběr hráče na tahu
             rules.InitPlayer(); //inicializace hráče na tahu
@@ -47,7 +47,17 @@ namespace Damakonzole
                 //Tahy počítače
                 if (rules.PlayerOnMove() == 1 && player1 > 0) //pokud hráč na tahu je 1 a player1 > 0 tak true, provede tah a continue na dalšího hráče
                 {
+                    pcVstup = ui.PcVstup();
+                    if (pcVstup == -5)
+                    {
+                        Console.Clear();
+                        Start();
+                        Game();
+                    }
                     int[] move = brain.GetBestMove(player1); //tah se vybere pomocí GetBestMove
+
+                    brain.waitHandle.Set();
+                    
                     board.Move(move, true, false); //provedení pohybu
 
                     //pokud tah není skok tak se navýší počítadlo TahuBezSkoku
@@ -64,13 +74,23 @@ namespace Damakonzole
 
                     rules.ChangePlayer(); 
                     rules.MovesGenerate();
-                    Thread.Sleep(1500);
+                    //Thread.Sleep(1500);
                     continue;
                 }
                 
                 if (rules.PlayerOnMove() == -1 && player2 > 0) //pokud hráč na tahu je -1 a player2 > 0 tak true, provede tah a continue
                 {
+                    pcVstup = ui.PcVstup();
+                    if (pcVstup == -5)
+                    {
+                        Console.Clear();
+                        Start();
+                        Game();
+                    }
                     int[] move = brain.GetBestMove(player2);
+
+                    brain.waitHandle.WaitOne();   
+
                     board.Move(move, true, false);
                     if (move.Length == 8)
                     {
@@ -82,7 +102,7 @@ namespace Damakonzole
                     }
                     rules.ChangePlayer();
                     rules.MovesGenerate();
-                    Thread.Sleep(1500);
+                    //Thread.Sleep(1500);
                     continue;
                 }
 
