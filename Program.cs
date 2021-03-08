@@ -7,7 +7,7 @@ namespace Damakonzole
         static void Main(string[] args)
         {
             GameController gameController = new GameController();
-            gameController.Start();
+            //gameController.Start();
             gameController.Game();
 
 

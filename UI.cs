@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
 
 namespace Damakonzole
 {
@@ -10,7 +11,6 @@ namespace Damakonzole
         private int SelectedIndex;
         private string[] Options;
         private string Prompt;
-
         private Board board;
         public UI(Board bo)
         {
@@ -62,6 +62,23 @@ namespace Damakonzole
                 }
             }
         }
+        public int PcVstup()
+        {
+            ConsoleKeyInfo keyPressed = new ConsoleKeyInfo();
+            do
+            {
+                Console.WriteLine("\nZmackni 'x' pro ukonceni.");
+                while (Console.KeyAvailable == false)
+                {
+                    Thread.Sleep(250);
+                    return 0;
+                }
+            keyPressed = Console.ReadKey(true);
+            return -5;
+            
+            } while (keyPressed.Key != ConsoleKey.X);
+        }
+
         public int[] InputUser(int playerOnMove) //příjmá int, který hráč je na tahu
         {
             Console.WriteLine("Hraje {0} zadej pohyb ve formátu(A2-B3):", playerOnMove > 0 ? "BÍLÝ s o/O" : "ČERNÝ s x/X"); //použití ternárního operátoru pro informaci pro uživatele který hráč je na tahu, pokud > 0 tak hraje bílý
@@ -106,7 +123,6 @@ namespace Damakonzole
             {
                 return new int[] { -5 };
             }
-
 
             //Zkouška výpisu historie
             if (input == "zpet")

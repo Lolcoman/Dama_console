@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Damakonzole
 {
@@ -12,7 +14,8 @@ namespace Damakonzole
         private Random random = new Random();
         private Rules rules;
         private Board board;
-
+        public EventWaitHandle waitHandle = new AutoResetEvent(false);
+        //static int hodnota = 0;
         public Brain(Board boa, Rules rul)
         {
             board = boa;
@@ -78,7 +81,16 @@ namespace Damakonzole
                 Tyto Ify
                 */
 
-                int hodnota = -MiniMax(hloubka - 1);
+                //hodnota = -MiniMax(hloubka - 1);
+
+                int hodnota = 0;
+                Thread minimax = new Thread(delegate()
+                    {
+                        hodnota = -MiniMax(hloubka -1);
+                        waitHandle.Set();
+                    });
+                minimax.Start();
+                minimax.Join(); 
 
                 if (hodnota >= hodnotaNejlepsihoTahu) //pokud hodnota vrácená hodnota z minimaxu je větší nebo rovna -99, tak true a uloží se do seznamu nejlepších tahů
                 {

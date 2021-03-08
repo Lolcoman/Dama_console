@@ -30,6 +30,7 @@ namespace Damakonzole
         /// </summary>
         public void Game()
         {
+            rules.InitBoard();
             rules.InitBoard(); //inicializace desky
             ui.SelectPlayer(out player1,out player2); //výběr hráče na tahu
             rules.InitPlayer(); //inicializace hráče na tahu
