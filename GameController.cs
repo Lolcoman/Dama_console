@@ -63,7 +63,7 @@ namespace Damakonzole
 
                     int[] move = brain.GetBestMove(player1); //tah se vybere pomocí GetBestMove
 
-                    brain.waitHandle.Set();
+                    brain.waitHandle.WaitOne();
                     
                     board.Move(move, true, false); //provedení pohybu
 
@@ -100,10 +100,9 @@ namespace Damakonzole
                         ui.SelectPlayer(out player1, out player2);
                         continue;
                     }
-
                     int[] move = brain.GetBestMove(player2);
 
-                    brain.waitHandle.Set();   
+                    brain.waitHandle.WaitOne();   
 
                     board.Move(move, true, false);
                     if (move.Length == 8)

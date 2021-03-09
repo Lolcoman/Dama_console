@@ -90,8 +90,8 @@ namespace Damakonzole
                         waitHandle.Set();
                     });
                 //minimax.IsBackground = true;
-                minimax.Start();
-                minimax.Join(); 
+                //minimax.Start();
+                //minimax.Join(); 
 
                 if (hodnota >= hodnotaNejlepsihoTahu) //pokud hodnota vrácená hodnota z minimaxu je větší nebo rovna -99, tak true a uloží se do seznamu nejlepších tahů
                 {
@@ -105,6 +105,8 @@ namespace Damakonzole
 
                 board.Move(tah, false, true); //tahy se provedou zpět
                 rules.ChangePlayer(); // změní se hráč na tahu
+                minimax.Start();
+                minimax.Join();
             }
             rules.MovesGenerate(); //vygenerují se zase tahy pro hráče na tahu
             return nejlepsiTahy; //náš nejlepšítah je vrácen
