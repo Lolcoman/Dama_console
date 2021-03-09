@@ -48,12 +48,19 @@ namespace Damakonzole
                 if (rules.PlayerOnMove() == 1 && player1 > 0) //pokud hráč na tahu je 1 a player1 > 0 tak true, provede tah a continue na dalšího hráče
                 {
                     pcVstup = ui.PcVstup();
-                    if (pcVstup == -5)
+
+                    if (pcVstup == -1)
                     {
                         Console.Clear();
                         Start();
                         Game();
                     }
+                    if (pcVstup == -2)
+                    {
+                        ui.SelectPlayer(out player1, out player2);
+                        continue;
+                    }
+
                     int[] move = brain.GetBestMove(player1); //tah se vybere pomocí GetBestMove
 
                     brain.waitHandle.Set();
@@ -81,15 +88,22 @@ namespace Damakonzole
                 if (rules.PlayerOnMove() == -1 && player2 > 0) //pokud hráč na tahu je -1 a player2 > 0 tak true, provede tah a continue
                 {
                     pcVstup = ui.PcVstup();
-                    if (pcVstup == -5)
+
+                    if (pcVstup == -1)
                     {
                         Console.Clear();
                         Start();
                         Game();
                     }
+                    if (pcVstup == -2)
+                    {
+                        ui.SelectPlayer(out player1, out player2);
+                        continue;
+                    }
+
                     int[] move = brain.GetBestMove(player2);
 
-                    brain.waitHandle.WaitOne();   
+                    brain.waitHandle.Set();   
 
                     board.Move(move, true, false);
                     if (move.Length == 8)

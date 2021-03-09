@@ -65,18 +65,34 @@ namespace Damakonzole
         public int PcVstup()
         {
             ConsoleKeyInfo keyPressed = new ConsoleKeyInfo();
+            bool stisknuto = true;
+
             do
             {
-                Console.WriteLine("\nZmackni 'x' pro ukonceni.");
+                Console.WriteLine("Stiskni 'x' pro ukončení.");
+                Console.WriteLine("Stiskni 'z' pro změnu hráče.");
                 while (Console.KeyAvailable == false)
                 {
                     Thread.Sleep(250);
                     return 0;
                 }
+
             keyPressed = Console.ReadKey(true);
-            return -5;
-            
-            } while (keyPressed.Key != ConsoleKey.X);
+            stisknuto = false;
+
+            } while (stisknuto);
+
+            if (keyPressed.Key == ConsoleKey.X)
+            {
+                
+                return -1;
+            }
+            if (keyPressed.Key == ConsoleKey.Z)
+            {
+                Console.WriteLine("Změna hráčů");
+                return -2;
+            }
+            return 0;
         }
 
         public int[] InputUser(int playerOnMove) //příjmá int, který hráč je na tahu

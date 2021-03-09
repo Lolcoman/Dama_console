@@ -89,6 +89,7 @@ namespace Damakonzole
                         hodnota = -MiniMax(hloubka -1);
                         waitHandle.Set();
                     });
+                //minimax.IsBackground = true;
                 minimax.Start();
                 minimax.Join(); 
 
