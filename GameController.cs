@@ -64,16 +64,15 @@ namespace Damakonzole
                     }
                     if (pressKey == ConsoleKey.Escape)
                     {
-                        pc1.Abort();
                         Console.Clear();
                         Start();
                         Game();
-                        //pc1.Abort();
+                        pc1.Abort();
                     }
                     if (pressKey == ConsoleKey.Z)
                     {
                         ui.SelectPlayer(out player1, out player1);
-                        //continue;
+                        continue;
                     }
                     else
                     {
@@ -118,15 +117,15 @@ namespace Damakonzole
                     }
                     if (pressKey == ConsoleKey.Escape)
                     {
-                        pc2.Abort();
                         Console.Clear();
                         Start();
                         Game();
+                        pc2.Abort();
                     }
                     if (pressKey == ConsoleKey.Z)
                     {
                         ui.SelectPlayer(out player1, out player1);
-                        //continue;
+                        continue;
                     }
                     else
                     {
