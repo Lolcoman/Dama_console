@@ -62,37 +62,10 @@ namespace Damakonzole
                 }
             }
         }
-        public int PcVstup()
+        public void PcInfo()
         {
-            ConsoleKeyInfo keyPressed = new ConsoleKeyInfo();
-            bool stisknuto = true;
-
-            do
-            {
-                Console.WriteLine("Stiskni 'x' pro ukončení.");
-                Console.WriteLine("Stiskni 'z' pro změnu hráče.");
-                while (Console.KeyAvailable == false)
-                {
-                    Thread.Sleep(250);
-                    return 0;
-                }
-
-            keyPressed = Console.ReadKey(true);
-            stisknuto = false;
-
-            } while (stisknuto);
-
-            if (keyPressed.Key == ConsoleKey.X)
-            {
-                
-                return -1;
-            }
-            if (keyPressed.Key == ConsoleKey.Z)
-            {
-                Console.WriteLine("Změna hráčů");
-                return -2;
-            }
-            return 0;
+            Console.WriteLine("Stiskni 'ESC' pro ukončení");
+            Console.WriteLine("Stiskni 'Z' pro změnu hráčů");
         }
 
         public int[] InputUser(int playerOnMove) //příjmá int, který hráč je na tahu

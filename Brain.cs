@@ -15,7 +15,6 @@ namespace Damakonzole
         private Rules rules;
         private Board board;
         public EventWaitHandle waitHandle = new AutoResetEvent(false);
-        //static int hodnota = 0;
         public Brain(Board boa, Rules rul)
         {
             board = boa;
@@ -81,18 +80,8 @@ namespace Damakonzole
                 Tyto Ify
                 */
 
-                //hodnota = -MiniMax(hloubka - 1);
-
-                int hodnota = 0;
-                Thread minimax = new Thread(delegate()
-                    {
-                        hodnota = -MiniMax(hloubka -1);
-                        waitHandle.Set();
-                    });
-                //minimax.IsBackground = true;
-                //minimax.Start();
-                //minimax.Join(); 
-
+                int hodnota = -MiniMax(hloubka - 1);
+                
                 if (hodnota >= hodnotaNejlepsihoTahu) //pokud hodnota vrácená hodnota z minimaxu je větší nebo rovna -99, tak true a uloží se do seznamu nejlepších tahů
                 {
                     if (hodnota > hodnotaNejlepsihoTahu) //pokud je pouze větší tj. 95 > -99
@@ -105,11 +94,10 @@ namespace Damakonzole
 
                 board.Move(tah, false, true); //tahy se provedou zpět
                 rules.ChangePlayer(); // změní se hráč na tahu
-                minimax.Start();
-                minimax.Join();
             }
             rules.MovesGenerate(); //vygenerují se zase tahy pro hráče na tahu
             return nejlepsiTahy; //náš nejlepšítah je vrácen
+            
         }
         /// <summary>
         /// Metoda MiniMaxu

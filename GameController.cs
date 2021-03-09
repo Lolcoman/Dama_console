@@ -47,25 +47,38 @@ namespace Damakonzole
                 //Tahy počítače
                 if (rules.PlayerOnMove() == 1 && player1 > 0) //pokud hráč na tahu je 1 a player1 > 0 tak true, provede tah a continue na dalšího hráče
                 {
-                    pcVstup = ui.PcVstup();
+                    ui.PcInfo();
+                    int[] move = null;
+                    Thread pc1 = new Thread(() => move = brain.GetBestMove(player1));
+                    pc1.IsBackground = true;
+                    pc1.Start();
 
-                    if (pcVstup == -1)
+                    ConsoleKey pressKey = ConsoleKey.A;
+
+                    while(pc1.IsAlive && pressKey != ConsoleKey.Escape)
                     {
+                        if (Console.KeyAvailable)
+                        {
+                            pressKey = Console.ReadKey().Key;
+                        }
+                    }
+                    if (pressKey == ConsoleKey.Escape)
+                    {
+                        pc1.Abort();
                         Console.Clear();
                         Start();
                         Game();
+                        //pc1.Abort();
                     }
-                    if (pcVstup == -2)
+                    if (pressKey == ConsoleKey.Z)
                     {
-                        ui.SelectPlayer(out player1, out player2);
-                        continue;
+                        ui.SelectPlayer(out player1, out player1);
+                        //continue;
                     }
-
-                    int[] move = brain.GetBestMove(player1); //tah se vybere pomocí GetBestMove
-
-                    brain.waitHandle.WaitOne();
-                    
-                    board.Move(move, true, false); //provedení pohybu
+                    else
+                    {
+                        board.Move(move, true, false);
+                    }
 
                     //pokud tah není skok tak se navýší počítadlo TahuBezSkoku
                     if (move.Length == 8)
@@ -87,24 +100,39 @@ namespace Damakonzole
                 
                 if (rules.PlayerOnMove() == -1 && player2 > 0) //pokud hráč na tahu je -1 a player2 > 0 tak true, provede tah a continue
                 {
-                    pcVstup = ui.PcVstup();
+                    ui.PcInfo();
+                    int[] move = null;
+                    Thread pc2 = new Thread(() => move = brain.GetBestMove(player1));
+                    pc2.IsBackground = true;
+                    pc2.Start();
 
-                    if (pcVstup == -1)
+                    ConsoleKey pressKey = ConsoleKey.A;
+
+                    while(pc2.IsAlive && pressKey != ConsoleKey.Escape)
                     {
+                        
+                        if (Console.KeyAvailable)
+                        {
+                            pressKey = Console.ReadKey().Key;
+                        }
+                    }
+                    if (pressKey == ConsoleKey.Escape)
+                    {
+                        pc2.Abort();
                         Console.Clear();
                         Start();
                         Game();
                     }
-                    if (pcVstup == -2)
+                    if (pressKey == ConsoleKey.Z)
                     {
-                        ui.SelectPlayer(out player1, out player2);
-                        continue;
+                        ui.SelectPlayer(out player1, out player1);
+                        //continue;
                     }
-                    int[] move = brain.GetBestMove(player2);
+                    else
+                    {
+                        board.Move(move, true, false);
+                    }
 
-                    brain.waitHandle.WaitOne();   
-
-                    board.Move(move, true, false);
                     if (move.Length == 8)
                     {
                         rules.TahuBezSkoku++;
