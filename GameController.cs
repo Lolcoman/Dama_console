@@ -55,7 +55,7 @@ namespace Damakonzole
 
                     ConsoleKey pressKey = ConsoleKey.A;
 
-                    while(pc1.IsAlive && pressKey != ConsoleKey.Escape)
+                    while(pc1.IsAlive && pressKey != ConsoleKey.Escape && pressKey != ConsoleKey.Z)
                     {
                         if (Console.KeyAvailable)
                         {
@@ -64,14 +64,11 @@ namespace Damakonzole
                     }
                     if (pressKey == ConsoleKey.Escape)
                     {
-                        Console.Clear();
-                        Start();
-                        Game();
                         pc1.Abort();
                     }
                     if (pressKey == ConsoleKey.Z)
                     {
-                        ui.SelectPlayer(out player1, out player1);
+                        ui.SelectPlayer(out player1, out player2);
                         continue;
                     }
                     else
@@ -101,7 +98,7 @@ namespace Damakonzole
                 {
                     ui.PcInfo();
                     int[] move = null;
-                    Thread pc2 = new Thread(() => move = brain.GetBestMove(player1));
+                    Thread pc2 = new Thread(() => move = brain.GetBestMove(player2));
                     pc2.IsBackground = true;
                     pc2.Start();
 
@@ -124,7 +121,7 @@ namespace Damakonzole
                     }
                     if (pressKey == ConsoleKey.Z)
                     {
-                        ui.SelectPlayer(out player1, out player1);
+                        ui.SelectPlayer(out player1, out player2);
                         continue;
                     }
                     else
